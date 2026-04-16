@@ -83,8 +83,8 @@ LLM inference solutions for agent workloads:
 ### [Hosting & Execution](infrastructure.md)
 Where agents actually run — 50+ vendors across 6 tiers:
 - [Hosting Decision Framework](infrastructure.md#the-hosting-decision-framework) — Turnkey, Agent-Optimized, Sandbox, Serverless, Cloud Mac, Self-Hosted
-- [Turnkey Managed Platforms](infrastructure.md#turnkey-managed-platforms) — ZenClaw, KlausAI, Coral, Lindy
 - [Code Execution Sandboxes](infrastructure.md#code-execution-sandboxes) — E2B, Sprites.dev, Daytona, Modal, + 9 more
+- [Turnkey Managed Platforms](infrastructure.md#turnkey-managed-platforms) — ZenClaw, KlausAI, Coral, Lindy
 - [Agent Orchestration](infrastructure.md#agent-orchestration) — LangGraph Cloud, Temporal, Kagent
 - [Cloud Mac Hosting](infrastructure.md#cloud-mac-hosting) — MacStadium, AWS EC2 Mac, Scaleway, + 3 more
 - [Self-Hosted Infrastructure](infrastructure.md#self-hosted-infrastructure) — Nebius, AWS, Hetzner, Fly.io, + 10 more

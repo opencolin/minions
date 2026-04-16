@@ -126,8 +126,8 @@ LLM inference solutions for agent workloads:
 ### [Hosting & Execution](infrastructure.md)
 Where agents actually run — 50+ vendors across 6 tiers:
 - [Hosting Decision Framework](infrastructure.md#the-hosting-decision-framework) — Turnkey, Agent-Optimized, Sandbox, Serverless, Cloud Mac, Self-Hosted
-- [Turnkey Managed Platforms](infrastructure.md#turnkey-managed-platforms) — ZenClaw, KlausAI, Coral, Lindy
 - [Code Execution Sandboxes](infrastructure.md#code-execution-sandboxes) — E2B, Sprites.dev, Daytona, Modal, + 9 more
+- [Turnkey Managed Platforms](infrastructure.md#turnkey-managed-platforms) — ZenClaw, KlausAI, Coral, Lindy
 - [Agent Orchestration](infrastructure.md#agent-orchestration) — LangGraph Cloud, Temporal, Kagent
 - [Cloud Mac Hosting](infrastructure.md#cloud-mac-hosting) — MacStadium, AWS EC2 Mac, Scaleway, + 3 more
 - [Self-Hosted Infrastructure](infrastructure.md#self-hosted-infrastructure) — Nebius, AWS, Hetzner, Fly.io, + 10 more
@@ -1133,6 +1133,30 @@ The agent hosting market has segmented into six distinct tiers, each with differ
 
 ---
 
+## Code Execution Sandboxes
+
+Isolated environments where agents execute generated code safely. The most consequential security distinction is the isolation model.
+
+| Vendor | Isolation | Persistence | Cold Start | GPU | Price | Strength |
+|--------|----------|------------|-----------|-----|-------|----------|
+| **E2B** | Firecracker microVM | Ephemeral / pause (beta) | ~150ms | No | $100 credit | Dedicated kernel, SDK-first, SOC 2 |
+| **Sprites.dev** | Firecracker microVM | Indefinite + hibernate | Instant | No | Per-sec | Hibernate ~300ms, zero idle cost |
+| **Daytona** | Docker containers | Stateful, unlimited | ~90ms | Yes | $200 credit | GPU support, fastest creation |
+| **Modal** | gVisor sandbox | Snapshots | Sub-sec | Yes | $30/mo | 50K+ concurrency, full GPU, SOC 2 |
+| **Runloop** | Custom hypervisor | Snapshots | Sub-sec | No | Contact | SOC 2, 10K+ parallel, SWE-bench focus |
+| **Northflank** | microVM / gVisor | Stateful | Sub-sec | Yes (H100s) | Usage | Enterprise VPC, multi-cloud, SOC 2 |
+| **AgentComputer** | Ubuntu VMs | 25 GB persistent | Sub-sec | No | $20/mo | Built for Claude/Codex agents |
+| **Microsandbox** | libkrun microVM | Stateful | Sub-sec | No | Free (OSS) | Network-layer secret injection, self-hosted |
+| **Zeroboot** | Firecracker CoW | Snapshots | Sub-ms (0.79ms) | No | Free (OSS) | 480x memory density, prototype |
+| **AIO Sandbox** | Docker | Stateful | Sub-sec | No | Free (OSS) | Browser+Shell+IDE+MCP, ByteDance |
+| **OpenSandbox** | Docker / K8s | Stateful | Sub-sec | No | Free (OSS) | Protocol-driven K8s runtime, Alibaba |
+| **Quilt** | Linux namespaces | Stateful | Sub-sec | No | Free (OSS) | Inter-container networking, Rust |
+| **CodeSandbox SDK** | microVMs | Forking/snapshots | Sub-sec | No | Usage | SOC 2, owned by Together AI |
+
+**Isolation tiers matter:** Shared kernel containers (Docker, gVisor) provide process-level separation but share an OS kernel. Firecracker microVMs (E2B, Sprites.dev) provide dedicated kernels. Dedicated VMs (Coral, AgentComputer) provide the strongest isolation. Enterprises handling sensitive data should require dedicated kernel isolation at minimum.
+
+---
+
 ## Turnkey Managed Platforms
 
 Zero infrastructure management — deploy agents in minutes. Best for business teams validating agent ROI without dedicated engineering resources.
@@ -1155,30 +1179,6 @@ OpenClaw-specific tooling — agent playgrounds, skills marketplaces, pre-config
 | **ClawHost** | Hetzner VPS | Agent playground, ClawHub | $25/mo | Open-source (MIT), low cost |
 | **Claw Cloud** | Container (Run) | MCP tools | Free/$1.50 | Free tier, 128 vCPU max |
 | **Zo Computer** | Managed server | Personal AI cloud | Free/$18 | Always-on, consumer-oriented |
-
----
-
-## Code Execution Sandboxes
-
-Isolated environments where agents execute generated code safely. The most consequential security distinction is the isolation model.
-
-| Vendor | Isolation | Persistence | Cold Start | GPU | Price | Strength |
-|--------|----------|------------|-----------|-----|-------|----------|
-| **E2B** | Firecracker microVM | Ephemeral / pause (beta) | ~150ms | No | $100 credit | Dedicated kernel, SDK-first, SOC 2 |
-| **Sprites.dev** | Firecracker microVM | Indefinite + hibernate | Instant | No | Per-sec | Hibernate ~300ms, zero idle cost |
-| **Daytona** | Docker containers | Stateful, unlimited | ~90ms | Yes | $200 credit | GPU support, fastest creation |
-| **Modal** | gVisor sandbox | Snapshots | Sub-sec | Yes | $30/mo | 50K+ concurrency, full GPU, SOC 2 |
-| **Runloop** | Custom hypervisor | Snapshots | Sub-sec | No | Contact | SOC 2, 10K+ parallel, SWE-bench focus |
-| **Northflank** | microVM / gVisor | Stateful | Sub-sec | Yes (H100s) | Usage | Enterprise VPC, multi-cloud, SOC 2 |
-| **AgentComputer** | Ubuntu VMs | 25 GB persistent | Sub-sec | No | $20/mo | Built for Claude/Codex agents |
-| **Microsandbox** | libkrun microVM | Stateful | Sub-sec | No | Free (OSS) | Network-layer secret injection, self-hosted |
-| **Zeroboot** | Firecracker CoW | Snapshots | Sub-ms (0.79ms) | No | Free (OSS) | 480x memory density, prototype |
-| **AIO Sandbox** | Docker | Stateful | Sub-sec | No | Free (OSS) | Browser+Shell+IDE+MCP, ByteDance |
-| **OpenSandbox** | Docker / K8s | Stateful | Sub-sec | No | Free (OSS) | Protocol-driven K8s runtime, Alibaba |
-| **Quilt** | Linux namespaces | Stateful | Sub-sec | No | Free (OSS) | Inter-container networking, Rust |
-| **CodeSandbox SDK** | microVMs | Forking/snapshots | Sub-sec | No | Usage | SOC 2, owned by Together AI |
-
-**Isolation tiers matter:** Shared kernel containers (Docker, gVisor) provide process-level separation but share an OS kernel. Firecracker microVMs (E2B, Sprites.dev) provide dedicated kernels. Dedicated VMs (Coral, AgentComputer) provide the strongest isolation. Enterprises handling sensitive data should require dedicated kernel isolation at minimum.
 
 ---
 
