@@ -316,6 +316,21 @@ A self-hosted personal AI assistant platform that connects LLMs to real software
 - NemoClaw — Nvidia-built security add-on with OpenShell sandboxing (released March 2026)
 - **Role in agentic engineering:** OpenClaw's messaging-platform integration mirrors how Stripe engineers invoke minions from Slack. Its self-hosted nature and multi-agent coordination make it a potential foundation for building an agentic engineering workflow, though it requires more custom configuration than purpose-built coding agents. The skills platform and agent-to-agent tools could power a Minions-like system where coding tasks are dispatched through familiar messaging channels.
 
+### The OpenClaw Ecosystem
+
+OpenClaw has spawned a family of derivative projects and an entire hosting market:
+
+| Project | Language | Stars | Key Differentiator |
+|---------|---------|-------|-------------------|
+| **OpenClaw** | TypeScript | ~355K | Dominant personal AI agent, multi-channel, multi-model |
+| **NemoClaw** | Python/CUDA | N/A (NVIDIA) | Enterprise OpenShell, GPU guardrails, NVIDIA NIM |
+| **Hermes Agent** | Python | ~24.6K | Self-improving skill loop, RL fine-tuning via Atropos |
+| **IronClaw** | Rust | ~2.7K | 5-layer security, WASM sandbox, audit trails, 3.4MB binary |
+| **ZeroClaw** | Rust | 20K+ | Edge-first, 3.4-5MB binary, <50ms startup, container isolation |
+| **NanoClaw** | TypeScript | Growing | ~500 lines, auditable in 8 min, Agent Swarms, container-per-group |
+
+**Hosting ecosystem:** 30+ vendors now offer OpenClaw-compatible hosting across six tiers — from turnkey platforms (ZenClaw AI, KlausAI, Coral) to self-hosted infrastructure. See the [Infrastructure](infrastructure.md#agent-hosting--execution-platforms) page for the full vendor landscape.
+
 ---
 
 ## OpenAI Symphony

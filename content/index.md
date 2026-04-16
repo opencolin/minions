@@ -74,5 +74,5 @@ How companies organize around agents:
 ### [Infrastructure](infrastructure.md)
 Inference solutions, serverless hosting, and choosing your stack:
 - [Inference Solutions](infrastructure.md#inference-solutions) — API providers, inference platforms, routing gateways, self-hosted
-- [Serverless Hosting](infrastructure.md#serverless-hosting--agent-compute) — Agent sandboxes, serverless compute, container orchestration
+- [Agent Hosting & Execution](infrastructure.md#agent-hosting--execution-platforms) — 50+ vendors across 6 tiers: turnkey, agent-optimized, sandbox, serverless, Cloud Mac, self-hosted
 - [Choosing Your Stack](infrastructure.md#choosing-your-stack) — Starter, growth, and enterprise stack recommendations
