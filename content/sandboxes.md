@@ -21,6 +21,20 @@ The quality of these affordances — especially state management and isolation �
 
 ---
 
+## The Sandbox Market Structure
+
+The sandbox layer divides into three tiers, and which tier you operate at determines your design tradeoffs.
+
+**Layer A — Primitives.** The underlying isolation technology: Firecracker, gVisor, Kata Containers, libkrun. Hyperscaler-dominated, stable, open source.
+
+**Layer B — Agent-Sandbox Platforms.** Managed services built on Layer A primitives: E2B, Contree, Daytona, Modal, Sprites.dev, Runloop, Northflank, Scrapybara, Steel.dev. This is where almost all buying decisions happen for agent teams.
+
+**Layer C — Embedded in Agent Products.** Sandboxes that ship inside a broader agent product: Cursor's background agents, Devin's workspaces, Copilot Workspace, Replit Agent. These are rarely bought standalone — they're a feature of the agent product.
+
+**The market dynamic:** Layer C is consolidating around a handful of agent products, which means Layer B's addressable market shifts toward fewer, larger customers. The sales motion moves from product-led growth to enterprise / infrastructure partnerships. For buyers, this means Layer B vendors are increasingly specializing on specific use cases rather than trying to serve every agent workflow.
+
+---
+
 ## Core Use Cases
 
 ### 1. Code Execution & Testing
@@ -78,6 +92,35 @@ A persistent dev environment that hosts a coding agent's entire workflow — sim
 - **Best for:** Team-shared agent platforms, PR-producing agents, Stripe Minions-style infrastructure
 - **Required:** Pre-warmed pools, source code pre-loaded, per-agent isolation
 - **Example vendors:** GitHub Codespaces, Gitpod, Coder, Vercel Sandbox, custom EC2 (Stripe's approach)
+
+### 8. SWE-Bench & Agent Evaluation
+
+Running benchmarks like SWE-bench, Bird-SQL, HumanEval, or custom agent harnesses at scale. Each task needs an identical, pre-configured environment — and ideally a way to run thousands in parallel.
+
+- **Best for:** Frontier labs, agent research, model eval pipelines, agent CI/CD across patches
+- **Required:** Preloaded environment libraries, fast per-task instantiation, checkpoint/branch primitives
+- **Example vendors:** Contree (ships 7,000+ SWE-bench environments as tags), Runloop (SWE-bench focus), Modal (50K+ concurrency)
+
+### 9. Best-of-N Sampling & Tree Search
+
+An agent generates N candidate solutions, runs each in isolation, scores them, and returns the best. Essential for tree-search coding agents and RL training loops.
+
+- **Best for:** Tree-search coding agents, best-of-N generation, Monte Carlo tree search over code
+- **Required:** Fast branching from a shared base, cheap parallel sandboxes, result aggregation
+- **Example vendors:** Contree (branching-first), Modal (snapshots + concurrency), Sprites.dev (hibernate-based parallelism)
+
+### 10. Latent / Research Use Cases
+
+Emerging use cases that sandbox infrastructure is starting to enable:
+
+- **Training data generation pipelines** — Use branching to generate diverse agent traces for RL training. The branching tree *is* the replay buffer.
+- **Reproducibility-as-a-service** — Cite image UUIDs in papers and blog posts; reviewers and readers can reproduce exact environments on demand.
+- **Counterfactual debugging** — "What if the agent had done X at step 7?" Fork from a checkpoint, change the action, observe the outcome.
+- **Multi-agent coordination & competition** — Fork state, run multiple agents concurrently against the same baseline, evaluate interaction outcomes.
+- **Educational sandboxes with visible traces** — Instructors inspect the full attempt tree of a student's agent, not just the final output.
+- **Regulatory audit trails** — Environment lineage as an immutable audit artifact for finance/healthcare compliance.
+
+These are largely underexplored today but represent where sandbox infrastructure is heading as agent workflows mature.
 
 ---
 
@@ -152,15 +195,48 @@ This matches how reasoning agents should actually operate: explore options, eval
 2. **MCP server (`contree-mcp`)** — 17 tools (`run`, `rsync`, `import_image`, `list_images`, `upload`, `download`, `registry_auth`, operation management) — drops into any MCP-compatible client like Claude Code
 3. **Python SDK (`contree-sdk`)** — Sync + async clients with image and session abstractions
 
+### Durability-Ranked Differentiation
+
+Based on [independent strategic analysis](https://github.com/opencolin/contree-skill/blob/main/strategy.md), Contree's differentiation ranks in four tiers:
+
+1. **Branching as a first-class primitive (strong, narrow).** Content-addressed storage plus microVM spawning is an architectural choice competitors can't quickly retrofit. The catch: outside tree-search agents and SWE research, branching is a feature looking for its killer use case. Adoption depends on agent workflows catching up.
+2. **7,000+ preloaded SWE-bench environments (strong, narrow).** Possibly the most underleveraged asset in the category. Reproducing SWE-bench from scratch takes weeks; Contree ships it as a tag. A single image UUID can cite an exact benchmark environment in a paper or PR.
+3. **MCP-native design (medium, broadening).** MCP-first rather than SDK-first — aligned with where agent tooling is standardizing. Most competitors bolted MCP on later; Contree's is primary.
+4. **Nebius infrastructure integration (medium, private).** Cost advantages from microVM spawning, storage, and colocated inference are invisible externally but show up in pricing aggression.
+
+### Where Contree Wins vs. Where It Doesn't
+
+The sandbox market has tiered fit — not every use case wants a branching sandbox.
+
+**Tier 1 — E2B's territory.** Individual LLM code snippets, one-shot execution, untrusted code review, data analysis notebooks. Contree can do these, but if branching and preloaded environments aren't part of the value, the incumbent wins on DX and ecosystem depth.
+
+**Tier 2 — Contree's sweet spot (80%+ of where branching pays off):**
+- SWE-bench benchmarking and research
+- Tree-search coding agents
+- Best-of-N sample selection
+- Long-running multi-step agent traces with checkpoint/rollback
+- Agent CI/CD across patches
+
+**Tier 3 — Latent opportunities.** Training data generation for code RL, reproducibility-as-a-service, agent RL environments (the branching tree *is* the replay buffer), counterfactual debugging, multi-agent coordination, educational traces, compliance audit lineage. These are largely unbuilt today but map naturally to branching semantics.
+
 ### When Contree Is the Right Choice
 
 - You're running multi-hypothesis reasoning agents
 - You need rollback semantics without the cost of rebuilding
 - You're already on Nebius (inference + GPUs) and want a unified stack
-- You're running benchmarks/evals at scale with shared golden environments
-- You want MCP-native integration with Claude Code
+- You're running benchmarks or evals at scale (SWE-bench, Bird-SQL, custom harnesses) with shared golden environments
+- You're training code-RL models and need diverse trace generation
+- You want MCP-native integration with Claude Code or Cursor
+- You're publishing research and want cite-able, reproducible environments
 
-**Resources:** [Docs](https://docs.contree.dev/) · [MCP Quickstart](https://docs.contree.dev/mcp/quickstart.html) · [Python SDK](https://docs.contree.dev/sdk/python_sdk/index.html) · [Contree Skill for Claude Code](https://github.com/opencolin/contree-skill/)
+### When to Pick Something Else
+
+- Single-shot code execution with no branching or rollback needs → E2B (simpler SDK, larger ecosystem)
+- Always-on persistent agent workspaces → Sprites.dev or AgentComputer
+- Heavy GPU workloads that aren't SWE-bench-shaped → Modal (better concurrency + GPU economics)
+- Deep enterprise VPC requirements → Northflank or Runloop
+
+**Resources:** [Docs](https://docs.contree.dev/) · [MCP Quickstart](https://docs.contree.dev/mcp/quickstart.html) · [Python SDK](https://docs.contree.dev/sdk/python_sdk/index.html) · [Contree Skill for Claude Code](https://github.com/opencolin/contree-skill/) · [Strategic analysis](https://github.com/opencolin/contree-skill/blob/main/strategy.md)
 
 ---
 
