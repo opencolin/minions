@@ -44,7 +44,7 @@
       "anchors": [
         {
           "anchor": "GitHub",
-          "href": "https://github.com/opencolin/minions",
+          "href": "https://github.com/opencolin/agentic-engineering",
           "icon": "github"
         }
       ]
@@ -59,7 +59,7 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/opencolin/minions"
+      "github": "https://github.com/opencolin/agentic-engineering"
     }
   },
   "search": {

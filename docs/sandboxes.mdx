@@ -270,27 +270,97 @@ The sandbox market has tiered fit — not every use case wants a branching sandb
 
 ## Cloud Development Environments (CDEs)
 
-When agents need persistent dev environments rather than ephemeral sandboxes — the Stripe Minions / devbox model. These are full OS environments with source code pre-loaded, tools installed, and services running.
+When agents need persistent dev environments rather than ephemeral sandboxes — the Stripe Minions / devbox model. These are full OS environments with source code pre-loaded, tools installed, and services running. CDEs are the substrate you put agents *inside* (or alongside) when the workflow needs statefulness across days or weeks.
 
-| Vendor | Isolation | Price | Key Strength |
-|--------|----------|-------|-------------|
-| **GitHub Codespaces** | Container per workspace | Usage-based | Native GitHub integration, most-used CDE |
-| **Gitpod / Gitpod Flex** | Container per workspace | Free + paid | Ephemeral per-PR dev environments |
-| **Coder** | Self-hosted CDE | OSS + enterprise | Self-hosted dev env orchestration, Terraform-based |
-| **DevPod** | Client-only CDE (Loft Labs) | Free OSS | BYO infra dev containers, no server needed |
-| **JetBrains Space / CodeCanvas** | Managed | Paid | JetBrains IDE-native cloud environments |
-| **Replit Sandboxes / Nix** | Nix sandbox | Freemium | Nix-based reproducible sandboxes |
-| **Vercel Sandbox** | Vercel-hosted | Usage-based | Ephemeral exec for AI workloads, Vercel-native |
-| **Cloudflare Sandbox / Containers** | Edge containers | Usage-based | Edge-deployed isolated containers |
-| **StackBlitz WebContainers** | In-browser Node | Free + commercial API | Full Node stack in-browser, no server |
-| **Val Town** | Serverless JS | Free + paid | Write and share server-side JS instantly |
+### Capabilities Matrix
 
-**CDE vs Sandbox — which do you want?**
+| Vendor | Control Plane | Hosting Model | Primary IDE UX | Ephemeral Envs & Templates | Best For |
+|--------|--------------|---------------|----------------|---------------------------|---------|
+| **Docker Dev Containers** | None (DIY) | Wherever Docker runs | VS Code (Dev Containers) | `devcontainer.json` spec, mostly local | Standardizing dev setup; local+remote symmetry without a platform |
+| **GitHub Codespaces** | GitHub-managed | GitHub cloud | VS Code / browser | Usage-based, repo-linked | Native GitHub workflows, Codespaces-for-AI-agents patterns |
+| **Gitpod / Gitpod Flex** | SaaS or self-hosted | Gitpod cloud or your infra | VS Code-style web IDE, IDE extensions | `.gitpod.yml`, prebuilds, ephemeral workspaces | Poly-repo, poly-VCS teams wanting turnkey cloud workspaces |
+| **Coder** | Self-hosted | Your K8s/VMs/VPC | Browser IDE + local IDE via SSH/Desktop | Template-driven workspaces, prebuilt, policies | Enterprises needing on-prem remote dev with full control (and agent-ready) |
+| **JetBrains CodeCanvas** | JetBrains-managed | JetBrains cloud | JetBrains IDEs via Gateway, VS Code via SSH | Docker templates, auto-provisioning, autosuspend | JetBrains-first orgs wanting "Codespaces but JetBrains-native" |
+| **Amazon CodeCatalyst Dev Envs** | AWS-managed | AWS-managed only | VS Code, JetBrains via Gateway | Dev env configs tied to CodeCatalyst projects | AWS-centric orgs wanting integrated dev + CI/CD + infra |
+| **DevPod** (Loft Labs) | Client-only | BYO infra | VS Code / JetBrains | Dev containers on any provider | Zero-server dev containers across local, cloud, K8s |
+| **Replit Workspaces** | Replit-managed | Replit cloud | Custom web IDE | Nix-based reproducible workspaces | Education, quick prototypes, consumer-facing agents |
+| **Vercel Sandbox** | Vercel-managed | Vercel cloud | N/A (API/SDK) | Ephemeral, Firecracker microVM | Ephemeral exec for AI workloads, Vercel-native agents |
+| **Cloudflare Sandbox / Containers** | Cloudflare-managed | Cloudflare edge | N/A (API) | Edge-deployed isolated containers | Edge-deployed agent compute |
+| **StackBlitz WebContainers** | N/A (browser) | Client-side | Browser IDE | Full Node stack in-browser | Zero-server Node demos, agent eval in-browser |
+| **Val Town** | Val Town-managed | Val Town cloud | Web IDE | Serverless TypeScript vals | Shareable server-side JS snippets |
 
-- **Sandbox** (E2B, Contree, Modal) — Short-lived, per-task, code-execution focused. Spin up, run code, shut down.
-- **CDE** (Codespaces, Gitpod, Coder) — Long-lived, per-user/project, dev-environment focused. Persistent state across sessions.
+### Product Deep Dives
 
-Agents frequently use both: a CDE as their "home base" that runs the agent itself, and sandboxes spawned from within the CDE for actual code execution.
+Notes from the field, ordered by how much work each is to adopt.
+
+#### Docker Dev Containers
+
+- **What it is:** VS Code's `.devcontainer/devcontainer.json` spec that treats a Docker container as a full dev environment. Not a platform — a spec and toolchain.
+- **Scope:** Primarily local on your machine, but the same spec works on hosted runners or custom remote hosts. Useful as a "portable dev spec" that can be consumed by Codespaces, Gitpod, Coder, CodeCanvas, DevPod, and CodeCatalyst.
+- **Strengths:** Simple, repo-scoped, checked into source control. Works offline. Universal across every higher-level CDE platform.
+- **Limitations:** No native multi-user control plane, cost governance, or workspace lifecycle UI. Those are DIY.
+- **Agent angle:** The canonical way to make a coding agent's sandbox reproducible across local dev, CI, and production.
+
+#### JetBrains CodeCanvas
+
+- **What it is:** JetBrains' cloud dev environment offering. Environments are defined via Docker-based templates, run IDE backends in the cloud, and are accessed via JetBrains Gateway or VS Code via extensions.
+- **Key concepts:**
+  - **Templates** — Versioned, shareable, Docker-image-based templates define tools, runtimes, and IDE plugins
+  - **Short-lived envs** — Designed for ephemeral workspaces per task/branch, with autosuspend and auto-delete
+  - **Zero-trust and observability** — WebSocket relays, SSH jump hosts, dashboards for adoption, failures, idle time
+- **Integration:** Built to work with JetBrains Gateway so the IDE "brain" runs remote but the UI stays local. Also integrates with other providers like AWS CodeCatalyst, Gitpod, and Codespaces.
+- **Agent angle:** Best fit when the team already lives in IntelliJ/Fleet and wants a "Codespaces but JetBrains-native" experience for both humans and agents.
+
+#### Coder
+
+- **What it is:** Self-hosted platform for provisioning secure, remote dev environments on your own infra (Kubernetes, Docker, VMs). Marketed for both human devs and AI agents.
+- **How it works:** Operators define Terraform-based "templates" describing images, resources, and policies. Coder spins up workspaces from those templates. Access via browser IDE (code-server) or local IDE via SSH.
+- **Notable features:**
+  - Central dashboard for all environments and templates
+  - **Prebuilt workspaces** for instant startup (no cold start for the first user)
+  - **Coder Desktop** to bridge remote workspaces into native local tools
+  - Explicit AI-agent-ready features (agents can be treated like a user and given their own workspace)
+- **Positioning:** The right fit when you want GitHub-Codespaces-style DX but must stay on-prem / in your VPC with tight security and policy control.
+- **Agent angle:** Particularly strong for agentic engineering at scale — you can give each agent its own persistent workspace, governed by the same templates and policies as your human devs.
+
+#### Gitpod
+
+- **What it is:** Cloud dev platform offering on-demand, pre-configured workspaces tied to Git repos via `.gitpod.yml`. Available as SaaS (`gitpod.io`) or self-hosted.
+- **Core mechanics:**
+  - Each repo has a `.gitpod.yml` specifying base image, startup tasks, and services
+  - Workspaces are ephemeral, Docker-based, and integrate with GitHub, GitLab, Bitbucket, and Azure DevOps
+  - Prebuilds warm a workspace from a `.gitpod.yml` before anyone opens it
+- **Developer experience:** VS Code-compatible web IDE with settings/extensions sync. External services (databases, queues) supported via Docker Compose.
+- **Strengths:** Ready-to-code workspaces, prebuilds, workspace snapshots to minimize startup friction. Multi-VCS support and a self-hosted option for regulated orgs.
+- **Agent angle:** Good fit for spinning up per-task ephemeral environments that AI agents can own for the lifetime of a feature branch.
+
+#### Amazon CodeCatalyst Dev Environments
+
+- **What it is:** Cloud dev environments integrated into AWS CodeCatalyst, used to work on project repos with supported IDEs (JetBrains, VS Code, etc.).
+- **Usage patterns:** Create envs tied to a specific project/branch or as empty envs, then clone repos manually. Launch from the CodeCatalyst console or directly from your IDE.
+- **AWS angle:** Built-in access to AWS resources and CI/CD in the same "space" as your project — so an agent working in CodeCatalyst already has cloud IAM roles, pipelines, and infra access without extra plumbing.
+- **Best for:** Organizations already heavy on AWS who want integrated dev + pipeline + infra without stitching together multiple vendors.
+
+### CDE vs Sandbox — which do you want?
+
+- **Sandbox** (E2B, Contree, Modal, Vercel Sandbox) — Short-lived, per-task, code-execution focused. Spin up, run code, shut down.
+- **CDE** (Codespaces, Gitpod, Coder, CodeCanvas, CodeCatalyst) — Long-lived, per-user/project, dev-environment focused. Persistent state across sessions.
+
+Agents frequently use both: a CDE as their "home base" that runs the agent itself, and sandboxes spawned from within the CDE for actual code execution. This is close to Stripe's devbox model (CDE-like per-agent) with sandbox-style ephemeral execution for individual tool calls.
+
+### Practical Choosing Heuristics
+
+- **Reproducible envs, infra you already manage** → Start with [Docker Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) as your canonical dev spec. Layer Coder, Gitpod, or CodeCanvas later if you want a hosted control plane.
+- **JetBrains-first org** → [CodeCanvas](https://www.jetbrains.com/guide/remote/) for optimized JetBrains remote flows, templates, and observability. Also meshes with Gateway and CodeCatalyst.
+- **Self-hosted Codespaces-like** → [Coder](https://coder.com) or self-hosted [Gitpod](https://www.gitpod.io). Coder leans infra-admin / policy-heavy, Gitpod leans repo-centric workspace automation.
+- **All-in on AWS** → [CodeCatalyst Dev Environments](https://codecatalyst.aws/explore/dev-environments) for integrated repos + dev env + pipelines + AWS resources.
+- **Running coding agents at scale** → Coder's agent-aware features and prebuilt workspaces make it the strongest fit for giving each agent a persistent, policy-governed workspace.
+
+### Opinionated Stack (for K8s + multi-provider + agents)
+
+- **Base spec:** `devcontainer.json` per repo so environments are portable across providers
+- **Control plane (self-hosted):** Coder or self-hosted Gitpod on your K8s clusters, serving both human devs and agents
+- **JetBrains route (optional):** Layer CodeCanvas for teams in IntelliJ/Fleet, consuming the same Docker images as the base spec
 
 ---
 
