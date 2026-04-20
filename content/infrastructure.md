@@ -293,7 +293,7 @@ Purpose-built GPU infrastructure for AI workloads — the most cost-effective pa
 
 ### VPS & Bare Metal Providers
 
-Budget-focused providers best suited for self-hosting agent infrastructure at lowest per-unit cost.
+Budget-focused providers best suited for self-hosting agent infrastructure at lowest per-unit cost. See the [VPS for agents](#vps-for-agents) deep dive below for type definitions, pricing detail, and decision guidance.
 
 | Vendor | GPU | Starting Price | Key Strength |
 |--------|-----|---------------|-------------|
@@ -307,6 +307,85 @@ Budget-focused providers best suited for self-hosting agent infrastructure at lo
 | **Equinix Metal** | No | Hourly | Bare metal at IX colos, premium interconnect |
 | **Leaseweb** | Yes | Monthly | Large dedicated server inventory |
 | **phoenixNAP** | Yes | Monthly | Enterprise bare metal provider |
+
+### VPS for Agents
+
+A **Virtual Private Server (VPS)** is a virtual machine with its own dedicated slice of CPU, RAM, storage, and IP running on shared physical hardware. You get root access, choose your OS (usually Linux, sometimes Windows), and run whatever you want — from a single long-lived process to a full Docker stack hosting multiple agents.
+
+For agents, VPS sits in an interesting spot on the hosting ladder: cheaper and simpler than a bare-metal server, more persistent and unconstrained than a sandbox or a serverless function, less locked-in than a managed agent platform. Much of the infrastructure powering hobbyist and indie agent deployments — private Claude Code runners, n8n automation servers, always-on harnesses, personal LLM gateways — runs on a single $5-a-month VPS.
+
+#### Why VPS fits agent workloads
+
+- **Root access and arbitrary runtimes.** Install any CLI (Claude Code, Codex, Goose, Aider, the full [Docking Station](/approaches/#terminal-coding-clis) set), any language runtime, any database, any VPN client. No platform-imposed restrictions on what the agent can spawn.
+- **Persistent state across runs.** Unlike ephemeral sandboxes, a VPS keeps files, caches, cloned repos, and credentials between sessions. Good for iterative agent loops that benefit from a warm workspace (populated node_modules, pre-indexed codebase, warm model cache).
+- **No cold starts, no timeouts.** Long-running background workers — durable agent schedulers, queue consumers, MCP servers, scraping pipelines — run indefinitely. Serverless platforms kill after 5-15 minutes; a VPS runs for months.
+- **Lower isolation cost than microVMs.** Firecracker-per-task (E2B, Sprites, Contree) has ~150ms boot and per-second billing; a $5/mo VPS is essentially free-per-invocation once you own it. For trusted agents running your own code, the hypervisor-level isolation of a dedicated microVM is overkill.
+- **Custom networking.** Static IP, open ports, WireGuard / Tailscale mesh for multi-agent coordination, reverse tunnels into home labs. Sandboxes typically restrict inbound networking; a VPS does not.
+- **Deterministic cost.** Flat monthly fee. No surprise bills from a runaway agent loop — worst case the VPS's CPU pegs at 100%, not your credit card.
+
+The classic pattern: one VPS runs the **orchestrator** (durable workflow engine, MCP gateway, scheduled-task runner), and when the agent needs to execute untrusted or destructive code, it delegates to a dedicated [sandbox](/sandboxes) (E2B, Sprites, Contree). VPS is the always-on control plane; sandboxes are the ephemeral execution plane.
+
+#### The three VPS flavors
+
+| Type | What you manage | What the provider manages | Best for |
+|------|----------------|--------------------------|----------|
+| **Unmanaged / Self-managed** | OS patches, security hardening, backups, monitoring, app stack | Hypervisor, network, hardware | Experienced operators; cheapest tier; full control |
+| **Managed** | Your application and data | OS updates, security patches, often backups and monitoring too | Teams that want a VPS without sysadmin burden; typically 2-3x the price |
+| **Cloud VPS** | Your app + optional scaling config | Hypervisor, network, elastic resources, often snapshots and load balancing | Agents with variable load; pay-as-you-go scaling without rearchitecting |
+
+**Unmanaged** is the default for agent hobbyists and the Docking Station-style self-hosted stack — you're already comfortable in a shell, and the savings compound. **Managed** pays for itself once the operational toil exceeds the price delta (usually true for small businesses without an ops person). **Cloud VPS** (DigitalOcean Droplets, Linode, Vultr, Lightsail) is the middle ground: hourly billing, snapshot-based backups, easy resize — closer to a cloud VM but priced and packaged like a VPS.
+
+#### Provider comparison (entry tier)
+
+Prices are starting monthly prices for the lowest published tier; availability of promotional pricing varies by region and commitment length. Always check current pricing before committing.
+
+| Provider | Entry price | Type | Agent-relevant notes |
+|----------|-------------|------|---------------------|
+| **IONOS** | ~$2/mo | Cloud VPS | Cheapest mainstream entry tier; EU/US DCs; good for always-on control planes and webhooks |
+| **Hostinger VPS** | ~$6.49/mo | Managed / Unmanaged | AI Assistant + Docker templates, 1-click LLM stacks, good for non-sysadmin users |
+| **DigitalOcean Droplet** | $4/mo | Cloud VPS | Best developer experience, 1-click marketplace apps (Ollama, n8n, Langfuse), managed K8s nearby for scale-out |
+| **OVHcloud VPS-1** | ~$6.46/mo | Cloud VPS | EU data sovereignty, 40+ DCs, optional GPU tiers higher up the stack |
+| **Amazon Lightsail** | From ~$3.50/mo | Cloud VPS | Fixed-price AWS on-ramp; simplest path to layering in S3, SES, Route53 around the VPS |
+| **Contabo** | EUR 3.60 (~$4) | Cloud VPS | Aggressive RAM/storage per dollar; popular for self-hosting agent inference and vector DBs |
+| **Hetzner CX** | EUR 3.79 (~$4) | Cloud VPS | Exceptional price-to-performance in EU; dedicated-vCPU tiers ideal for model-adjacent workloads |
+| **Linode (Akamai)** | $5/mo | Cloud VPS | Predictable pricing, Akamai edge network, GPU plans for inference |
+| **Vultr** | $2.50/mo | Cloud VPS | 30+ global regions, bare-metal and GPU plans in the same console |
+
+#### When a VPS is the right fit
+
+Choose a VPS when you want:
+
+- **An always-on agent control plane** — durable workflow runner (Temporal worker, n8n, Trigger.dev self-hosted), MCP gateway, scheduled-task loop, webhook receiver.
+- **A personal self-hosted assistant stack** — OpenClaw / Letta / a CLI harness plus a local vector DB plus a model gateway, all in one place.
+- **A shared dev target for agents** — devbox-style box where agents SSH in, run tests, and leave artifacts behind between runs.
+- **A private VPN / Tailscale exit node** to give agents access to home-lab resources or region-locked services.
+- **A cheap, always-on hobbyist deployment** — the kind of workload that would cost $50+/mo on serverless but costs $4/mo here.
+
+Choose something else when:
+
+- You need **Firecracker-level isolation per task** (untrusted LLM code, multi-tenant agent runs) → use E2B, Sprites.dev, Contree; see [Sandboxes](/sandboxes).
+- You need **horizontal autoscaling** to hundreds of concurrent agents → use serverless (Nebius, Modal, AWS Lambda) or a managed sandbox platform.
+- You need **GPU inference at scale** → see [Inference](/inference) (Nebius, Together, Fireworks, Groq) rather than trying to run vLLM on a single VPS.
+- You need **managed compliance (SOC 2 / HIPAA)** without rolling it yourself → Render, Fly.io, or a hyperscaler will get you further than a raw VPS.
+
+#### How VPS slots into the agentic-engineering stack
+
+Think of it as the persistent substrate underneath the ephemeral sandbox layer:
+
+```
+User / CI trigger
+       │
+       ▼
+   VPS (always on)           ← orchestrator, scheduler, MCP gateway, harness
+       │
+       ├─────► Sandbox (per task, ephemeral)   ← untrusted exec, test runs
+       │
+       ├─────► Inference API / Platform         ← LLM calls
+       │
+       └─────► Object storage / DB (persistent) ← artifacts, memory, traces
+```
+
+Agents that live on a VPS can still reach into the entire rest of the stack — they just do so from a stable, cheap, fully-owned home base instead of being reborn from scratch on every invocation.
 
 ---
 
