@@ -34,6 +34,7 @@ export default defineConfig({
           items: [
             { label: 'Approaches', slug: 'approaches' },
             { label: 'Patterns', slug: 'patterns' },
+            { label: 'Benchmarks', slug: 'benchmarks' },
             { label: 'Comparison', slug: 'comparison' },
             { label: 'Organizations', slug: 'organizations' },
           ],

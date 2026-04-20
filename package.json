@@ -1,12 +1,13 @@
 {
   "name": "agentic-engineering",
   "version": "1.0.0",
-  "description": "Agentic Engineering — reference site (front end) and documentation portal (Mintlify).",
+  "description": "Agentic Engineering — reference site (front end) and documentation portal (Astro Starlight).",
   "private": true,
   "scripts": {
     "build": "bash build.sh",
-    "docs:dev": "cd docs && mint dev",
-    "docs:broken-links": "cd docs && mint broken-links"
+    "docs:dev": "npm --prefix docs run dev",
+    "docs:build": "npm --prefix docs run build",
+    "docs:preview": "npm --prefix docs run preview"
   },
   "repository": {
     "type": "git",

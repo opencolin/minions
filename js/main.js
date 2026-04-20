@@ -34,6 +34,7 @@ function init() {
     index: 'Overview',
     approaches: 'Approaches',
     patterns: 'Patterns',
+    benchmarks: 'Benchmarks',
     comparison: 'Comparison',
     organizations: 'Organizations',
     inference: 'Inference',

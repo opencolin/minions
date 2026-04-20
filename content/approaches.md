@@ -571,3 +571,56 @@ Universal HTTP API to run any coding agent (Claude Code, Codex, OpenCode, Amp) i
 - Devbox equivalent — Best open-source match for Stripe's sandbox infrastructure
 - Composable — Combine with any agent and orchestrator
 - **Gap:** Infrastructure layer only, not a complete autonomous agent
+
+---
+
+## Terminal coding CLIs
+
+The surface agents an engineer actually types into. Most of these are CLI harnesses around frontier models — you pick the CLI (the scaffolding, UX, permissions model, tool wiring) and plug in whichever model makes sense for the task. This is the list behind [Docking Station](https://github.com/opencolin/dockingstation), the containerized dev environment that ships all 25 of them side-by-side.
+
+The short version: harness is the differentiator, not the model. Benchmark top-3 spots are typically taken by the same 2-3 harnesses across different models (see [Benchmarks](benchmarks.md)).
+
+| CLI | Maintainer | Notable for | Docs |
+|-----|------------|-------------|------|
+| **ForgeCode** (`forge`) | TailCall | #1 on Terminal Bench 2.0 (81.8%) — multi-model TUI | [forgecode.dev](https://forgecode.dev) |
+| **Claude Code** (`claude`) | Anthropic | Reference agentic-coding CLI, full codebase read + command exec | [docs.anthropic.com/claude-code](https://docs.anthropic.com/en/docs/claude-code) |
+| **Codex CLI** (`codex`) | OpenAI | Autonomous coding, open source | [github.com/openai/codex](https://github.com/openai/codex) |
+| **Gemini CLI** (`gemini`) | Google | Gemini + Google Cloud integration | [github.com/google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) |
+| **GitHub Copilot CLI** (`github-copilot-cli`) | GitHub | Terminal-side Copilot, agentic | [docs.github.com/copilot/cli](https://docs.github.com/en/copilot/using-github-copilot/using-github-copilot-in-the-command-line) |
+| **Droid** (`droid`) | Factory AI | #6 on Terminal Bench 2.0 (77.3%) | [factory.ai](https://factory.ai) |
+| **Goose** (`goose`) | Block | MCP-native, 70+ extensions, Stripe Minions ancestor | [github.com/block/goose](https://github.com/block/goose) |
+| **Aider** (`aider`) | Aider | Popular OSS pair programmer, git-native file editing | [aider.chat](https://aider.chat) |
+| **Crush** (`crush`) | Charmbracelet | Polished TUI coding agent | [github.com/charmbracelet/crush](https://github.com/charmbracelet/crush) |
+| **Amp** (`amp`) | Sourcegraph | Multi-repo agentic coding (formerly Cody) | [ampcode.com](https://ampcode.com) |
+| **Junie CLI** (`junie`) | JetBrains | JetBrains' terminal agent | [junie.jetbrains.com](https://junie.jetbrains.com) |
+| **OpenCode** (`opencode`) | Community | Multi-model TUI assistant (142K stars) | [opencode.ai](https://opencode.ai/docs) |
+| **Qwen Code** (`qwen`) | Alibaba | Qwen-backed coding assistant | [github.com/QwenLM/qwen-code](https://github.com/QwenLM/qwen-code) |
+| **Amazon Q CLI** (`q`) | AWS | AWS-integrated coding + cloud agent | [aws.amazon.com/q](https://aws.amazon.com/q) |
+| **Grok CLI** (`grok`) | Community | Open-source Grok terminal assistant | [github.com/superagent-ai/grok-cli](https://github.com/superagent-ai/grok-cli) |
+| **T3 Code** (`t3`) | Ping.gg / Theo | Coding-agent workspace launcher | [github.com/pingdotgg/t3code](https://github.com/pingdotgg/t3code) |
+| **Kilo CLI** (`kilo`) | Kilo | Keyboard-first, multi-provider model support | [kilo.ai/docs](https://kilo.ai/docs/code-with-ai/platforms/cli) |
+| **Plandex** (`plandex`) | Plandex | Multi-step task planner with diff management | [github.com/plandex-ai/plandex](https://github.com/plandex-ai/plandex) |
+| **Kiro CLI** (`kiro`) | AWS | Spec-driven agentic coding | [kiro.dev](https://kiro.dev) |
+| **Continue** (`cn`) | Continue | Source-controlled AI checks, CI-enforceable (32K+ stars) | [continue.dev](https://continue.dev) |
+| **Letta Code** (`letta`) | Letta AI | Memory-first agent | [github.com/letta-ai/letta-code](https://github.com/letta-ai/letta-code) |
+| **iFlow CLI** (`iflow`) | iFlow AI | Multi-model with free access to Kimi, Qwen, DeepSeek | [github.com/iflow-ai/iflow-cli](https://github.com/iflow-ai/iflow-cli) |
+| **Qoder CLI** (`qodercli`) | Qoder | Terminal AI assistant | [qoder.com](https://qoder.com) |
+| **Cline CLI** (`cline-cli`) | Cline | Autonomous terminal agent (open source, ex-VS Code extension) | [docs.cline.bot](https://docs.cline.bot) |
+| **CodeRabbit CLI** (`coderabbit`) | CodeRabbit | AI code reviews for staged/unstaged changes | [coderabbit.ai/cli](https://www.coderabbit.ai/cli) |
+
+### How they differ
+
+- **Who owns the model** — Claude Code, Codex, Gemini, Amazon Q, Kiro, Junie, Amp are *model-provider-native* (the vendor ships both scaffolding and preferred model). ForgeCode, OpenCode, Aider, Crush, Goose, Cline, Plandex are *harness-first* and BYO-model via API key or local inference.
+- **Interaction model** — Aider, Claude Code, Codex are interactive by default. Kiro is spec-driven (write a spec, the agent implements it). Plandex plans multi-step changes and manages diffs across them. Goose + MCP extensions is closest to an [agent platform](approaches.md#goose) you assemble.
+- **Where it runs** — All 25 run inside [Docking Station](https://github.com/opencolin/dockingstation), a single Docker image intended for installing everything once and switching between harnesses while comparing on the same workspace.
+- **CI use** — Continue, CodeRabbit, GitHub Copilot CLI and Claude Code are designed for non-interactive CI invocation. Most of the others can be scripted but are optimized for developer-in-the-loop.
+
+### Picking one
+
+- **Just want it to work, minimal setup** — Claude Code, Codex, Gemini CLI.
+- **Maximize benchmark-proven capability** — ForgeCode, Droid (both rank top-10 on Terminal Bench 2.0).
+- **Open source + multi-model + self-host** — OpenCode, Aider, Goose.
+- **In-CI code review** — CodeRabbit, Continue.
+- **Spec-driven, explicit plans** — Kiro, Plandex.
+- **Memory across sessions** — Letta Code.
+- **Enterprise/cloud stack alignment** — Amazon Q (AWS), Kiro (AWS), Junie (JetBrains), Gemini CLI (GCP).

@@ -53,7 +53,7 @@ Connected to Vercel. Pushes to `main` trigger automatic deploys.
 vercel deploy --prod
 ```
 
-Live: https://minions-alpha.vercel.app
+Live: https://agentic-engineering.vercel.app (project alias — the legacy `minions-alpha.vercel.app` URL continues to resolve)
 
 ---
 

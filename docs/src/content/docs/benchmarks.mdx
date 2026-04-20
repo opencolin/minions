@@ -1,0 +1,130 @@
+---
+title: "Benchmarks"
+description: "SWE-bench and Terminal Bench — the two benchmarks that matter most for autonomous coding agents, how they work, and who's on top."
+---
+
+How agentic coding systems are evaluated. The two benchmarks that matter most for coding agents today are **SWE-bench** (resolve real GitHub issues) and **Terminal Bench** (complete terminal-based engineering tasks). Together they cover two different shapes of the same question: *can the agent actually get the job done end-to-end?*
+
+Benchmarks aren't the whole story — Stripe's internal signal is 1,300+ real PRs/week, not a leaderboard number — but they're the shared yardstick the category agrees on.
+
+---
+
+## SWE-bench
+
+**Home:** [swebench.com](https://www.swebench.com/) · **Source:** [github.com/swe-bench/SWE-bench](https://github.com/swe-bench/SWE-bench) · **License:** MIT
+
+SWE-bench is the de facto standard benchmark for autonomous coding agents. It measures whether an agent, given a real GitHub issue and a snapshot of the repository, can produce a patch that makes the existing test suite pass.
+
+### How it works
+
+1. **Input** — A repo at a specific commit + the text of a GitHub issue that was later resolved in that repo.
+2. **Task** — The agent generates a patch intended to resolve the issue.
+3. **Evaluation** — The patch is applied inside a Docker container and the repo's test suite runs. "Resolved" means the tests that *should* pass (including ones originally written for that fix) do pass.
+
+The harness is fully containerized and reproducible. Local evaluation needs ~120GB of free storage, 16GB RAM, and 8 CPU cores; cloud evaluation runs on Modal or via the `sb-cli` tool. Issues come from 12 popular Python repositories — Django, Flask, Matplotlib, pytest, Requests, scikit-learn, SymPy, Sphinx, Seaborn, xarray, astropy, and pylint.
+
+### Variants
+
+| Variant | Instances | Description |
+|---------|-----------|-------------|
+| **SWE-bench** | 2,294 | Full dataset (ICLR 2024) |
+| **SWE-bench Verified** | 500 | Human-filtered subset confirmed solvable by real engineers (OpenAI Preparedness) |
+| **SWE-bench Lite** | 300 | Curated subset for faster iteration |
+| **SWE-bench Multimodal** | 517 | Issues with visual elements — screenshots, diagrams, plots (ICLR 2025) |
+| **SWE-bench Multilingual** | 300 | 9 programming languages beyond Python |
+
+**Verified** is the variant most production agents publish against — the cleanest signal, curated to remove ambiguous or ill-specified tasks.
+
+### Why it matters
+
+SWE-bench measures the thing agentic engineering is really about: *closed-loop, unattended bug-fix-and-feature work against real codebases with real test suites*. It's the metric that separates scaffolded demos from agents that can survive a merge queue.
+
+- **Evaluation is objective** — tests pass or they don't.
+- **Tasks are real** — not synthetic, not sanitized, same issues actual maintainers triaged.
+- **Harness matters as much as model** — results are published as `agent × model` pairs, because a Claude-4-Sonnet base behind an unsophisticated harness can lose to a GPT-4o-mini behind a well-engineered one.
+
+### How agents compete
+
+A SWE-bench submission is always a *harness*, not a raw model. The harness = scaffolding the agent runs inside: file-navigation tools, test-runner integration, retry logic, review loops. See [Patterns](/patterns/) for more on harness engineering.
+
+Representative harnesses (in rough chronological order):
+
+- **SWE-agent** ([Princeton NLP](https://github.com/SWE-agent/SWE-agent)) — the original open-source SWE-bench harness (Yang et al. 2024); introduced the Agent-Computer Interface idea.
+- **mini-SWE-agent** — successor to SWE-agent, hits 65% on SWE-bench Verified.
+- **OpenHands** — reference open-source implementation, pushed state of the art past 50% Verified in 2024.
+- **Claude Managed Agents / OpenAI agentic coding models** — model-provider-managed loops that publish their own Verified numbers.
+- **Amp, Cursor Agent, Windsurf Cascade, Cline, Aider** — commercial harnesses that regularly appear on the leaderboard.
+
+### Backers
+
+OpenAI, Anthropic, Andreessen Horowitz, AWS, Modal, and Open Philanthropy all fund or operate infrastructure for the benchmark. That level of buy-in from direct competitors is why Verified numbers became the shared currency.
+
+---
+
+## Terminal Bench
+
+**Home:** [tbench.ai](https://www.tbench.ai/) · **Leaderboard:** [tbench.ai/leaderboard/terminal-bench/2.0](https://www.tbench.ai/leaderboard/terminal-bench/2.0)
+
+Terminal Bench is a Stanford × Laude Institute collaboration that benchmarks agents on end-to-end terminal-based engineering tasks — not just writing code, but operating the machine around it.
+
+### How it works
+
+Tasks run inside a standardized harness (`harbor run -d terminal-bench@2.0`). Submissions cannot modify timeouts or resources — every agent gets the same wall clock and the same VM. Scoring is accuracy (% of tasks completed) reported with a confidence interval.
+
+**Version 1.0** had 80 tasks. **Version 2.0** expands to 89 tasks with greater depth across five categories:
+
+| Category | Example tasks |
+|----------|---------------|
+| Software Engineering | Build systems, configure applications |
+| Security | Cryptography, certificate management |
+| System Administration | Compile the Linux kernel, configure a Git server |
+| Data Science | Process datasets, train models |
+| Machine Learning | Develop and optimize models (e.g., train a FastText classifier) |
+
+These are harder than SWE-bench in a particular way: they require the agent to know how a *system* works, not just a codebase. Compiling a kernel or standing up a Git server exercises package management, filesystem layout, service configuration — the ambient knowledge senior engineers carry that's traditionally absent from LM-focused benchmarks.
+
+### Top performers (Terminal Bench 2.0)
+
+| Rank | Agent × Model | Score |
+|------|---------------|-------|
+| 1 | ForgeCode + GPT-5.4 | 81.8% ± 2.0 |
+| 2 | TongAgents + Gemini 3.1 Pro | 80.2% ± 2.6 |
+| 3 | ForgeCode + Claude Opus 4.6 | 79.8% ± 1.6 |
+
+Notable pattern: the same agent harness (ForgeCode) ranks #1 and #3 on different models — reinforcing the harness-is-a-bigger-lever-than-model thesis. Smaller models (GPT-5-Nano, OSS-20B) score in single digits regardless of harness, so scaffolding alone doesn't rescue a weak base.
+
+### Why it matters
+
+Terminal Bench captures capabilities SWE-bench doesn't:
+
+- **System thinking** — install packages, debug services, navigate the filesystem.
+- **End-to-end workflows** — not "edit one file to fix one test" but "build this thing from scratch."
+- **Multi-tool fluency** — the agent has to use whatever CLI the task requires, not a pre-wired set of SWE-specific tools.
+
+For teams building internal coding agents — especially in the [Stripe Minions](/approaches/#stripe-minions) mold where the agent runs inside a full devbox — Terminal Bench is closer to the production environment than SWE-bench. If your agent can't compile a kernel, it probably also can't recover from a flaky build step in your monorepo.
+
+---
+
+## Choosing a benchmark
+
+| If you care about… | Look at… |
+|--------------------|----------|
+| Bug-fix / feature-PR capability | SWE-bench Verified |
+| End-to-end dev-environment competence | Terminal Bench 2.0 |
+| Multimodal issue resolution (UI bugs, chart fixes) | SWE-bench Multimodal |
+| Non-Python coverage | SWE-bench Multilingual |
+| Commercial harness quality | Both leaderboards — harness is the differentiator |
+
+Neither benchmark is sufficient on its own. A team shipping autonomous PRs internally should track:
+
+1. **SWE-bench Verified** — external apples-to-apples comparison with every other agent.
+2. **Terminal Bench** — a sanity check that the agent can survive real ops tasks.
+3. **Internal production metrics** — PRs merged, CI pass rate, revert rate. This is the signal Stripe optimizes; SWE-bench is a proxy, production is the truth.
+
+---
+
+## Benchmark-adjacent reading
+
+- [Approaches](/approaches/) — Agents and their published benchmark scores
+- [Patterns](/patterns/) — Why harness-is-the-model for benchmark performance
+- [Organizations](/organizations/) — How teams measure agent value beyond benchmarks

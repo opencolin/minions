@@ -339,21 +339,27 @@ body {
   font-size: 0.85rem;
 }
 
-/* Tables — break out of the narrow prose column and scroll horizontally */
+/* Tables — stay within the prose column and scroll horizontally when too wide.
+   Never break out into the sidebar. */
 .markdown-body table {
-  /* Break out to full viewport width */
-  width: calc(100vw - 3rem);
-  max-width: 1400px;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  border-collapse: collapse;
-  font-size: 0.9rem;
-  margin: 1.5rem auto;
   display: block;
   overflow-x: auto;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 1.5rem 0;
   border: 1px solid var(--border);
   border-radius: var(--radius);
+}
+
+/* On very wide viewports, modestly widen tables past the 860px prose column using negative
+   margins. The breakpoint is chosen so the negative margin never crosses the sidebar. */
+@media (min-width: 1400px) {
+  .markdown-body table {
+    margin-left: -6rem;
+    margin-right: -6rem;
+    max-width: calc(100% + 12rem);
+  }
 }
 .markdown-body thead {
   background: var(--bg-secondary);
@@ -383,10 +389,9 @@ body {
 
 @media (max-width: 768px) {
   .markdown-body table {
-    width: calc(100vw - 1rem);
-    left: auto;
-    transform: none;
-    margin: 1rem -1.5rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 1rem 0;
   }
 }
 

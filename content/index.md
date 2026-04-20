@@ -60,6 +60,13 @@ Cross-cutting architectural patterns:
 - [Failure Recovery](patterns.md#5-failure-recovery) — Retry, typed recovery, three nested loops, checkpoints
 - [Multi-Agent Coordination](patterns.md#6-multi-agent-coordination) — Worktree isolation, intent-aware merging, task decomposition
 
+### [Benchmarks](benchmarks.md)
+How agentic coding systems are measured:
+- [SWE-bench](benchmarks.md#swe-bench) — Real GitHub issues from 12 Python repos; the standard coding-agent leaderboard
+- [SWE-bench Verified](benchmarks.md#variants) — 500 human-filtered instances, the metric production agents publish
+- [Terminal Bench](benchmarks.md#terminal-bench) — Stanford × Laude, 89 tasks spanning software eng, security, sysadmin, data science, ML
+- [Choosing a benchmark](benchmarks.md#choosing-a-benchmark) — Matching benchmark to what you care about
+
 ### [Comparison](comparison.md)
 Side-by-side feature matrix and capability rankings:
 - [Feature Matrix](comparison.md#feature-matrix) — All approaches compared across 8 dimensions
