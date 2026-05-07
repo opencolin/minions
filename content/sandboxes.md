@@ -186,6 +186,7 @@ The core vendor landscape — sandboxes designed specifically for running AI-gen
 | **Zeroboot** | Firecracker CoW | Snapshots | Sub-ms (0.79ms) | No | Free (OSS) | 480x memory density, prototype |
 | **AIO Sandbox** | Docker | Stateful | Sub-sec | No | Free (OSS) | Browser+Shell+IDE+MCP, ByteDance-backed |
 | **OpenSandbox** | Docker / K8s | Stateful | Sub-sec | No | Free (OSS) | Protocol-driven K8s runtime, Alibaba-backed |
+| **Cube Sandbox** | Docker / microVM | Stateful + snapshots | Sub-sec | No | Free (OSS, Apache 2.0) | Tencent Cloud's production sandbox-as-a-service stack open-sourced April 21 2026 — shell, file ops, browser, RL training; one-click deploy |
 | **SmolVM** | Firecracker (Linux) / Hypervisor.framework (macOS) | Pause / resume | Sub-200ms | No | Free (OSS, Apache 2.0) | Single-executable microVM with Mac/Linux dev parity, file mounts, pre-installed Claude Code/Codex/Pi options, by Celesto AI (April 2026) |
 | **Kubernetes agent-sandbox** | gVisor / Kata via pods | PVCs + warm pools | Pod cold-start | Per-node | Free (OSS, Apache 2.0) | K8s SIG Apps CRD (Sandbox / SandboxTemplate / SandboxClaim), launched at KubeCon NA 2025, declarative agent runtime on existing clusters |
 | **Quilt** | Linux namespaces | Stateful | Sub-sec | No | Free (OSS) | Inter-container networking, Rust |

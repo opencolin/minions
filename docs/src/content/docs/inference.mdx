@@ -67,6 +67,7 @@ Middleware that sits between agents and inference providers, adding reliability,
 | **Helicone** | Observability and proxy layer for LLM calls with cost tracking | Debugging agent behavior, cost analysis |
 | **Kalibr** | Autonomous cost/performance optimization via Thompson Sampling; hooks into every LLM call and routes to most cost-effective model | Production agents seeking order-of-magnitude cost reduction |
 | **Vercel AI Gateway** | Unified endpoint for model routing, provider failover, secure embeddings/retrieval — part of the Vercel Agents platform | Vercel-deployed agents, Open Agents template stack |
+| **Bifrost** (Maxim AI) | Go-based OSS gateway (Apache 2.0) unifying 20+ providers behind an OpenAI-compatible API; ~11 µs overhead at 5K RPS, MCP client + server built in, hierarchical budgets, SSO, audit logs | Performance-sensitive multi-tenant deployments; teams who hit LiteLLM's overhead ceiling |
 
 ---
 

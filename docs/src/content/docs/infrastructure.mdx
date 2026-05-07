@@ -116,6 +116,8 @@ Agents specifically focused on software engineering tasks, from PRs to migration
 | **Replit Agent** | $25/mo Core+ | Full app scaffolding + hosting in one workflow |
 | **Fine.dev** | Paid | Focus on autonomous PRs and code tasks |
 | **Orchestrator.build** | BYO Claude API + hosted (early-access) | Spawns many parallel Claude Code agents, each in its own isolated worktree, opens PRs autonomously. Evolved from sirhamy's open-source Phase Golem pipeline runner; useful when you want a Claude-Code-native fleet without building the harness yourself |
+| **Conductor** ([conductor.build](https://www.conductor.build)) | Free during beta | macOS desktop app (closed source) for running Claude Code, Codex, and other agents in parallel. Each agent runs in its own git worktree on your Mac; Conductor handles merge + PR review. Local-first — repo is cloned to your machine, no cloud dependency |
+| **Superset** ([superset.sh](https://superset.sh)) | OSS | Editor-style cross-platform alternative to Conductor — runs 10+ parallel Claude Code / Codex agents on a single machine, with worktree isolation, integrated diff viewer, and merge UX |
 | **Adept** | Enterprise | Models trained specifically for UI actions |
 
 ### Visual Agent IDEs
@@ -187,7 +189,9 @@ Open-source and managed frameworks purpose-built for multi-agent systems.
 |--------|------|-------|-------------|
 | **LangGraph / LangGraph Platform** | Stateful graph agents | OSS + Cloud ($39/user) | Graph-based agent state machines, LangSmith integration |
 | **CrewAI** | Multi-agent role orchestration | OSS + enterprise | Role/task/crew abstraction |
-| **Microsoft AutoGen** | Multi-agent conversation framework | OSS | Conversational multi-agent patterns |
+| **Microsoft Agent Framework** | Unified successor to AutoGen + Semantic Kernel | OSS (MIT, 1.0 RC Feb 2026) | Merged AutoGen + Semantic Kernel into one framework with workflow + actor model; Python and .NET; Azure-aligned but cloud-neutral |
+| **Microsoft AutoGen** | Multi-agent conversation framework | OSS (maintenance — superseded by Agent Framework) | Conversational multi-agent patterns |
+| **Paperclip** | Hierarchical multi-agent OSS framework — CEO / manager / worker org chart | OSS (44.9K stars in 3 weeks, March 2026) | Doesn't build agents — orchestrates existing ones (Claude Code, OpenClaw, Codex, scripts, webhooks) into "AI companies" with budgets, reporting lines, audit trails |
 | **OpenAI Swarm / Agents SDK** | Lightweight handoff orchestration | OSS | Minimal handoff-style agent routing |
 | **LlamaIndex Workflows** | Event-driven agent workflows | OSS + cloud | Event-driven steps tied to LlamaIndex RAG |
 | **Pydantic AI** | Type-safe agent framework | OSS | Pydantic-grade type safety for agents |
@@ -411,6 +415,7 @@ Memory layers designed specifically for AI agents, with multi-level scoping (use
 | **Graphlit** | Knowledge API for agents | Usage-based | RAG + knowledge graph as a service |
 | **Motorhead** | Chat memory server | OSS | Lightweight chat history service |
 | **Basic Memory / OpenMemory** | OSS agent memory protocols | Free OSS | Standardized memory protocols |
+| **MemMachine** | Universal memory layer for agents | OSS | Persistent multi-session memory that works across models and environments — drop-in alternative when you don't want to lock into Mem0 / Letta APIs |
 
 ### Vector Databases
 
@@ -459,7 +464,8 @@ Platforms for tracing agent runs, debugging failures, and monitoring costs in pr
 | Vendor | Type | Price | Key Strength |
 |--------|------|-------|-------------|
 | **LangSmith** | LangChain-native tracing/evals | Free tier + usage | Deepest LangChain/LangGraph integration |
-| **Langfuse** | OSS LLM observability | OSS + cloud | Self-hostable LangSmith alternative |
+| **Langfuse** | OSS LLM observability | OSS + cloud | Self-hostable LangSmith alternative; acquired by ClickHouse Jan 2026 |
+| **OpenObserve** | Unified observability (logs / metrics / traces / RUM + LLM) | OSS (AGPL-3.0) + cloud | 3.0 (April 2026) ships an autonomous AI SRE agent for incident response; one platform for infra and LLM monitoring rather than a dedicated LLM tool |
 | **Arize Phoenix / Arize AX** | OSS + enterprise LLM ops | OSS + cloud | OTel-based, strong ML+LLM crossover |
 | **Weights & Biases Weave** | LLM tracing on W&B | Paid tiered | Integrated with W&B ML experiment tracking |
 | **Helicone** | LLM proxy + observability | OSS + cloud | Simple one-line proxy onboarding |
@@ -489,6 +495,8 @@ Tools focused on measuring agent quality and regression testing.
 | **Ragas** | OSS RAG eval framework | OSS | De-facto RAG metrics library |
 | **DeepEval** | Unit-test-style LLM evals | OSS | Pytest-style LLM assertions |
 | **Confident AI** | DeepEval hosted platform | Paid | Hosted DeepEval with regression testing |
+| **Future AGI** | End-to-end eval + tracing + simulations + guardrails + gateway | OSS (Apache 2.0, self-hostable) | One platform for shipping self-improving agents — covers eval through optimization rather than picking one slice |
+| **Anthropic Bloom** | Automated behavioral evals for frontier models | OSS (Anthropic Research) | Quantifies frequency + severity of researcher-specified behaviors across auto-generated scenarios; built for safety / red-team eval rather than task accuracy |
 
 ### Guardrails & Safety
 
@@ -501,6 +509,8 @@ Runtime safeguards preventing agents from producing harmful or policy-violating 
 | **Lakera** | LLM security guardrails | Paid | Prompt injection defense specialist |
 | **Protect AI** | AI security posture | Enterprise | MLSecOps / AI red-team toolkit |
 | **WhyLabs / LangKit** | LLM safety monitoring | Free + paid | Safety/guardrails metrics focus |
+| **LlamaFirewall** (Meta) | Agent-specific guardrails | Free OSS | Final defense layer against prompt injection, agent misalignment, insecure code; designed to wrap agent harnesses, not just chat |
+| **LLM Guard** | Drop-in input/output scanner | Free OSS | 35 scanners for prompt injection, PII leaks, toxicity; pip-install-and-go |
 
 ---
 

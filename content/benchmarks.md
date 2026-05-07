@@ -29,6 +29,7 @@ The harness is fully containerized and reproducible. Local evaluation needs ~120
 | **SWE-bench Lite** | 300 | Curated subset for faster iteration |
 | **SWE-bench Multimodal** | 517 | Issues with visual elements — screenshots, diagrams, plots (ICLR 2025) |
 | **SWE-bench Multilingual** | 300 | 9 programming languages beyond Python |
+| **SWE-bench Pro** | 1,865 | Scale AI's harder successor (2026) — public + held-out + commercial splits across 41 actively maintained repos. Top models score ~23%, vs. 70%+ on Verified — designed to clear the contamination + saturation problems Verified is hitting. [Leaderboard](https://labs.scale.com/leaderboard/swe_bench_pro_public) · [Public set on GitHub](https://github.com/scaleapi/SWE-bench_Pro-os) |
 
 **Verified** is the variant most production agents publish against — the cleanest signal, curated to remove ambiguous or ill-specified tasks.
 
@@ -110,6 +111,7 @@ For teams building internal coding agents — especially in the [Stripe Minions]
 | End-to-end dev-environment competence | Terminal Bench 2.0 |
 | Multimodal issue resolution (UI bugs, chart fixes) | SWE-bench Multimodal |
 | Non-Python coverage | SWE-bench Multilingual |
+| Long-horizon SWE work (Verified saturating) | SWE-bench Pro |
 | Commercial harness quality | Both leaderboards — harness is the differentiator |
 
 Neither benchmark is sufficient on its own. A team shipping autonomous PRs internally should track:

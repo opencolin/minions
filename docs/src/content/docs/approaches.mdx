@@ -610,6 +610,9 @@ The short version: harness is the differentiator, not the model. Benchmark top-3
 | **Qoder CLI** (`qodercli`) | Qoder | Terminal AI assistant | [qoder.com](https://qoder.com) |
 | **Cline CLI** (`cline-cli`) | Cline | Autonomous terminal agent (open source, ex-VS Code extension) | [docs.cline.bot](https://docs.cline.bot) |
 | **CodeRabbit CLI** (`coderabbit`) | CodeRabbit | AI code reviews for staged/unstaged changes | [coderabbit.ai/cli](https://www.coderabbit.ai/cli) |
+| **Pi** (`pi`) | Mario Zechner / earendil-works (MIT) | Minimal pi-mono harness — TS extensions, skills, prompt templates, themes; runs interactive / print / RPC / SDK modes; the agent inside OpenClaw | [pi.dev](https://pi.dev/) |
+| **OpenDev** (`opendev`) | opendev-to (MIT) | Rust-native CLI with ~4ms startup, Web UI for remote sessions, five-slot workflow ensemble (Normal / Thinking / Compact / Self-Critique / VLM) each bound to a different model | [github.com/opendev-to/opendev](https://github.com/opendev-to/opendev) |
+| **Claw Code** (`claw`) | Sigrid Jin (Apache 2.0) | Clean-room Rust + Python rewrite of the Claude Code harness after the March 2026 source leak; fastest repo in GitHub history to 100K stars | [claw-code.codes](https://claw-code.codes/) |
 
 ### How they differ
 
@@ -622,8 +625,9 @@ The short version: harness is the differentiator, not the model. Benchmark top-3
 
 - **Just want it to work, minimal setup** — Claude Code, Codex, Gemini CLI.
 - **Maximize benchmark-proven capability** — ForgeCode, Droid (both rank top-10 on Terminal Bench 2.0).
-- **Open source + multi-model + self-host** — OpenCode, Aider, Goose.
+- **Open source + multi-model + self-host** — OpenCode, Aider, Goose, Pi, OpenDev, Claw Code.
 - **In-CI code review** — CodeRabbit, Continue.
 - **Spec-driven, explicit plans** — Kiro, Plandex.
 - **Memory across sessions** — Letta Code.
+- **Tiny / hackable harness you read end-to-end** — Pi, mini-SWE-agent.
 - **Enterprise/cloud stack alignment** — Amazon Q (AWS), Kiro (AWS), Junie (JetBrains), Gemini CLI (GCP).
