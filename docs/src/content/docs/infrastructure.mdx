@@ -514,6 +514,90 @@ Runtime safeguards preventing agents from producing harmful or policy-violating 
 
 ---
 
+## MCP Servers, Registries & Gateways
+
+Once an agent harness picks up MCP support, the next decision is *where the MCP servers actually run* — local subprocess, hosted remote, or behind a gateway that fans out to dozens. The market split into four flavors during late 2025 / early 2026:
+
+1. **Registries** — discover and install community MCP servers (Smithery, Anthropic's official registry).
+2. **Hosted runtimes** — run remote MCP servers without operating them yourself (Smithery, Composio, mcp.run, MCP Host, Heroku).
+3. **Gateways** — single endpoint that aggregates many MCP servers (Composio, Bifrost, Arcade).
+4. **Toolshed-style internal MCPs** — your own MCP server fronting your own internal systems (Stripe's Toolshed model — see [Approaches: Stripe Minions](/approaches/#stripe-minions)).
+
+### Registries & Marketplaces
+
+| Project | License | What it lists | Notes |
+|---------|---------|--------------|-------|
+| **Official MCP Registry** ([registry.modelcontextprotocol.io](https://registry.modelcontextprotocol.io/)) | OSS | Canonical community registry | Backed by the official MCP working group |
+| **Smithery** ([smithery.ai](https://smithery.ai/)) | Listing OSS / runtime hosted | 7,000+ servers — installable locally via CLI or run on Smithery's infra as hosted remote servers | "Docker Hub for MCP"; manages runtime + OAuth modals for server authors |
+| **Anthropic Marketplace** ([claudemarketplaces.com](https://claudemarketplaces.com/)) | Community | Plugins, skills, MCP servers | 770+ MCP servers as of May 2026; surfaces alongside Claude Code's Discover tab |
+| **mcp.run** ([docs.mcp.run](https://docs.mcp.run/)) | OSS (Dylibso / Extism) | Wasm-based "servlets" | Each tool is a portable WebAssembly module; install dynamically into a single MCP server, run anywhere |
+
+### Hosted MCP Runtimes
+
+Run MCP servers without managing the process yourself.
+
+| Vendor | License | Runtime model | Notes |
+|--------|---------|--------------|-------|
+| **Composio MCP** ([composio.dev](https://composio.dev/)) | Hosted | Aggregator — single endpoint to a managed library of pre-built integrations | Strongest pre-built tool catalog (Slack, Gmail, Linear, GitHub, etc.); pairs with their agent-orchestrator OSS |
+| **Smithery** | Hosted runtime | Auto-managed remote MCP servers + OAuth | Same project as the registry — install + run in one click |
+| **MCP Host** ([mcp.host](https://mcp.host/)) | Hosted | Managed hosting platform for MCP servers | Build-and-deploy without operating infra |
+| **Heroku AI Apps** | Hosted | Heroku dynos for MCP servers | Enterprise-tier managed hosting for production MCP deployments |
+| **Cloudflare MCP** ([blog.cloudflare.com](https://blog.cloudflare.com/sandbox-auth/)) | Cloudflare cloud | Edge-deployed MCP with identity-aware auth | Works with Cloudflare Sandboxes for full agent + tools edge stack |
+| **Pipedream MCP** | Hosted | 2,500+ pre-integrated apps as MCP tools | Workflow-builder roots; broad SaaS coverage |
+
+### MCP Gateways
+
+Aggregate dozens of MCP servers behind one OpenAI-compatible (or MCP-compatible) endpoint.
+
+| Vendor | License | Notable for |
+|--------|---------|-------------|
+| **Composio Gateway** | Hosted | Single unified endpoint for hundreds of integrations |
+| **Bifrost** ([maximhq/bifrost](https://github.com/maximhq/bifrost)) | OSS (Apache 2.0) | Acts as both MCP client and server — unifies LLM gateway + MCP gateway in one Go binary |
+| **Arcade** ([arcade.dev](https://www.arcade.dev/)) | Hosted | DevOps-leaning — registry + gateway + runtime in one product |
+| **Obot** ([obot.ai](https://obot.ai/)) | OSS + cloud | Enterprise MCP gateway with role-based access and audit logging |
+
+### Choosing
+
+- **Single team building one agent** — Install local MCP servers from the official registry; no gateway needed.
+- **Many SaaS integrations needed quickly** — Composio MCP or Pipedream MCP for the catalog breadth.
+- **Multi-team / multi-tenant production** — A gateway (Composio Gateway, Bifrost, Arcade, Obot) so you can route, budget, and audit centrally.
+- **Need code-portable, sandboxed tools** — mcp.run's Wasm servlet model.
+- **Already on Cloudflare / edge-first** — Cloudflare MCP with identity-aware auth pairs naturally with their Sandboxes.
+
+---
+
+## Agent Identity, Auth & Secrets
+
+Once agents start hitting real APIs and SaaS systems, "what credentials does the agent run as?" becomes a hard problem. The 2026 stack splits roughly into three layers:
+
+1. **Identity** — proving *which agent* is making a request (scoped tokens, DIDs, workload identities).
+2. **Credential brokering** — agents never see raw secrets; they request short-lived tokens from a vault that stays out-of-band.
+3. **Governance & runtime security** — runtime policy enforcement, audit trails, and behavioral constraints on agent actions.
+
+### Tooling
+
+| Project | License | Layer | Notes |
+|---------|---------|-------|-------|
+| **Microsoft Agent Governance Toolkit** ([opensource.microsoft.com](https://opensource.microsoft.com/blog/2026/04/02/introducing-the-agent-governance-toolkit-open-source-runtime-security-for-ai-agents/)) | OSS (MIT) | Runtime governance | Cross-language (Python, TypeScript, Rust, Go, .NET); policy enforcement + audit + identity in one toolkit. Released April 2 2026 |
+| **ZeroID** ([helpnetsecurity.com](https://www.helpnetsecurity.com/2026/04/13/zeroid-open-source-identity-platform-autonomous-ai-agents/)) | OSS | Identity | Identity & credentialing for autonomous agents and multi-agent systems; explicitly *not* repurposed human IAM |
+| **Agent Vault** ([infisical.com](https://infisical.com/blog/agent-vault-the-open-source-credential-proxy-and-vault-for-agents)) | OSS | Credential brokering | Credential proxy: secrets stay in the vault, agent receives short-lived scoped tokens |
+| **Amazon Bedrock AgentCore Identity** ([aws.amazon.com](https://aws.amazon.com/blogs/machine-learning/secure-ai-agents-with-amazon-bedrock-agentcore-identity-on-amazon-ecs/)) | AWS managed | Identity + brokering | First-party AWS implementation; integrates with IAM, Secrets Manager, and Bedrock-hosted agents |
+| **Cloudflare Sandbox Auth** ([blog.cloudflare.com](https://blog.cloudflare.com/sandbox-auth/)) | Cloudflare cloud | Identity-aware sandbox | Per-sandbox identity, dynamic auth, scoped egress — paired with Cloudflare Sandboxes |
+| **Kagenti** ([kagenti.github.io](https://kagenti.github.io/.github/)) | OSS | Deploy / govern / secure | K8s-native agent governance — policies and identity for K8s-deployed agents |
+| **AgentField cryptographic identity** | Open Source (Apache 2.0) | Identity | W3C DIDs + verifiable credentials per agent — see [AgentField](/approaches/#agentfield) |
+
+### Reference architectures
+
+- **Credential brokering pattern** — The agent never sees raw API keys. It requests a scoped, short-lived token from a vault (Agent Vault, Bedrock AgentCore Identity, AWS STS-style flow) tied to its workload identity. The vault enforces what the agent is allowed to ask for.
+- **Multi-agent trust** — DIDs (decentralized identifiers, Ed25519) per agent, signed inter-agent messages, and trust scoring (e.g. AgentField's 0–1000 trust score with five behavioral tiers).
+- **Runtime governance** — A policy engine (Microsoft Agent Governance Toolkit, Kagenti) wraps the harness and audits / blocks specific actions. Pairs with [Guardrails](#guardrails--safety) for content policy.
+
+### Why this is its own category
+
+The repo's [Memory](#agent-memory--context-infrastructure) and [Guardrails](#guardrails--safety) sections cover *what an agent knows* and *what it's allowed to say*; identity / auth / secrets covers *what it's allowed to do, as whom, with what credentials*. The August 2026 EU AI Act high-risk-systems deadline is pulling enterprise interest into this category fast — expect this section to grow.
+
+---
+
 ## What Stripe Uses
 
 Stripe's devbox infrastructure is essentially a **custom agent sandbox platform** built on AWS EC2:

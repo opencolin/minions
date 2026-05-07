@@ -628,3 +628,64 @@ The short version: harness is the differentiator, not the model. Benchmark top-3
 - **Memory across sessions** — Letta Code.
 - **Tiny / hackable harness you read end-to-end** — Pi, mini-SWE-agent.
 - **Enterprise/cloud stack alignment** — Amazon Q (AWS), Kiro (AWS), Junie (JetBrains), Gemini CLI (GCP).
+
+---
+
+## Skills, Plugins & Marketplaces
+
+The agent ecosystem has converged on a shared distribution model in 2026: **plugins** (the package format) bundle one or more **skills** (self-contained instructions, often a `SKILL.md` with a YAML frontmatter description that the agent reads on demand) plus optional MCP server configs and hooks. The same SKILL.md format works across Claude Code, Codex, Cursor, OpenCode, and ~50 other agents — so a skill written once usually runs everywhere.
+
+Where Cursor pioneered the "rules" pattern (always-on `.cursorrules` files) and Continue treats prompts as source-controlled CI artifacts, the Anthropic-native plugin/skill model is the one most third-party catalogs are now publishing against.
+
+### Tooling
+
+| Project | License | What it is | Notes |
+|---------|---------|------------|-------|
+| **Claude Code Plugins** ([anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official)) | MIT | Anthropic's official plugin distribution system + verified marketplace | Public beta Oct 2025, stable 2026; sources: GitHub, npm, GitLab, local paths; permission controls + version pinning |
+| **Vercel Skills** ([vercel-labs/skills](https://github.com/vercel-labs/skills)) | MIT | `npx skills add <repo>` CLI that installs SKILL.md skills into 51+ agents | Compatible with Claude Code, Codex, Cursor, Windsurf, Cline, Goose, Gemini CLI, Roo Code, Amp, Kiro and more |
+| **Cursor Rules** (`.cursorrules`) | Cursor (proprietary) | Plain-text rules loaded into context for every interaction | No discovery / on-demand loading — applies globally to the project |
+| **Continue rules** ([continue.dev](https://continue.dev)) | Apache 2.0 | Source-controlled rules + prompts as CI artifacts | CI-enforceable; rules ship with the repo |
+| **Anthropic Skill Marketplace** ([claudemarketplaces.com](https://claudemarketplaces.com/)) | Community | Discovery directory across plugins, skills, MCP servers | 4.2K+ skills, 770+ MCP servers, 2.5K+ marketplaces as of May 2026 |
+| **tonsofskills.com / `ccpi` CLI** ([jeremylongshore/claude-code-plugins-plus-skills](https://github.com/jeremylongshore/claude-code-plugins-plus-skills)) | OSS | 425 plugins, 2,810 skills, 200 agents — community-curated package manager | Largest community catalog |
+| **Vercel React Best Practices skill** ([github.com/vercel-labs/react-best-practices](https://github.com/vercel-labs/skills)) | MIT | 40+ React/Next.js performance rules packaged as a skill | First-party "reference" skill from a model-adjacent vendor |
+
+### How the formats compare
+
+- **Cursor Rules** — Always-loaded plain text. Simple but no task-specific gating, so the rules file becomes a bottleneck once it grows.
+- **SKILL.md (Claude Code, Codex, OpenCode, etc.)** — Description-matched, loaded on demand. Agent reads only metadata at start; full body loads when relevant. Same YAML-frontmatter format across ecosystems.
+- **Continue rules** — Stored in source, evaluated like CI; designed for teams who want rules to ship and gate alongside code.
+
+### When to choose which
+
+- **Building one-off rules for your team** — Start with `.cursorrules` or a single SKILL.md committed to the repo. Cheapest path.
+- **Distributing reusable expertise** — Plugin format (Anthropic plugin marketplace), so other teams can install with one command.
+- **Cross-agent compatibility** — Use SKILL.md + `npx skills` (Vercel Skills) to install into the broadest set of agents from one source.
+- **Enforce rules in CI** — Continue's source-controlled rules.
+
+---
+
+## Browser-Use & Computer-Use Frameworks
+
+Browser and computer-use agents are a distinct category from coding agents — the LLM isn't writing patches, it's clicking buttons, filling forms, and running multi-step web workflows. The 2026 landscape converged on a few open-source frameworks that compete with paid hosted services like OpenAI Operator (~$200/mo Pro) and Anthropic's Claude Computer Use (research preview through Cowork).
+
+For agentic engineering teams, these matter as **tools an agent calls** — for QA, deploy verification, scraping, third-party SaaS automation — rather than as the agent itself.
+
+| Framework | License | Approach | Notable for |
+|-----------|---------|---------|-------------|
+| **Browser Use** ([browser-use/browser-use](https://github.com/browser-use/browser-use)) | MIT | DOM + accessibility tree, any LLM | 91K+ stars (one of the fastest-growing OSS AI projects), 89.1% on WebVoyager; YC-backed, hosted version $30/mo |
+| **Stagehand** ([browserbase/stagehand](https://github.com/browserbase/stagehand)) | MIT | Natural-language wrapper on Playwright | TypeScript + Python; built and maintained by Browserbase as the SDK for browser agents |
+| **Skyvern** ([Skyvern-AI/skyvern](https://github.com/Skyvern-AI/skyvern)) | AGPL-3.0 | LLM + computer-vision Playwright SDK | No-code workflow builder + SDK (Launch Week Jan 2026); embedded local + remote cloud modes |
+| **Magnitude** ([magnitudedev/browser-agent](https://github.com/magnitudedev/browser-agent)) | OSS | Vision-first; uses screenshots, not DOM | 94% on WebVoyager (state-of-the-art); built-in test runner with visual assertions; recommends Claude Sonnet or Qwen-2.5VL 72B |
+| **Open-CUAK** | OSS | "Kubernetes for Computer Use Agents" | Hire / teach / manage automation agents; explicitly framed as the OpenAI Operator alternative |
+| **Open Computer Agent** (Hugging Face) | OSS | Hosted computer-use stack | Free Operator-class agent; runs against shared Hugging Face Spaces infra |
+| **Anthropic Computer Use** ([docs.claude.com](https://docs.claude.com/en/docs/agents-and-tools/computer-use)) | Anthropic API | First-party vision + action tool surface | Generally available via API; the foundation under Claude Cowork (GA April 9, 2026); Sonnet/Opus drive scoring on real GUIs |
+| **Claude Cowork** ([claude.com/cowork](https://www.claude.com/product/cowork)) | Anthropic (paid) | Desktop computer-use agent for end users | GA April 9 2026 on macOS / Windows; manages files, drafts docs, runs multi-step workflows. Distinct from coding-agent products like Claude Code |
+| **OpenAI Operator** ([operator.chatgpt.com](https://operator.chatgpt.com)) | Closed (Pro) | First-party hosted computer-use agent | $200/mo ChatGPT Pro; the benchmark the OSS frameworks measure against |
+
+### How to think about adoption
+
+- **Add browsing as a tool to a coding agent** → Stagehand (cleanest Playwright DX) or Browser Use (largest community, broad model support).
+- **Vision-first apps where DOM scraping fails** (canvas, custom UIs, Flash-equivalents) → Magnitude.
+- **Self-host a full Operator alternative for end users** → Open-CUAK or Open Computer Agent.
+- **Already on Claude** → Anthropic Computer Use directly via the API; Claude Cowork if you want the productized desktop UX.
+- **Visual testing / regression** → Magnitude (visual assertions), Skyvern (workflow builder), or Stagehand on top of Playwright's existing assertions.
