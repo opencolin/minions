@@ -94,7 +94,7 @@ Agent works across multiple sessions in the same environment — files, installe
 
 - **Best for:** Long-running agent assistants, stateful coding sessions, per-user agent workspaces
 - **Required:** Persistent storage, wake-from-sleep, low idle cost
-- **Example vendors:** Sprites.dev (indefinite + hibernate), AgentComputer (25 GB persistent), CDEs (Gitpod, Codespaces, Coder)
+- **Example vendors:** Sprites.dev (indefinite + hibernate), Blaxel (perpetual standby + ~25ms resume), AgentComputer (25 GB persistent), CDEs (Gitpod, Codespaces, Coder)
 
 ### 5. Multi-Tenant Agent Fleets
 
@@ -160,7 +160,7 @@ Sandboxes vary dramatically in how strongly they isolate. Choosing the right tie
 | **Process Isolation** | chroot, namespaces, Firejail | Same OS, separated process | Kernel syscalls, /proc, shared FS | Dev-only, trusted code, CI with known inputs |
 | **Container Isolation** | Docker, Podman | Shared OS kernel | Kernel exploits, container escape | Internal agent use, non-sensitive data |
 | **User-Space Kernel** | gVisor | Intercepted syscalls | Smaller syscall surface | Good middle ground for mixed-trust code |
-| **Firecracker microVM** | E2B, Sprites.dev, Contree | Dedicated kernel per sandbox | Hypervisor exploits only | Untrusted LLM-generated code, standard |
+| **Firecracker microVM** | E2B, Sprites.dev, Contree, Blaxel, SmolVM | Dedicated kernel per sandbox | Hypervisor exploits only | Untrusted LLM-generated code, standard |
 | **Dedicated VM** | Coral, AWS EC2, AgentComputer | Full hardware isolation | Physical attacks, hypervisor | Production credentials, regulated data |
 | **Bare Metal** | Hetzner dedicated, EC2 Mac (Nitro) | Physical server | Physical access | Extreme compliance, HSM-adjacent workloads |
 
@@ -179,6 +179,7 @@ The core vendor landscape — sandboxes designed specifically for running AI-gen
 | **Contree** | microVM (Nebius) | Git-like branching + snapshots | Sub-sec | Yes | Usage | Git-style fork/rollback, MCP server + Python SDK, Nebius-backed |
 | **E2B** | Firecracker microVM | Ephemeral / pause (beta) | ~150ms | No | $100 credit | Dedicated kernel, SDK-first, SOC 2, 200M+ sandboxes |
 | **Sprites.dev** | Firecracker microVM | Indefinite + hibernate | Instant | No | Per-sec | Hibernate ~300ms, zero idle cost |
+| **Blaxel** | Firecracker microVM | Standby snapshots + hibernate | ~25ms resume | No | Per-second usage | Perpetual sandboxes scale-to-zero in 1s, agents co-located with sandboxes, SOC 2 / HIPAA / ISO 27001, YC X25 ($7.3M seed, July 2025) |
 | **Daytona** | Docker containers | Stateful, unlimited | ~90ms | Yes | $200 credit | GPU support, fastest creation, Computer Use desktops |
 | **Modal** | gVisor sandbox | Snapshots | Sub-sec | Yes | $30/mo | 50K+ concurrency, full GPU (A100/H100), SOC 2 |
 | **Runloop** | Custom hypervisor | Snapshots | Sub-sec | No | Contact | SOC 2, 10K+ parallel, SWE-bench focus, VPC deploy |
@@ -188,6 +189,8 @@ The core vendor landscape — sandboxes designed specifically for running AI-gen
 | **Zeroboot** | Firecracker CoW | Snapshots | Sub-ms (0.79ms) | No | Free (OSS) | 480x memory density, prototype |
 | **AIO Sandbox** | Docker | Stateful | Sub-sec | No | Free (OSS) | Browser+Shell+IDE+MCP, ByteDance-backed |
 | **OpenSandbox** | Docker / K8s | Stateful | Sub-sec | No | Free (OSS) | Protocol-driven K8s runtime, Alibaba-backed |
+| **SmolVM** | Firecracker (Linux) / Hypervisor.framework (macOS) | Pause / resume | Sub-200ms | No | Free (OSS, Apache 2.0) | Single-executable microVM with Mac/Linux dev parity, file mounts, pre-installed Claude Code/Codex/Pi options, by Celesto AI (April 2026) |
+| **Kubernetes agent-sandbox** | gVisor / Kata via pods | PVCs + warm pools | Pod cold-start | Per-node | Free (OSS, Apache 2.0) | K8s SIG Apps CRD (Sandbox / SandboxTemplate / SandboxClaim), launched at KubeCon NA 2025, declarative agent runtime on existing clusters |
 | **Quilt** | Linux namespaces | Stateful | Sub-sec | No | Free (OSS) | Inter-container networking, Rust |
 | **CodeSandbox SDK** | microVMs | Forking/snapshots | Sub-sec | No | Usage | SOC 2, owned by Together AI |
 | **Vercel Sandbox** | Firecracker microVM | Snapshot resume + hibernate | Sub-sec | No | Usage | Part of Vercel Agents stack, powers Open Agents template, dev-server port exposure (3000/5173/4321/8000) |
@@ -452,13 +455,14 @@ Use this to pick a sandbox for your agent workflow.
 |----------|--------|-------|
 | Need Git-style branching for tree-of-thought? | **Contree** | E2B / Sprites.dev / Modal |
 | Need GPU for code execution? | Modal, Daytona, Northflank | E2B / Sprites.dev / Contree |
-| Need persistent state across sessions? | Sprites.dev, AgentComputer, CDEs | E2B (ephemeral) |
+| Need persistent state across sessions? | Sprites.dev, Blaxel, AgentComputer, CDEs | E2B (ephemeral) |
 | Need enterprise VPC deployment? | Northflank, Runloop | Managed sandboxes |
 | Handling untrusted/prompt-injected code? | microVM minimum (E2B, Contree, Sprites.dev) | Shared-kernel OK |
 | Need sub-100ms cold start? | Zeroboot (~0.8ms), Daytona (~90ms) | Others |
 | Running 10K+ parallel agents? | Runloop, Modal (50K+) | Purpose-built sandboxes |
 | Want MCP-native integration? | **Contree**, AIO Sandbox | Others via custom wiring |
-| Building your own sandbox? | Firecracker / libkrun / gVisor | Managed vendor |
+| Building your own sandbox? | Firecracker / libkrun / gVisor / SmolVM | Managed vendor |
+| Already running on Kubernetes? | Kubernetes agent-sandbox CRD, OpenSandbox | Managed sandbox vendor |
 | Need persistent dev environment (Minions-style)? | CDEs: Gitpod, Codespaces, Coder | Ephemeral sandboxes |
 | Mac-specific workflows? | [Cloud Mac](/infrastructure#cloud-mac-hosting) | Linux sandboxes |
 | Want the fastest time-to-market? | [Claude Managed Agents](/approaches#claude-managed-agents) (Layer D) | Layer B sandbox + custom harness |

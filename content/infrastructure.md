@@ -46,12 +46,13 @@ Isolated environments where agents execute generated code safely. This is the si
 | **Contree** | microVM (Nebius) | Git-like branching | Sub-sec | Yes | Git-style fork/rollback, MCP + Python SDK |
 | **E2B** | Firecracker microVM | Ephemeral / pause | ~150ms | No | Dedicated kernel, SDK-first, SOC 2 |
 | **Sprites.dev** | Firecracker microVM | Hibernate | Instant | No | ~300ms hibernate, zero idle cost |
+| **Blaxel** | Firecracker microVM | Standby + hibernate | ~25ms resume | No | Perpetual sandboxes, scale-to-zero in 1s, SOC 2 / HIPAA / ISO 27001 |
 | **Daytona** | Docker containers | Stateful | ~90ms | Yes | GPU support, fastest creation |
 | **Modal** | gVisor sandbox | Snapshots | Sub-sec | Yes | 50K+ concurrency, full GPU |
 | **Runloop** | Custom hypervisor | Snapshots | Sub-sec | No | 10K+ parallel, SWE-bench focus |
 | **Northflank** | microVM / gVisor | Stateful | Sub-sec | Yes (H100s) | Enterprise VPC, multi-cloud |
 | **AgentComputer** | Ubuntu VMs | 25 GB persistent | Sub-sec | No | Built for Claude/Codex agents |
-| **+ 6 OSS sandboxes** | Various | Various | Various | Limited | [See full table](sandboxes.md#purpose-built-agent-sandboxes) |
+| **+ 8 OSS sandboxes** | Various | Various | Various | Limited | [See full table](sandboxes.md#purpose-built-agent-sandboxes) — includes SmolVM (Apache 2.0 microVM, Mac+Linux) and the Kubernetes agent-sandbox CRD (SIG Apps) |
 
 ---
 
@@ -111,6 +112,7 @@ Agents specifically focused on software engineering tasks, from PRs to migration
 | **Cursor Background Agents** | $20+/mo Pro | Tight IDE coupling with parallel background task execution |
 | **Replit Agent** | $25/mo Core+ | Full app scaffolding + hosting in one workflow |
 | **Fine.dev** | Paid | Focus on autonomous PRs and code tasks |
+| **Orchestrator.build** | BYO Claude API + hosted (early-access) | Spawns many parallel Claude Code agents, each in its own isolated worktree, opens PRs autonomously. Evolved from sirhamy's open-source Phase Golem pipeline runner; useful when you want a Claude-Code-native fleet without building the harness yourself |
 | **Adept** | Enterprise | Models trained specifically for UI actions |
 
 ### Visual Agent IDEs
