@@ -4,6 +4,13 @@ Where agents actually run — the compute infrastructure for sandboxed, scalable
 
 For LLM inference solutions, see [Inference](inference.md).
 
+## Index
+
+- **Where to run** — [Hosting & Execution Platforms](#agent-hosting--execution-platforms) · [Code Execution Sandboxes](#code-execution-sandboxes) · [Turnkey Managed Platforms](#turnkey-managed-platforms) · [Agent-Optimized Hosting](#agent-optimized-hosting)
+- **Scale & topology** — [Agent Orchestration](#agent-orchestration) · [Cloud Mac Hosting](#cloud-mac-hosting) · [Self-Hosted Infrastructure](#self-hosted-infrastructure)
+- **State & control** — [Memory & Context](#agent-memory--context-infrastructure) · [Observability & Evaluation](#agent-observability--evaluation) · [MCP Servers, Registries & Gateways](#mcp-servers-registries--gateways) · [Identity, Auth & Secrets](#agent-identity-auth--secrets)
+- **Decision** — [What Stripe Uses](#what-stripe-uses) · [Sandbox vs. Serverless](#sandbox-vs-serverless-fit-for-purpose) · [Key Trends](#key-trends) · [Choosing Your Stack](#choosing-your-stack) · [Decision Framework](#decision-framework)
+
 ---
 
 ## Agent Hosting & Execution Platforms

@@ -454,6 +454,61 @@ The agent's front-end story.
 
 A deep dive into the major systems and frameworks driving autonomous software engineering — from enterprise-internal platforms to open-source tools.
 
+## Index
+
+### Commercial / proprietary
+
+- [Stripe Minions](#stripe-minions) — 1,300+ PRs/week, blueprints, devboxes, Toolshed MCP
+- [Claude Managed Agents](#claude-managed-agents) — Anthropic's vertically integrated harness, $0.08/agent-hour
+- [OpenAI Symphony](#openai-symphony) — 15K+ stars, 6-layer orchestration, work management over agent supervision
+- [Vercel Open Agents](#vercel-open-agents) — MIT reference template, durable workflows + Vercel Sandbox + GitHub App
+
+### Open-source agents
+
+- [OpenHands](#openhands) — 71K stars, most mature open-source autonomous engineer
+- [OpenCode](#opencode) — 142K stars, provider-agnostic with GitHub agent mode
+- [OhMyOpenAgent](#ohmyopenagent) — 50.6K stars, named specialist agents, hash-anchored edits
+- [Goose](#goose) — MCP-native, the ancestor Stripe forked for Minions
+- [Open SWE (LangChain)](#open-swe-langchain) — multi-agent async coding agent
+- [SWE-agent](#swe-agent) — Princeton/Stanford, pioneered issue-to-PR paradigm
+- [AgentField](#agentfield) — open-source control plane with three nested failure loops
+- [Composio Agent Orchestrator](#composio-agent-orchestrator) — best multi-agent parallelization
+- [Patchwork](#patchwork) — patchflows, closest open-source analog to Stripe's blueprints
+- [OpenClaw](#openclaw) — 355K stars, self-hosted assistant with messaging integration
+- [DeerFlow](#deerflow) — ByteDance's long-horizon SuperAgent harness, LangGraph-based
+- [Hermes Agent](#hermes-agent) — Nous Research's self-improving personal agent
+
+### Frameworks & SDKs
+
+- [Mastra](#mastra) — TypeScript framework for building custom agent systems
+- [Rivet Sandbox Agent](#rivet-sandbox-agent) — universal API for running agents in sandboxes
+
+### Harness & skill packs
+
+- [GStack](#gstack) — Garry Tan's 23-skill Claude Code setup, CEO / Designer / Eng Manager / QA personas
+- [GBrain](#gbrain) — Garry Tan's persistent-memory companion to GStack
+- [Superpowers](#superpowers) — Jesse Vincent's skills framework + design-then-implement methodology
+- [Everything Claude Code](#everything-claude-code) — Affaan M.'s security-auditing harness pack
+- [AgentHub](#agenthub) — Electron harness-engineering control plane on top of Claude Code CLI
+
+### The Steinberger ecosystem
+
+- [Crabbox](#crabbox) — ephemeral test-box control plane with diff sync
+- [Clawpatch](#clawpatch) — automated code review via semantic feature slicing
+- [ClawSweeper](#clawsweeper) — conservative issue/PR triage bot
+
+### Cross-cutting
+
+- [Terminal coding CLIs](#terminal-coding-clis) — the 28-CLI comparison table
+- [Skills, Plugins & Marketplaces](#skills-plugins--marketplaces) — Cursor Rules · SKILL.md · Continue · plugins
+- [Browser-Use & Computer-Use Frameworks](#browser-use--computer-use-frameworks) — Browser Use, Stagehand, Magnitude, Skyvern, Operator
+
+### Side-by-side comparisons
+
+- [Feature Matrix](#feature-matrix) — every system across 8 dimensions
+- [Capability Breakdown](#capability-breakdown) — best-for-X rankings
+- [Composability](#composability) — how to assemble an equivalent stack
+
 ---
 
 ## Stripe Minions
@@ -3504,6 +3559,13 @@ Sandboxes are the single most important piece of infrastructure for autonomous c
 
 Everything else — inference, orchestration, memory, observability — depends on the sandbox layer being correct, fast, and safe.
 
+## Index
+
+- **Foundations** — [Why Sandboxes Matter](#why-sandboxes-matter-for-agents) · [Market Structure](#the-sandbox-market-structure) · [Core Use Cases](#core-use-cases) · [Isolation Tiers](#isolation-tiers--the-security-ladder)
+- **Vendors** — [Purpose-Built Agent Sandboxes](#purpose-built-agent-sandboxes) · [Contree deep dive](#contree--the-git-native-sandbox) · [Cloud Development Environments](#cloud-development-environments-cdes) · [Open-Source Primitives](#open-source-isolation-primitives)
+- **Patterns** — [Agent Patterns Enabled by Modern Sandboxes](#agent-patterns-enabled-by-modern-sandboxes) · [Decision Framework](#decision-framework) · [Integration Examples](#integration-examples)
+- **Reading** — [Further Reading](#further-reading)
+
 ---
 
 ## Why Sandboxes Matter for Agents
@@ -4040,6 +4102,13 @@ This pattern is impractical without fast branching (Contree) or snapshots (Modal
 Where agents actually run — the compute infrastructure for sandboxed, scalable agent execution. This page covers 50+ vendors across 6 tiers, sourced from ClawCamp Research market guides (April 2026).
 
 For LLM inference solutions, see [Inference](inference.md).
+
+## Index
+
+- **Where to run** — [Hosting & Execution Platforms](#agent-hosting--execution-platforms) · [Code Execution Sandboxes](#code-execution-sandboxes) · [Turnkey Managed Platforms](#turnkey-managed-platforms) · [Agent-Optimized Hosting](#agent-optimized-hosting)
+- **Scale & topology** — [Agent Orchestration](#agent-orchestration) · [Cloud Mac Hosting](#cloud-mac-hosting) · [Self-Hosted Infrastructure](#self-hosted-infrastructure)
+- **State & control** — [Memory & Context](#agent-memory--context-infrastructure) · [Observability & Evaluation](#agent-observability--evaluation) · [MCP Servers, Registries & Gateways](#mcp-servers-registries--gateways) · [Identity, Auth & Secrets](#agent-identity-auth--secrets)
+- **Decision** — [What Stripe Uses](#what-stripe-uses) · [Sandbox vs. Serverless](#sandbox-vs-serverless-fit-for-purpose) · [Key Trends](#key-trends) · [Choosing Your Stack](#choosing-your-stack) · [Decision Framework](#decision-framework)
 
 ---
 
