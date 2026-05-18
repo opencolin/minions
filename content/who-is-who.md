@@ -36,7 +36,7 @@ Career: BSc Toronto under Hinton, PhD Stanford under Fei-Fei Li (designed CS231n
 
 > 🧠 Researcher / educator · Co-founder, [Thinking Machines Lab](https://thinkingmachines.ai/) · [@lilianweng](https://twitter.com/lilianweng) · [lilianweng.github.io](https://lilianweng.github.io/)
 
-The author of *[LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)* (June 2023) — the foundational blog post that defined the planning / memory / tool-use decomposition every subsequent agent framework rests on. Weng spent six years at OpenAI on safety, red-teaming, and post-training (Instruction Hierarchy, automated red teaming, RLHF), then co-founded Thinking Machines Lab with Mira Murati in 2025. Her 2025 writing on test-time compute ("Why We Think") is the cleanest single primer for how to reason about reasoning models. If the schools framing this repo uses has a *taxonomic ancestor*, it's Weng's planning/memory/tool-use breakdown.
+The author of *[LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)* (June 2023) — the foundational blog post that defined the planning / memory / tool-use decomposition every subsequent agent framework rests on. Weng spent six years at OpenAI on safety, red-teaming, and post-training (Instruction Hierarchy, automated red teaming, RLHF), then co-founded Thinking Machines Lab with Mira Murati in 2025. Her 2025 writing on test-time compute ("Why We Think") is the cleanest single primer for how to reason about reasoning models. If the schools framing this reference uses has a *taxonomic ancestor*, it's Weng's planning/memory/tool-use breakdown.
 
 **Key works to know:**
 
@@ -87,7 +87,7 @@ Career: founder of Posterous (acq. Twitter), then Initialized Capital (early Coi
 
 > 🔨 Operator · Creator / Lead of [Claude Code](approaches.md#terminal-coding-clis) · Anthropic · [@bcherny](https://twitter.com/bcherny) · [GitHub](https://github.com/bcherny)
 
-The engineer behind Claude Code — the coding agent that the entire Claude Code ecosystem covered in this repo (GStack, GBrain, Superpowers, AgentHub, Crabbox, Clawpatch, ClawSweeper, OpenClaw…) is built on top of. Cherny's bet — articulated in his AI Ascent 2026 talk and the Pragmatic Engineer interview — was that **agentic coding works better with `glob`/`grep` over a real filesystem than with RAG / vector DBs over a parsed codebase**. That single architectural choice is why most of the harnesses in this repo are *file-first* rather than *embedding-first*, and why "agent + bash" became the dominant pattern. Before Anthropic he authored *Programming TypeScript* (O'Reilly, 2020) and led developer tooling at Brigade and Khan Academy.
+The engineer behind Claude Code — the coding agent that the entire Claude Code ecosystem covered in this reference (GStack, GBrain, Superpowers, AgentHub, Crabbox, Clawpatch, ClawSweeper, OpenClaw…) is built on top of. Cherny's bet — articulated in his AI Ascent 2026 talk and the Pragmatic Engineer interview — was that **agentic coding works better with `glob`/`grep` over a real filesystem than with RAG / vector DBs over a parsed codebase**. That single architectural choice is why most of the harnesses we profile are *file-first* rather than *embedding-first*, and why "agent + bash" became the dominant pattern. Before Anthropic he authored *Programming TypeScript* (O'Reilly, 2020) and led developer tooling at Brigade and Khan Academy.
 
 **Key works to know:**
 
@@ -96,7 +96,7 @@ The engineer behind Claude Code — the coding agent that the entire Claude Code
 - [AI Ascent 2026 talk](https://www.youtube.com/watch?v=SlGRN8jh2RI) — the "glob is all you need" thesis
 - *Programming TypeScript* (O'Reilly, 2020)
 
-**Start here:** The Pragmatic Engineer interview — the cleanest first-person account of the design decisions that shape the entire coding-agent ecosystem the rest of this repo covers.
+**Start here:** The Pragmatic Engineer interview — the cleanest first-person account of the design decisions that shape the entire coding-agent ecosystem the rest of this reference covers.
 
 ---
 
@@ -258,7 +258,7 @@ His core thesis — that test-time search / planning matters as much as model sc
 
 The RAG paper's first author. Kiela led the team behind *[Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401)* (NeurIPS 2020) — the paper that named and operationalized retrieval-augmented generation. Since then he's been the bridge between retrieval research and enterprise production: Contextual AI ships the RAG + context-engineering platform that grounds agents over private high-stakes knowledge.
 
-Why he matters for this repo: every agent in [Approaches](approaches.md) that touches enterprise documents — Sierra, LlamaIndex, GBrain, Clawpatch — sits on top of variants of the RAG architecture Kiela helped define. He's also Dynabench's co-creator, which set the template for the "evals-as-product" startup pattern that's now everywhere in our [Eval](infrastructure.md#evaluation--testing) section.
+Why he matters here: every agent in [Approaches](approaches.md) that touches enterprise documents — Sierra, LlamaIndex, GBrain, Clawpatch — sits on top of variants of the RAG architecture Kiela helped define. He's also Dynabench's co-creator, which set the template for the "evals-as-product" startup pattern that's now everywhere in our [Eval](infrastructure.md#evaluation--testing) section.
 
 **Key works to know:**
 
@@ -430,4 +430,4 @@ If the list looks overwhelming, here's a one-week onboarding path:
 | 6 | Tan: install GStack into your `~/.claude/` and read the SKILL.md files | Hands-on reference harness |
 | 7 | Latent Space podcast: OpenAI Symphony episode + one other Vincent or Liu or Teknium episode you choose | How the operators talk about their work |
 
-That's enough background to read [Harness Engineering](harness-engineering.md) and the rest of this repo with full context.
+That's enough background to read [Harness Engineering](harness-engineering.md) and the rest of this reference with full context.

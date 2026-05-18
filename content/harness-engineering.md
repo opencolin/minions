@@ -2,7 +2,7 @@
 
 Most teams think a "harness" is a prompt file. It isn't. A harness is **everything in the engineering infrastructure outside the model weights** — the instructions, tools, environment, state, and feedback machinery that determines how much of a model's capability actually shows up at runtime. Same model, different harness, fundamentally different output.
 
-This page is the deep dive on that discipline. It synthesizes the primary sources — [OpenAI's *Harness Engineering*](https://openai.com/index/harness-engineering/), [Anthropic's *Effective Harnesses for Long-Running Agents*](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) and [*Harness Design for Long-Running Application Development*](https://www.anthropic.com/engineering/harness-design-long-running-apps), and the [Walking Labs *Learn Harness Engineering* course](https://walkinglabs.github.io/learn-harness-engineering/en/) — and maps them onto the broader landscape covered elsewhere in this repo.
+This page is the deep dive on that discipline. It synthesizes the primary sources — [OpenAI's *Harness Engineering*](https://openai.com/index/harness-engineering/), [Anthropic's *Effective Harnesses for Long-Running Agents*](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) and [*Harness Design for Long-Running Application Development*](https://www.anthropic.com/engineering/harness-design-long-running-apps), and the [Walking Labs *Learn Harness Engineering* course](https://walkinglabs.github.io/learn-harness-engineering/en/) — and maps them onto the broader landscape covered elsewhere in this reference.
 
 For a shorter, pattern-oriented treatment, see [Patterns § Harness Engineering](patterns.md#harness-engineering). For tools that implement these principles, see [Sandboxes](sandboxes.md), [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces), and [Agent Observability & Evaluation](infrastructure.md#agent-observability--evaluation).
 
@@ -344,7 +344,7 @@ Foundational research:
 - [On Calibration of Modern Neural Networks](https://arxiv.org/abs/1706.04599) (Guo et al., 2017)
 - [Programs, Life Cycles, and Laws of Software Evolution](https://ieeexplore.ieee.org/document/1702314) (Lehman)
 
-Adjacent reading in this repo:
+Adjacent reading:
 
 - [Patterns § Harness Engineering](patterns.md#harness-engineering) — the cross-cutting pattern view
 - [Approaches](approaches.md) — concrete agent systems and how each handles these problems

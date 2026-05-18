@@ -5,7 +5,7 @@ There's no single way to build agents. By 2026 a handful of distinct *schools* h
 Two layers:
 
 - **Philosophical schools** — three orthogonal answers to the trust question (cryptography / observability / process), each associated with a major public voice
-- **Operational schools** — the working stacks you can actually inherit, four of which we've already named elsewhere in this repo
+- **Operational schools** — the working stacks you can actually inherit, four of which we've already named elsewhere in this reference
 
 Most teams end up *practicing* an operational school while *aligning* with a philosophical one — and the interesting question is which of the two combinations are coherent and which are not.
 

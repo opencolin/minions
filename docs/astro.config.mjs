@@ -27,7 +27,10 @@ export default defineConfig({
       sidebar: [
         {
           label: 'Get Started',
-          items: [{ label: 'Overview', slug: 'index' }],
+          items: [
+            { label: 'Overview', slug: 'index' },
+            { label: 'Table of Contents', slug: 'table-of-contents' },
+          ],
         },
         {
           label: 'Landscape',

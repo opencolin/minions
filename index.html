@@ -30,6 +30,7 @@
           <div class="sidebar-group">
             <div class="sidebar-group-title">Get Started</div>
             <a href="#" class="sidebar-link" data-page="index">Overview</a>
+            <a href="#" class="sidebar-link" data-page="table-of-contents">Table of Contents</a>
           </div>
           <div class="sidebar-group">
             <div class="sidebar-group-title">Landscape</div>
@@ -224,6 +225,209 @@ Where agents actually run — 150+ vendors across 9 major categories:
 - [Agent Memory & Context](infrastructure.md#agent-memory--context-infrastructure) — Purpose-built memory (Mem0, Letta, Zep) + 18 vector DBs + graph DBs for GraphRAG
 - [Agent Observability & Evaluation](infrastructure.md#agent-observability--evaluation) — Tracing (LangSmith, Langfuse, Arize, AgentOps, + 11 more) + eval (Braintrust, Patronus, Ragas, DeepEval) + guardrails
 - [Choosing Your Stack](infrastructure.md#choosing-your-stack) — Starter, growth, scale, and enterprise recommendations
+  </script>
+  <script type="text/markdown" data-page="table-of-contents">
+# Table of Contents
+
+A full sitemap of this reference. Use this page when you know roughly what you want but don't remember which chapter it lives in.
+
+For a chapter-level summary, see the [Overview](index.md). For a one-week onboarding path, see [Who's Who § Reading order](who-is-who.md#reading-order-if-youre-new).
+
+---
+
+## 1. [Approaches](approaches.md)
+
+Per-system deep dives across 25+ agentic engineering products.
+
+### Agent systems
+
+- [Stripe Minions](approaches.md#stripe-minions)
+- [AgentField](approaches.md#agentfield)
+- [OpenHands](approaches.md#openhands)
+- [Open SWE](approaches.md#open-swe-langchain)
+- [OhMyOpenAgent](approaches.md#ohmyopenagent)
+- [OpenCode](approaches.md#opencode)
+- [SWE-agent](approaches.md#swe-agent)
+- [Composio Agent Orchestrator](approaches.md#composio-agent-orchestrator)
+- [Patchwork](approaches.md#patchwork)
+- [Goose](approaches.md#goose)
+- [Mastra](approaches.md#mastra)
+- [OpenClaw](approaches.md#openclaw) + [The OpenClaw Ecosystem](approaches.md#the-openclaw-ecosystem) + [The Steinberger School](approaches.md#the-steinberger-school)
+- [Hermes Agent](approaches.md#hermes-agent) — deep dive
+- [Claude Managed Agents](approaches.md#claude-managed-agents)
+- [Vercel Open Agents](approaches.md#vercel-open-agents)
+- [OpenAI Symphony](approaches.md#openai-symphony)
+- [Rivet Sandbox Agent](approaches.md#rivet-sandbox-agent)
+- [DeerFlow](approaches.md#deerflow)
+- [GStack](approaches.md#gstack)
+- [GBrain](approaches.md#gbrain)
+- [Superpowers](approaches.md#superpowers)
+- [Everything Claude Code](approaches.md#everything-claude-code)
+- [AgentHub](approaches.md#agenthub)
+- [Crabbox](approaches.md#crabbox)
+- [Clawpatch](approaches.md#clawpatch)
+- [ClawSweeper](approaches.md#clawsweeper)
+
+### Cross-cutting sections inside Approaches
+
+- [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces)
+- [Browser-Use & Computer-Use Frameworks](approaches.md#browser-use--computer-use-frameworks)
+- [Terminal coding CLIs](approaches.md#terminal-coding-clis) — the 28-CLI comparison table
+
+---
+
+## 2. [Patterns](patterns.md)
+
+Cross-cutting architectural patterns.
+
+- [Harness Engineering](patterns.md#harness-engineering) — the umbrella discipline (see also the [Harness Engineering deep dive](harness-engineering.md))
+- [1. Isolation Strategies](patterns.md#1-isolation-strategies)
+- [2. Orchestration Models](patterns.md#2-orchestration-models)
+- [3. Context Management](patterns.md#3-context-management)
+- [4. Feedback Loops](patterns.md#4-feedback-loops)
+- [5. Failure Recovery](patterns.md#5-failure-recovery)
+- [6. Multi-Agent Coordination](patterns.md#6-multi-agent-coordination)
+
+---
+
+## 3. [Harness Engineering](harness-engineering.md)
+
+The deep dive on what makes agents reliable.
+
+- [Why Harness Beats Model Upgrade](harness-engineering.md#why-harness-beats-model-upgrade)
+- [The Five-Subsystem Model](harness-engineering.md#the-five-subsystem-model)
+- [Foundations](harness-engineering.md#foundations) — repo-as-system-of-record · progressive disclosure · initialization · continuity
+- [Scope and Verification](harness-engineering.md#scope-and-verification) — WIP=1 · feature lists · three-layer termination · worker-vs-checker
+- [Observability Inside the Harness](harness-engineering.md#observability-inside-the-harness) — sprint contracts · evaluator rubrics · OpenTelemetry
+- [The Session Lifecycle and Clean State](harness-engineering.md#the-session-lifecycle-and-clean-state)
+- [The Reference Stack](harness-engineering.md#the-reference-stack)
+- [Failure-Mode Catalogue](harness-engineering.md#failure-mode-catalogue)
+- [Decision Framework](harness-engineering.md#decision-framework)
+
+---
+
+## 4. [Schools](schools.md)
+
+Where does trust live? Three philosophical schools + four operational schools.
+
+- [The Central Question](schools.md#the-central-question-where-does-trust-live)
+- Philosophical schools:
+  - [Trust as Cryptography — Polosukhin](schools.md#trust-as-cryptography--polosukhin)
+  - [Trust as Observability — Chase](schools.md#trust-as-observability--chase)
+  - [Trust as Process — Ng](schools.md#trust-as-process--ng)
+- [Side-by-Side Comparison](schools.md#side-by-side-comparison)
+- Operational schools:
+  - [The Stripe School](schools.md#the-stripe-school)
+  - [The Tan School](schools.md#the-tan-school)
+  - [The Walking Labs / Mastery School](schools.md#the-walking-labs--mastery-school)
+  - [The Steinberger School](schools.md#the-steinberger-school)
+- [Cross-Map: Operational × Philosophical](schools.md#cross-map-operational--philosophical)
+- [What the Next 24 Months Look Like](schools.md#what-the-next-24-months-look-like)
+
+---
+
+## 5. [Benchmarks](benchmarks.md)
+
+How agentic coding is evaluated.
+
+- [SWE-bench](benchmarks.md#swe-bench) and [variants](benchmarks.md#variants) — Verified, Lite, Multimodal, Multilingual, Pro
+- [Terminal Bench](benchmarks.md#terminal-bench)
+- [Choosing a benchmark](benchmarks.md#choosing-a-benchmark)
+- [Benchmark-adjacent reading](benchmarks.md#benchmark-adjacent-reading)
+
+---
+
+## 6. [Comparison](comparison.md)
+
+Side-by-side capability rankings.
+
+- [Feature Matrix](comparison.md#feature-matrix)
+- [Capability Breakdown](comparison.md#capability-breakdown)
+- [Composability](comparison.md#composability)
+
+---
+
+## 7. [Organizations](organizations.md)
+
+How companies organize around agents.
+
+- [The Stripe Model](organizations.md#the-stripe-model)
+- [The Open-Source / Startup Model](organizations.md#the-open-source--startup-model)
+- [Organizational Patterns](organizations.md#organizational-patterns)
+- [The Infrastructure You Need](organizations.md#the-infrastructure-you-need)
+- [The Future](organizations.md#the-future)
+
+---
+
+## 8. [Who's Who](who-is-who.md)
+
+20 named profiles of the people shaping the field.
+
+- 🧠 Researchers / educators: [Karpathy](who-is-who.md#andrej-karpathy) · [Weng](who-is-who.md#lilian-weng) · [Yao](who-is-who.md#shunyu-yao) · [Brown](who-is-who.md#noam-brown) · [Yang](who-is-who.md#john-yang) · [Kiela](who-is-who.md#douwe-kiela) · [Teknium](who-is-who.md#teknium-karan-malhotra) · [Polosukhin](who-is-who.md#illia-polosukhin)
+- 🔨 Operators / founders: [Steinberger](who-is-who.md#peter-steinberger-steipete) · [Tan](who-is-who.md#garry-tan) · [Cherny](who-is-who.md#boris-cherny) · [Chase](who-is-who.md#harrison-chase) · [Vincent](who-is-who.md#jesse-vincent-obra) · [Robinson](who-is-who.md#lee-robinson) · [Liu (Beyang)](who-is-who.md#beyang-liu) · [Liu (Jerry)](who-is-who.md#jerry-liu)
+- ✍️ Chroniclers / synthesizers: [Willison](who-is-who.md#simon-willison) · [Osmani](who-is-who.md#addy-osmani) · [Mollick](who-is-who.md#ethan-mollick) · [swyx + Fanelli](who-is-who.md#swyx-shawn-wang--alessio-fanelli)
+- [Appendix](who-is-who.md#appendix-people-projects-and-writers-we-considered-but-didnt-profile) — 12 more candidates
+- [Reading order if you're new](who-is-who.md#reading-order-if-youre-new) — one-week onboarding path
+
+---
+
+## 9. [Inference](inference.md)
+
+LLM inference solutions.
+
+- [Direct API Providers](inference.md#direct-api-providers)
+- [Inference Platforms](inference.md#inference-platforms)
+- [Nebius AI Cloud](inference.md#nebius-ai-cloud--standout-platform) — deep dive
+- [Routing & Gateway Solutions](inference.md#routing--gateway-solutions)
+- [Self-Hosted Inference](inference.md#self-hosted-inference)
+- [Inference Strategy for Agents](inference.md#inference-strategy-for-agents)
+- [Decision Framework](inference.md#decision-framework)
+
+---
+
+## 10. [Sandboxes](sandboxes.md)
+
+The execution-environment layer.
+
+- [Why Sandboxes Matter for Agents](sandboxes.md#why-sandboxes-matter-for-agents)
+- [The Sandbox Market Structure](sandboxes.md#the-sandbox-market-structure) — four-layer model
+- [Core Use Cases](sandboxes.md#core-use-cases)
+- [Isolation Tiers](sandboxes.md#isolation-tiers--the-security-ladder)
+- [Purpose-Built Agent Sandboxes](sandboxes.md#purpose-built-agent-sandboxes) — full vendor table
+- [Contree — The Git-Native Sandbox](sandboxes.md#contree--the-git-native-sandbox) — deep dive
+- [Cloud Development Environments (CDEs)](sandboxes.md#cloud-development-environments-cdes)
+- [Open-Source Isolation Primitives](sandboxes.md#open-source-isolation-primitives)
+- [Agent Patterns Enabled by Modern Sandboxes](sandboxes.md#agent-patterns-enabled-by-modern-sandboxes)
+- [Decision Framework](sandboxes.md#decision-framework)
+- [Integration Examples](sandboxes.md#integration-examples)
+
+---
+
+## 11. [Hosting & Execution Infrastructure](infrastructure.md)
+
+150+ vendors across 9 major categories.
+
+- [Agent Hosting & Execution Platforms](infrastructure.md#agent-hosting--execution-platforms) — the six-tier decision framework
+- [Code Execution Sandboxes](infrastructure.md#code-execution-sandboxes) — quick-ref table
+- [Turnkey Managed Platforms](infrastructure.md#turnkey-managed-platforms) — OpenClaw-native, enterprise hubs, no-code builders, [Autonomous Coding Agents](infrastructure.md#autonomous-coding-agents), visual IDEs
+- [Agent-Optimized Hosting](infrastructure.md#agent-optimized-hosting)
+- [Agent Orchestration](infrastructure.md#agent-orchestration) — durable execution, cloud workflows, [agent-specific frameworks](infrastructure.md#agent-specific-orchestration-frameworks), data/ML orchestrators
+- [Cloud Mac Hosting](infrastructure.md#cloud-mac-hosting)
+- [Self-Hosted Infrastructure](infrastructure.md#self-hosted-infrastructure) — GPU clouds, general clouds, [VPS for agents](infrastructure.md#vps-for-agents)
+- [Agent Memory & Context Infrastructure](infrastructure.md#agent-memory--context-infrastructure) — [purpose-built memory](infrastructure.md#purpose-built-agent-memory), vector DBs, graph DBs
+- [Agent Observability & Evaluation](infrastructure.md#agent-observability--evaluation) — [tracing](infrastructure.md#llm--agent-tracing--observability), [evaluation](infrastructure.md#evaluation--testing), [guardrails](infrastructure.md#guardrails--safety)
+- [MCP Servers, Registries & Gateways](infrastructure.md#mcp-servers-registries--gateways)
+- [Agent Identity, Auth & Secrets](infrastructure.md#agent-identity-auth--secrets)
+- [Choosing Your Stack](infrastructure.md#choosing-your-stack) — starter / growth / scale / enterprise
+- [Decision Framework](infrastructure.md#decision-framework)
+
+---
+
+## Cross-page indexes
+
+- **Schools framing**: introduced in [Approaches § The Steinberger School](approaches.md#the-steinberger-school), formalized in [Schools](schools.md), referenced from [Who's Who](who-is-who.md) profiles
+- **Vendor cross-reference**: many vendors appear in both [Sandboxes](sandboxes.md) and [Hosting & Execution](infrastructure.md) — the Sandboxes page is the deep dive, Hosting & Execution is the quick reference
+- **Reading order for newcomers**: [Who's Who § Reading order](who-is-who.md#reading-order-if-youre-new)
   </script>
   <script type="text/markdown" data-page="approaches">
 # Approaches to Agentic Coding
@@ -1820,7 +2024,7 @@ Stripe chose to avoid merge conflicts entirely by isolating at the VM level and 
 
 Most teams think a "harness" is a prompt file. It isn't. A harness is **everything in the engineering infrastructure outside the model weights** — the instructions, tools, environment, state, and feedback machinery that determines how much of a model's capability actually shows up at runtime. Same model, different harness, fundamentally different output.
 
-This page is the deep dive on that discipline. It synthesizes the primary sources — [OpenAI's *Harness Engineering*](https://openai.com/index/harness-engineering/), [Anthropic's *Effective Harnesses for Long-Running Agents*](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) and [*Harness Design for Long-Running Application Development*](https://www.anthropic.com/engineering/harness-design-long-running-apps), and the [Walking Labs *Learn Harness Engineering* course](https://walkinglabs.github.io/learn-harness-engineering/en/) — and maps them onto the broader landscape covered elsewhere in this repo.
+This page is the deep dive on that discipline. It synthesizes the primary sources — [OpenAI's *Harness Engineering*](https://openai.com/index/harness-engineering/), [Anthropic's *Effective Harnesses for Long-Running Agents*](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) and [*Harness Design for Long-Running Application Development*](https://www.anthropic.com/engineering/harness-design-long-running-apps), and the [Walking Labs *Learn Harness Engineering* course](https://walkinglabs.github.io/learn-harness-engineering/en/) — and maps them onto the broader landscape covered elsewhere in this reference.
 
 For a shorter, pattern-oriented treatment, see [Patterns § Harness Engineering](patterns.md#harness-engineering). For tools that implement these principles, see [Sandboxes](sandboxes.md), [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces), and [Agent Observability & Evaluation](infrastructure.md#agent-observability--evaluation).
 
@@ -2162,7 +2366,7 @@ Foundational research:
 - [On Calibration of Modern Neural Networks](https://arxiv.org/abs/1706.04599) (Guo et al., 2017)
 - [Programs, Life Cycles, and Laws of Software Evolution](https://ieeexplore.ieee.org/document/1702314) (Lehman)
 
-Adjacent reading in this repo:
+Adjacent reading:
 
 - [Patterns § Harness Engineering](patterns.md#harness-engineering) — the cross-cutting pattern view
 - [Approaches](approaches.md) — concrete agent systems and how each handles these problems
@@ -2178,7 +2382,7 @@ There's no single way to build agents. By 2026 a handful of distinct *schools* h
 Two layers:
 
 - **Philosophical schools** — three orthogonal answers to the trust question (cryptography / observability / process), each associated with a major public voice
-- **Operational schools** — the working stacks you can actually inherit, four of which we've already named elsewhere in this repo
+- **Operational schools** — the working stacks you can actually inherit, four of which we've already named elsewhere in this reference
 
 Most teams end up *practicing* an operational school while *aligning* with a philosophical one — and the interesting question is which of the two combinations are coherent and which are not.
 
@@ -2762,7 +2966,7 @@ Career: BSc Toronto under Hinton, PhD Stanford under Fei-Fei Li (designed CS231n
 
 > 🧠 Researcher / educator · Co-founder, [Thinking Machines Lab](https://thinkingmachines.ai/) · [@lilianweng](https://twitter.com/lilianweng) · [lilianweng.github.io](https://lilianweng.github.io/)
 
-The author of *[LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)* (June 2023) — the foundational blog post that defined the planning / memory / tool-use decomposition every subsequent agent framework rests on. Weng spent six years at OpenAI on safety, red-teaming, and post-training (Instruction Hierarchy, automated red teaming, RLHF), then co-founded Thinking Machines Lab with Mira Murati in 2025. Her 2025 writing on test-time compute ("Why We Think") is the cleanest single primer for how to reason about reasoning models. If the schools framing this repo uses has a *taxonomic ancestor*, it's Weng's planning/memory/tool-use breakdown.
+The author of *[LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)* (June 2023) — the foundational blog post that defined the planning / memory / tool-use decomposition every subsequent agent framework rests on. Weng spent six years at OpenAI on safety, red-teaming, and post-training (Instruction Hierarchy, automated red teaming, RLHF), then co-founded Thinking Machines Lab with Mira Murati in 2025. Her 2025 writing on test-time compute ("Why We Think") is the cleanest single primer for how to reason about reasoning models. If the schools framing this reference uses has a *taxonomic ancestor*, it's Weng's planning/memory/tool-use breakdown.
 
 **Key works to know:**
 
@@ -2813,7 +3017,7 @@ Career: founder of Posterous (acq. Twitter), then Initialized Capital (early Coi
 
 > 🔨 Operator · Creator / Lead of [Claude Code](approaches.md#terminal-coding-clis) · Anthropic · [@bcherny](https://twitter.com/bcherny) · [GitHub](https://github.com/bcherny)
 
-The engineer behind Claude Code — the coding agent that the entire Claude Code ecosystem covered in this repo (GStack, GBrain, Superpowers, AgentHub, Crabbox, Clawpatch, ClawSweeper, OpenClaw…) is built on top of. Cherny's bet — articulated in his AI Ascent 2026 talk and the Pragmatic Engineer interview — was that **agentic coding works better with `glob`/`grep` over a real filesystem than with RAG / vector DBs over a parsed codebase**. That single architectural choice is why most of the harnesses in this repo are *file-first* rather than *embedding-first*, and why "agent + bash" became the dominant pattern. Before Anthropic he authored *Programming TypeScript* (O'Reilly, 2020) and led developer tooling at Brigade and Khan Academy.
+The engineer behind Claude Code — the coding agent that the entire Claude Code ecosystem covered in this reference (GStack, GBrain, Superpowers, AgentHub, Crabbox, Clawpatch, ClawSweeper, OpenClaw…) is built on top of. Cherny's bet — articulated in his AI Ascent 2026 talk and the Pragmatic Engineer interview — was that **agentic coding works better with `glob`/`grep` over a real filesystem than with RAG / vector DBs over a parsed codebase**. That single architectural choice is why most of the harnesses we profile are *file-first* rather than *embedding-first*, and why "agent + bash" became the dominant pattern. Before Anthropic he authored *Programming TypeScript* (O'Reilly, 2020) and led developer tooling at Brigade and Khan Academy.
 
 **Key works to know:**
 
@@ -2822,7 +3026,7 @@ The engineer behind Claude Code — the coding agent that the entire Claude Code
 - [AI Ascent 2026 talk](https://www.youtube.com/watch?v=SlGRN8jh2RI) — the "glob is all you need" thesis
 - *Programming TypeScript* (O'Reilly, 2020)
 
-**Start here:** The Pragmatic Engineer interview — the cleanest first-person account of the design decisions that shape the entire coding-agent ecosystem the rest of this repo covers.
+**Start here:** The Pragmatic Engineer interview — the cleanest first-person account of the design decisions that shape the entire coding-agent ecosystem the rest of this reference covers.
 
 ---
 
@@ -2984,7 +3188,7 @@ His core thesis — that test-time search / planning matters as much as model sc
 
 The RAG paper's first author. Kiela led the team behind *[Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401)* (NeurIPS 2020) — the paper that named and operationalized retrieval-augmented generation. Since then he's been the bridge between retrieval research and enterprise production: Contextual AI ships the RAG + context-engineering platform that grounds agents over private high-stakes knowledge.
 
-Why he matters for this repo: every agent in [Approaches](approaches.md) that touches enterprise documents — Sierra, LlamaIndex, GBrain, Clawpatch — sits on top of variants of the RAG architecture Kiela helped define. He's also Dynabench's co-creator, which set the template for the "evals-as-product" startup pattern that's now everywhere in our [Eval](infrastructure.md#evaluation--testing) section.
+Why he matters here: every agent in [Approaches](approaches.md) that touches enterprise documents — Sierra, LlamaIndex, GBrain, Clawpatch — sits on top of variants of the RAG architecture Kiela helped define. He's also Dynabench's co-creator, which set the template for the "evals-as-product" startup pattern that's now everywhere in our [Eval](infrastructure.md#evaluation--testing) section.
 
 **Key works to know:**
 
@@ -3156,7 +3360,7 @@ If the list looks overwhelming, here's a one-week onboarding path:
 | 6 | Tan: install GStack into your `~/.claude/` and read the SKILL.md files | Hands-on reference harness |
 | 7 | Latent Space podcast: OpenAI Symphony episode + one other Vincent or Liu or Teknium episode you choose | How the operators talk about their work |
 
-That's enough background to read [Harness Engineering](harness-engineering.md) and the rest of this repo with full context.
+That's enough background to read [Harness Engineering](harness-engineering.md) and the rest of this reference with full context.
   </script>
   <script type="text/markdown" data-page="inference">
 # Inference Solutions for Agentic Engineering
