@@ -38,20 +38,23 @@ cat > index.html << 'HTMLHEAD'
             <a href="#" class="sidebar-link" data-page="table-of-contents">Table of Contents</a>
           </div>
           <div class="sidebar-group">
-            <div class="sidebar-group-title">Landscape</div>
+            <div class="sidebar-group-title">Foundations</div>
             <a href="#" class="sidebar-link" data-page="approaches">Approaches</a>
             <a href="#" class="sidebar-link" data-page="patterns">Patterns</a>
             <a href="#" class="sidebar-link" data-page="harness-engineering">Harness Engineering</a>
-            <a href="#" class="sidebar-link" data-page="schools">Schools</a>
             <a href="#" class="sidebar-link" data-page="benchmarks">Benchmarks</a>
-            <a href="#" class="sidebar-link" data-page="organizations">Organizations</a>
+          </div>
+          <div class="sidebar-group">
+            <div class="sidebar-group-title">People &amp; Orgs</div>
+            <a href="#" class="sidebar-link" data-page="schools">Schools</a>
             <a href="#" class="sidebar-link" data-page="who-is-who">Who's Who</a>
+            <a href="#" class="sidebar-link" data-page="organizations">Organizations</a>
           </div>
           <div class="sidebar-group">
             <div class="sidebar-group-title">Infrastructure</div>
             <a href="#" class="sidebar-link" data-page="inference">Inference</a>
             <a href="#" class="sidebar-link" data-page="sandboxes">Sandboxes</a>
-            <a href="#" class="sidebar-link" data-page="infrastructure">Hosting &amp; Execution</a>
+            <a href="#" class="sidebar-link" data-page="infrastructure">Hosting</a>
           </div>
           <div class="sidebar-group">
             <div class="sidebar-group-title">Interfaces</div>
@@ -60,9 +63,6 @@ cat > index.html << 'HTMLHEAD'
           <div class="sidebar-group">
             <div class="sidebar-group-title">Community</div>
             <a href="events/" class="sidebar-link sidebar-link-external">Events &#8599;</a>
-          </div>
-          <div class="sidebar-group">
-            <div class="sidebar-group-title">Project</div>
             <a href="https://github.com/opencolin/agentic-engineering" class="sidebar-link sidebar-link-external" target="_blank" rel="noopener">GitHub &#8599;</a>
           </div>
         </nav>

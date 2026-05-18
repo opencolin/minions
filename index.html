@@ -33,20 +33,23 @@
             <a href="#" class="sidebar-link" data-page="table-of-contents">Table of Contents</a>
           </div>
           <div class="sidebar-group">
-            <div class="sidebar-group-title">Landscape</div>
+            <div class="sidebar-group-title">Foundations</div>
             <a href="#" class="sidebar-link" data-page="approaches">Approaches</a>
             <a href="#" class="sidebar-link" data-page="patterns">Patterns</a>
             <a href="#" class="sidebar-link" data-page="harness-engineering">Harness Engineering</a>
-            <a href="#" class="sidebar-link" data-page="schools">Schools</a>
             <a href="#" class="sidebar-link" data-page="benchmarks">Benchmarks</a>
-            <a href="#" class="sidebar-link" data-page="organizations">Organizations</a>
+          </div>
+          <div class="sidebar-group">
+            <div class="sidebar-group-title">People &amp; Orgs</div>
+            <a href="#" class="sidebar-link" data-page="schools">Schools</a>
             <a href="#" class="sidebar-link" data-page="who-is-who">Who's Who</a>
+            <a href="#" class="sidebar-link" data-page="organizations">Organizations</a>
           </div>
           <div class="sidebar-group">
             <div class="sidebar-group-title">Infrastructure</div>
             <a href="#" class="sidebar-link" data-page="inference">Inference</a>
             <a href="#" class="sidebar-link" data-page="sandboxes">Sandboxes</a>
-            <a href="#" class="sidebar-link" data-page="infrastructure">Hosting &amp; Execution</a>
+            <a href="#" class="sidebar-link" data-page="infrastructure">Hosting</a>
           </div>
           <div class="sidebar-group">
             <div class="sidebar-group-title">Interfaces</div>
@@ -55,9 +58,6 @@
           <div class="sidebar-group">
             <div class="sidebar-group-title">Community</div>
             <a href="events/" class="sidebar-link sidebar-link-external">Events &#8599;</a>
-          </div>
-          <div class="sidebar-group">
-            <div class="sidebar-group-title">Project</div>
             <a href="https://github.com/opencolin/agentic-engineering" class="sidebar-link sidebar-link-external" target="_blank" rel="noopener">GitHub &#8599;</a>
           </div>
         </nav>
@@ -90,10 +90,10 @@ A comprehensive reference to autonomous coding agents, agentic organizations, an
 | 1 | [Approaches](approaches.md) | Deep dives on 25+ coding-agent systems — Stripe Minions, Claude Managed Agents, Vercel Open Agents, OpenAI Symphony, OpenHands, Hermes Agent, GStack, GBrain, AgentHub, the Steinberger ecosystem, and the 25-CLI harness comparison |
 | 2 | [Patterns](patterns.md) | Cross-cutting architectural patterns — harness engineering, isolation strategies, orchestration models, context management, feedback loops, failure recovery, multi-agent coordination |
 | 3 | [Harness Engineering](harness-engineering.md) | The deep-dive page on what makes agents reliable — five-subsystem model, repo-as-system-of-record, WIP=1, three-layer verification, sprint contracts, clean-state exits |
-| 4 | [Schools](schools.md) | Where does trust live? The three philosophical schools (Polosukhin / Chase / Ng) and the four operational schools (Stripe / Tan / Walking Labs / Steinberger) |
-| 5 | [Benchmarks](benchmarks.md) | SWE-bench, SWE-bench Verified / Pro / Multimodal / Multilingual, Terminal Bench 2.0; how to read the leaderboards and what they actually mean |
-| 6 | [Organizations](organizations.md) | How companies organize around agents — Stripe model, open-source model, agent-first development, infrastructure tiers |
-| 7 | [Who's Who](who-is-who.md) | Twenty named profiles of the people shaping the field — researchers, operators, chroniclers — with the single thing of theirs to read or watch first |
+| 4 | [Benchmarks](benchmarks.md) | SWE-bench, SWE-bench Verified / Pro / Multimodal / Multilingual, Terminal Bench 2.0; how to read the leaderboards and what they actually mean |
+| 5 | [Schools](schools.md) | Where does trust live? The three philosophical schools (Polosukhin / Chase / Ng) and the four operational schools (Stripe / Tan / Walking Labs / Steinberger) |
+| 6 | [Who's Who](who-is-who.md) | Twenty named profiles of the people shaping the field — researchers, operators, chroniclers — with the single thing of theirs to read or watch first |
+| 7 | [Organizations](organizations.md) | How companies organize around agents — Stripe model, open-source model, agent-first development, infrastructure tiers |
 | 8 | [Inference](inference.md) | LLM inference solutions: direct API providers, platforms (Nebius, Together, Fireworks, Groq), routing gateways, self-hosted inference |
 | 9 | [Sandboxes](sandboxes.md) | The execution-environment layer — purpose-built agent sandboxes, Contree deep dive, CDEs, isolation tiers, integration patterns |
 | 10 | [Hosting & Execution](infrastructure.md) | 150+ infrastructure vendors across 9 categories — turnkey platforms, agent-optimized hosting, orchestration, Cloud Mac, GPU clouds, VPS for agents, memory, observability, MCP, identity/auth |
@@ -101,7 +101,7 @@ A comprehensive reference to autonomous coding agents, agentic organizations, an
 
 The [Approaches](approaches.md) chapter ends with a [Feature Matrix](approaches.md#feature-matrix), [Capability Breakdown](approaches.md#capability-breakdown), and [Composability](approaches.md#composability) — side-by-side comparisons across the major systems.
 
-If you're new to the field, the suggested reading order is Chapter 1 → Chapter 3 → Chapter 4 → then any others by interest. Chapter 7 (Who's Who) doubles as a "what to read next" map keyed to specific authors.
+If you're new to the field, the suggested reading order is Chapter 1 → Chapter 3 → Chapter 5 → then any others by interest. Chapter 6 (Who's Who) doubles as a "what to read next" map keyed to specific authors.
 
 ---
 
@@ -315,7 +315,18 @@ The deep dive on what makes agents reliable.
 
 ---
 
-## 4. [Schools](schools.md)
+## 4. [Benchmarks](benchmarks.md)
+
+How agentic coding is evaluated.
+
+- [SWE-bench](benchmarks.md#swe-bench) and [variants](benchmarks.md#variants) — Verified, Lite, Multimodal, Multilingual, Pro
+- [Terminal Bench](benchmarks.md#terminal-bench)
+- [Choosing a benchmark](benchmarks.md#choosing-a-benchmark)
+- [Benchmark-adjacent reading](benchmarks.md#benchmark-adjacent-reading)
+
+---
+
+## 5. [Schools](schools.md)
 
 Where does trust live? Three philosophical schools + four operational schools.
 
@@ -335,30 +346,7 @@ Where does trust live? Three philosophical schools + four operational schools.
 
 ---
 
-## 5. [Benchmarks](benchmarks.md)
-
-How agentic coding is evaluated.
-
-- [SWE-bench](benchmarks.md#swe-bench) and [variants](benchmarks.md#variants) — Verified, Lite, Multimodal, Multilingual, Pro
-- [Terminal Bench](benchmarks.md#terminal-bench)
-- [Choosing a benchmark](benchmarks.md#choosing-a-benchmark)
-- [Benchmark-adjacent reading](benchmarks.md#benchmark-adjacent-reading)
-
----
-
-## 6. [Organizations](organizations.md)
-
-How companies organize around agents.
-
-- [The Stripe Model](organizations.md#the-stripe-model)
-- [The Open-Source / Startup Model](organizations.md#the-open-source--startup-model)
-- [Organizational Patterns](organizations.md#organizational-patterns)
-- [The Infrastructure You Need](organizations.md#the-infrastructure-you-need)
-- [The Future](organizations.md#the-future)
-
----
-
-## 7. [Who's Who](who-is-who.md)
+## 6. [Who's Who](who-is-who.md)
 
 20 named profiles of the people shaping the field.
 
@@ -367,6 +355,18 @@ How companies organize around agents.
 - ✍️ Chroniclers / synthesizers: [Willison](who-is-who.md#simon-willison) · [Osmani](who-is-who.md#addy-osmani) · [Mollick](who-is-who.md#ethan-mollick) · [swyx + Fanelli](who-is-who.md#swyx-shawn-wang--alessio-fanelli)
 - [Appendix](who-is-who.md#appendix-people-projects-and-writers-we-considered-but-didnt-profile) — 12 more candidates
 - [Reading order if you're new](who-is-who.md#reading-order-if-youre-new) — one-week onboarding path
+
+---
+
+## 7. [Organizations](organizations.md)
+
+How companies organize around agents.
+
+- [The Stripe Model](organizations.md#the-stripe-model)
+- [The Open-Source / Startup Model](organizations.md#the-open-source--startup-model)
+- [Organizational Patterns](organizations.md#organizational-patterns)
+- [The Infrastructure You Need](organizations.md#the-infrastructure-you-need)
+- [The Future](organizations.md#the-future)
 
 ---
 
@@ -402,7 +402,7 @@ The execution-environment layer.
 
 ---
 
-## 10. [Hosting & Execution Infrastructure](infrastructure.md)
+## 10. [Hosting & Execution](infrastructure.md)
 
 150+ vendors across 9 major categories.
 

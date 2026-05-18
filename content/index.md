@@ -13,10 +13,10 @@ A comprehensive reference to autonomous coding agents, agentic organizations, an
 | 1 | [Approaches](approaches.md) | Deep dives on 25+ coding-agent systems — Stripe Minions, Claude Managed Agents, Vercel Open Agents, OpenAI Symphony, OpenHands, Hermes Agent, GStack, GBrain, AgentHub, the Steinberger ecosystem, and the 25-CLI harness comparison |
 | 2 | [Patterns](patterns.md) | Cross-cutting architectural patterns — harness engineering, isolation strategies, orchestration models, context management, feedback loops, failure recovery, multi-agent coordination |
 | 3 | [Harness Engineering](harness-engineering.md) | The deep-dive page on what makes agents reliable — five-subsystem model, repo-as-system-of-record, WIP=1, three-layer verification, sprint contracts, clean-state exits |
-| 4 | [Schools](schools.md) | Where does trust live? The three philosophical schools (Polosukhin / Chase / Ng) and the four operational schools (Stripe / Tan / Walking Labs / Steinberger) |
-| 5 | [Benchmarks](benchmarks.md) | SWE-bench, SWE-bench Verified / Pro / Multimodal / Multilingual, Terminal Bench 2.0; how to read the leaderboards and what they actually mean |
-| 6 | [Organizations](organizations.md) | How companies organize around agents — Stripe model, open-source model, agent-first development, infrastructure tiers |
-| 7 | [Who's Who](who-is-who.md) | Twenty named profiles of the people shaping the field — researchers, operators, chroniclers — with the single thing of theirs to read or watch first |
+| 4 | [Benchmarks](benchmarks.md) | SWE-bench, SWE-bench Verified / Pro / Multimodal / Multilingual, Terminal Bench 2.0; how to read the leaderboards and what they actually mean |
+| 5 | [Schools](schools.md) | Where does trust live? The three philosophical schools (Polosukhin / Chase / Ng) and the four operational schools (Stripe / Tan / Walking Labs / Steinberger) |
+| 6 | [Who's Who](who-is-who.md) | Twenty named profiles of the people shaping the field — researchers, operators, chroniclers — with the single thing of theirs to read or watch first |
+| 7 | [Organizations](organizations.md) | How companies organize around agents — Stripe model, open-source model, agent-first development, infrastructure tiers |
 | 8 | [Inference](inference.md) | LLM inference solutions: direct API providers, platforms (Nebius, Together, Fireworks, Groq), routing gateways, self-hosted inference |
 | 9 | [Sandboxes](sandboxes.md) | The execution-environment layer — purpose-built agent sandboxes, Contree deep dive, CDEs, isolation tiers, integration patterns |
 | 10 | [Hosting & Execution](infrastructure.md) | 150+ infrastructure vendors across 9 categories — turnkey platforms, agent-optimized hosting, orchestration, Cloud Mac, GPU clouds, VPS for agents, memory, observability, MCP, identity/auth |
@@ -24,7 +24,7 @@ A comprehensive reference to autonomous coding agents, agentic organizations, an
 
 The [Approaches](approaches.md) chapter ends with a [Feature Matrix](approaches.md#feature-matrix), [Capability Breakdown](approaches.md#capability-breakdown), and [Composability](approaches.md#composability) — side-by-side comparisons across the major systems.
 
-If you're new to the field, the suggested reading order is Chapter 1 → Chapter 3 → Chapter 4 → then any others by interest. Chapter 7 (Who's Who) doubles as a "what to read next" map keyed to specific authors.
+If you're new to the field, the suggested reading order is Chapter 1 → Chapter 3 → Chapter 5 → then any others by interest. Chapter 6 (Who's Who) doubles as a "what to read next" map keyed to specific authors.
 
 ---
 
