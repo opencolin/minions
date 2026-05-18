@@ -63,15 +63,20 @@ function init() {
       contentEl.innerHTML = marked.parse(md);
 
       // Tag each <td> with its column header so the mobile card layout can
-      // render a "LABEL: value" stack via CSS ::before.
+      // render a "LABEL: value" stack via CSS ::before. Also flag the first
+      // link in each row as the card's primary link, so mobile CSS can
+      // stretch it across the whole row for an easier tap target.
       contentEl.querySelectorAll('table').forEach(table => {
         const headers = Array.from(table.querySelectorAll('thead th'))
           .map(th => th.textContent.trim());
-        if (!headers.length) return;
         table.querySelectorAll('tbody tr').forEach(tr => {
-          Array.from(tr.children).forEach((td, i) => {
-            if (headers[i]) td.setAttribute('data-label', headers[i]);
-          });
+          if (headers.length) {
+            Array.from(tr.children).forEach((td, i) => {
+              if (headers[i]) td.setAttribute('data-label', headers[i]);
+            });
+          }
+          const firstLink = tr.querySelector('a');
+          if (firstLink) firstLink.classList.add('card-primary-link');
         });
       });
 
