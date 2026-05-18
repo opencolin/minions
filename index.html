@@ -36,6 +36,7 @@
             <a href="#" class="sidebar-link" data-page="approaches">Approaches</a>
             <a href="#" class="sidebar-link" data-page="patterns">Patterns</a>
             <a href="#" class="sidebar-link" data-page="harness-engineering">Harness Engineering</a>
+            <a href="#" class="sidebar-link" data-page="schools">Schools</a>
             <a href="#" class="sidebar-link" data-page="benchmarks">Benchmarks</a>
             <a href="#" class="sidebar-link" data-page="comparison">Comparison</a>
             <a href="#" class="sidebar-link" data-page="organizations">Organizations</a>
@@ -69,6 +70,26 @@
 # Agentic Engineering
 
 A comprehensive reference to autonomous coding agents, agentic organizations, and the emerging patterns of AI-native software engineering.
+
+---
+
+## Chapters
+
+| # | Chapter | What's in it |
+|---|---------|--------------|
+| 1 | [Approaches](approaches.md) | Deep dives on 25+ coding-agent systems — Stripe Minions, Claude Managed Agents, Vercel Open Agents, OpenAI Symphony, OpenHands, Hermes Agent, GStack, GBrain, AgentHub, the Steinberger ecosystem, and the 25-CLI harness comparison |
+| 2 | [Patterns](patterns.md) | Cross-cutting architectural patterns — harness engineering, isolation strategies, orchestration models, context management, feedback loops, failure recovery, multi-agent coordination |
+| 3 | [Harness Engineering](harness-engineering.md) | The deep-dive page on what makes agents reliable — five-subsystem model, repo-as-system-of-record, WIP=1, three-layer verification, sprint contracts, clean-state exits |
+| 4 | [Schools](schools.md) | Where does trust live? The three philosophical schools (Polosukhin / Chase / Ng) and the four operational schools (Stripe / Tan / Walking Labs / Steinberger) |
+| 5 | [Benchmarks](benchmarks.md) | SWE-bench, SWE-bench Verified / Pro / Multimodal / Multilingual, Terminal Bench 2.0; how to read the leaderboards and what they actually mean |
+| 6 | [Comparison](comparison.md) | Side-by-side feature matrix and capability rankings across the major systems |
+| 7 | [Organizations](organizations.md) | How companies organize around agents — Stripe model, open-source model, agent-first development, infrastructure tiers |
+| 8 | [Who's Who](who-is-who.md) | Twenty named profiles of the people shaping the field — researchers, operators, chroniclers — with the single thing of theirs to read or watch first |
+| 9 | [Inference](inference.md) | LLM inference solutions: direct API providers, platforms (Nebius, Together, Fireworks, Groq), routing gateways, self-hosted inference |
+| 10 | [Sandboxes](sandboxes.md) | The execution-environment layer — purpose-built agent sandboxes, Contree deep dive, CDEs, isolation tiers, integration patterns |
+| 11 | [Hosting & Execution](infrastructure.md) | 150+ infrastructure vendors across 9 categories — turnkey platforms, agent-optimized hosting, orchestration, Cloud Mac, GPU clouds, VPS for agents, memory, observability, MCP, identity/auth |
+
+If you're new to the field, the suggested reading order is Chapter 1 → Chapter 3 → Chapter 4 → then any others by interest. Chapter 8 (Who's Who) doubles as a "what to read next" map keyed to specific authors.
 
 ---
 
@@ -131,7 +152,7 @@ Deep dives into each major system and framework:
 
 ### [Patterns](patterns.md)
 Cross-cutting architectural patterns:
-- [Harness Engineering](patterns.md#0-harness-engineering) — The overarching discipline: code as context, spec-driven software, encoded engineering taste
+- [Harness Engineering](patterns.md#harness-engineering) — The overarching discipline: code as context, spec-driven software, encoded engineering taste
 - [Isolation Strategies](patterns.md#1-isolation-strategies) — Devboxes vs Docker vs worktrees vs cloud sandboxes
 - [Orchestration Models](patterns.md#2-orchestration-models) — Blueprints, patchflows, LangGraph, multi-agent teams
 - [Context Management](patterns.md#3-context-management) — MCP, rule files, pre-hydration, hierarchical context
@@ -532,7 +553,7 @@ OpenClaw has spawned a family of derivative projects and an entire hosting marke
 | **OpenClaw** | TypeScript | ~355K | Dominant personal AI agent, multi-channel, multi-model |
 | **NemoClaw** | Python/CUDA | N/A (NVIDIA) | Enterprise OpenShell, GPU guardrails, NVIDIA NIM |
 | **Hermes Agent** | Python | ~24.6K | Self-improving skill loop, RL fine-tuning via Atropos *(now an independent project at 95K+ stars — see [dedicated section](#hermes-agent))* |
-| **IronClaw** | Rust | ~2.7K | 5-layer security, WASM sandbox, audit trails, 3.4MB binary |
+| **IronClaw** ([NEAR AI](https://near.ai), in [OpenClaw ecosystem](#openclaw)) | Rust | ~2.7K | TEE-isolated agent runtime, encrypted credential vault, WebAssembly tool sandbox, sub-30s attestation, runs on NEAR AI Cloud's Confidential GPU Marketplace |
 | **ZeroClaw** | Rust | 20K+ | Edge-first, 3.4-5MB binary, <50ms startup, container isolation |
 | **NanoClaw** | TypeScript | Growing | ~500 lines, auditable in 8 min, Agent Swarms, container-per-group |
 
@@ -1539,7 +1560,7 @@ Cross-cutting patterns that appear across the different approaches to autonomous
 
 ---
 
-## 0. Harness Engineering
+## Harness Engineering
 
 The overarching discipline that ties all other patterns together. Coined in the context of OpenAI's Symphony project, harness engineering is the practice of building the infrastructure, feedback loops, and encoded knowledge that make autonomous agents productive.
 
@@ -1801,7 +1822,7 @@ Most teams think a "harness" is a prompt file. It isn't. A harness is **everythi
 
 This page is the deep dive on that discipline. It synthesizes the primary sources — [OpenAI's *Harness Engineering*](https://openai.com/index/harness-engineering/), [Anthropic's *Effective Harnesses for Long-Running Agents*](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) and [*Harness Design for Long-Running Application Development*](https://www.anthropic.com/engineering/harness-design-long-running-apps), and the [Walking Labs *Learn Harness Engineering* course](https://walkinglabs.github.io/learn-harness-engineering/en/) — and maps them onto the broader landscape covered elsewhere in this repo.
 
-For a shorter, pattern-oriented treatment, see [Patterns § Harness Engineering](patterns.md#0-harness-engineering). For tools that implement these principles, see [Sandboxes](sandboxes.md), [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces), and [Agent Observability & Evaluation](infrastructure.md#agent-observability--evaluation).
+For a shorter, pattern-oriented treatment, see [Patterns § Harness Engineering](patterns.md#harness-engineering). For tools that implement these principles, see [Sandboxes](sandboxes.md), [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces), and [Agent Observability & Evaluation](infrastructure.md#agent-observability--evaluation).
 
 ---
 
@@ -2143,11 +2164,223 @@ Foundational research:
 
 Adjacent reading in this repo:
 
-- [Patterns § Harness Engineering](patterns.md#0-harness-engineering) — the cross-cutting pattern view
+- [Patterns § Harness Engineering](patterns.md#harness-engineering) — the cross-cutting pattern view
 - [Approaches](approaches.md) — concrete agent systems and how each handles these problems
 - [Sandboxes](sandboxes.md) — the execution-environment subsystem in depth
 - [Agent Identity, Auth & Secrets](infrastructure.md#agent-identity-auth--secrets) — runtime governance that pairs with verification
 - [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces) — how harness-builder skills get distributed
+  </script>
+  <script type="text/markdown" data-page="schools">
+# Schools of Agentic Engineering
+
+There's no single way to build agents. By 2026 a handful of distinct *schools* have emerged — each with its own answer to the question *where does trust live?* and its own set of tools, idioms, and operational assumptions. This page maps them.
+
+Two layers:
+
+- **Philosophical schools** — three orthogonal answers to the trust question (cryptography / observability / process), each associated with a major public voice
+- **Operational schools** — the working stacks you can actually inherit, four of which we've already named elsewhere in this repo
+
+Most teams end up *practicing* an operational school while *aligning* with a philosophical one — and the interesting question is which of the two combinations are coherent and which are not.
+
+---
+
+## The Central Question: Where Does Trust Live?
+
+When an agent acts autonomously, *something* has to be trusted: the model's judgment, the harness's verification, the provider's contractual commitments, the operator's review queue, or the underlying hardware. Different schools place that trust in radically different places, and the choice cascades through every other design decision.
+
+| School | Trust mechanism | What you have to believe |
+|--------|----------------|--------------------------|
+| **Polosukhin / NEAR** | Cryptographic — TEE-enforced execution, on-chain identity, agent-held keys | Hardware attestations are sound; the protocol is the safety boundary |
+| **Chase / LangChain** | Observability — tracing, evals, persistent state, human-in-the-loop | Cooperative providers are tractable if you instrument them deeply enough |
+| **Ng / DeepLearning.AI** | Process — disciplined evals, error analysis, reflection loops, workflow redesign | Infrastructure is interchangeable; what matters is task decomposition |
+
+These aren't just technical disagreements — they encode different threat models. Polosukhin's architecture assumes *adversarial* providers. Chase's assumes *cooperative* providers in need of better tools. Ng's largely *brackets* the governance question in favor of deployment velocity.
+
+---
+
+## Philosophical Schools
+
+### Trust as Cryptography — Polosukhin
+
+[Illia Polosukhin](who-is-who.md#illia-polosukhin), Transformer co-author and NEAR Protocol co-founder, makes the most aggressive case for *decentralized* agent infrastructure. His thesis: as agents start holding your information, money, and identity, *"you don't want any singular company to have control."* The xAI / Grok manipulation incidents and the general fragility of centralized providers, in his framing, mean that hardware-enforced trust is structurally necessary — not just preferable.
+
+**The stack:**
+
+- **AI brain** runs inside Trusted Execution Environments (TEEs) on NEAR AI Cloud
+- **Smart-contract body** holds state, funds, and rules on-chain
+- **Coordination marketplace** lets agents hire each other for specialized tasks (competitive bidding *or* cooperative profit-sharing)
+
+His distinction between *automated workflows* and *real agents*: *"If an agent doesn't have its own keys, it's not an agent — it's just a script"* ([Shade Agents](https://www.near.org/blog/shade-agents-the-first-truly-autonomous-ai-agents)).
+
+**Concrete instantiation:** [IronClaw](approaches.md#openclaw) — a Rust agent runtime that runs inside encrypted TEEs, with isolated WebAssembly containers per tool, credentials in an encrypted vault that intercepts outbound connections against policy, and sub-30-second attestation. The **Confidential GPU Marketplace** locks out the host OS, GPU operators, and NEAR AI itself from inference workloads. Worth noting: IronClaw is built by NEAR AI but is positioned as the OS layer of the broader [OpenClaw ecosystem](approaches.md#openclaw) — the same lineage that produced [crabbox](approaches.md#crabbox), [clawpatch](approaches.md#clawpatch), and [ClawSweeper](approaches.md#clawsweeper).
+
+**HITL stance:** Polosukhin's design *eliminates* HITL for mature agents — replaced by policy-based guardrails at the infrastructure layer (credential vaults, spending limits, attestation). Trust gets established once, cryptographically.
+
+**Where this lands:** regulated-data workloads (healthcare PHI, government classified, financial PII), DeFi / agentic finance, and any context where the threat model includes the provider itself.
+
+### Trust as Observability — Chase
+
+[Harrison Chase](who-is-who.md#harrison-chase), creator of LangChain, makes the opposite case. His three years of watching beautiful prototypes shatter in production led to **agent engineering** — *the professional craft of converting AI capability into deployed, observable, reliable systems*. Centralized cloud is fine, *if* every step is traceable, evaluable, and rewindable.
+
+**The stack:**
+
+- [**LangGraph**](https://github.com/langchain-ai/langgraph) — stateful event-driven orchestration; declarative graph + imperative node logic
+- **LangGraph Platform** — deployment runtime (cloud, hybrid, self-hosted)
+- [**LangSmith**](https://smith.langchain.com/) — tracing, evals, annotation queues, LLM-as-judge, Prompt Hub
+- **Deep Agents** — opinionated harness for long-horizon coding work
+- **Open Agent Platform** — no-code builder with MCP servers, RAG-as-a-service, agent registry
+
+**Core thesis:** *"The hard part of building reliable agentic systems is making sure the LLM has the appropriate context at each step."* Chase popularized **context engineering**, the **scaffold vs. harness** distinction, and the **ambient agent** pattern (listening to event streams, acting in the background). His January 2026 framing: **memory as the next competitive moat** — agents reviewing their own traces overnight to rewrite their own instructions ("sleep-time compute").
+
+**HITL stance:** Permanent and richly specified. LangGraph supports four canonical HITL patterns:
+
+1. **Approve / reject** specific actions before execution
+2. **Edit** suggested actions rather than binary accept/deny
+3. **Clarify** by answering stuck-agent questions mid-task
+4. **Time travel** — return to step *n*, modify state, redirect the trajectory
+
+Chase distinguishes **human-on-the-loop** (post-hoc trajectory review and rewinding) from **human-in-the-loop** (real-time approval). Both are first-class. *"Without HITL there are no interactions to inform future performance"* — HITL is the substrate for agent improvement, not a temporary scaffold.
+
+**Where this lands:** the broad enterprise middleware stack. LangGraph is the dominant orchestration framework in production deployments at Uber, LinkedIn, Elastic, Klarna, and Replit. Per the [LangChain State of Agent Engineering 2025](https://www.langchain.com/state-of-agent-engineering): a majority of orgs have agents in production, with quality (not cost) as the top barrier — exactly the problem LangSmith was built to address.
+
+### Trust as Process — Ng
+
+[Andrew Ng](https://www.andrewng.org/) is the most *pedagogically* influential voice in the field. DeepLearning.AI reaches millions; AI Fund builds startups; Landing AI ships enterprise deployments. If Polosukhin is building rails and Chase is building runtime, **Ng is writing the curriculum**.
+
+**The framework:** *the four agentic design patterns*, introduced in his 2024 essay and adopted as common vocabulary across the industry:
+
+1. **Reflection** — agent critiques its own output and iterates
+2. **Tool Use** — LLM makes function calls to APIs, databases, code executors, web search
+3. **Planning** — LLM decomposes complex requests into sub-tasks and sequences execution
+4. **Multi-Agent Collaboration** — specialized agents in different roles
+
+His kinetic analogy: *the difference between writing an essay in one pass versus drafting, researching, critiquing, and revising*. His mid-2026 evolution: **workflow redesign** over mere tool adoption. *"AI creates real value only when workflows are redesigned end-to-end, not when it's used as a plug-in for one step."*
+
+**Infrastructure stance:** Pragmatic and cloud-agnostic. Embraces MCP as the integration substrate (*"10 providers and 20 sources = 30 pieces of work instead of 200"*). Strongly open-weight-advocating — by mid-2025 he's arguing that *"the top open models are from China"* (DeepSeek R1, Kimi K2, Qwen3) and his portfolio companies use them in production.
+
+**HITL stance:** HITL is embedded in the patterns themselves (Reflection is computational HITL — the agent critiques itself). Explicit human review is deferred until post-prototype. *"Implement oversight and guardrails later in the lifecycle to avoid stalling innovation."* The future human skill, per Ng: *"the ability to tell AI exactly what you want."* HITL shifts from approval-time to specification-time. Evals replace ongoing oversight: *"a disciplined error analysis process is the single biggest predictor for whether the team executes well."*
+
+**Where this lands:** the application layer. AI Fund portfolio spans healthcare (Affineon, Woebot), financial services (ValidMind, Credo AI), supply chain (Freight Hero, Gaia Dynamics), legal/compliance. Empirical claim worth quoting: *"a 'dumber' model using agentic workflows can beat a 'smarter' model on simple prompting"* — citing 95% vs 67% accuracy in a presented study.
+
+---
+
+## Side-by-Side Comparison
+
+| Dimension | Polosukhin | Chase | Ng |
+|-----------|-----------|-------|-----|
+| **Trust model** | Cryptographic / hardware-enforced | Policy-based via observability | Process-based via evals |
+| **Infrastructure locus** | Decentralized blockchain + TEE | Centralized cloud + observability layer | Any cloud; framework-agnostic |
+| **Orchestration unit** | Shade Agent (smart contract + TEE worker) | LangGraph node + harness | Four-pattern workflow |
+| **HITL philosophy** | Eliminate via cryptographic policy (for mature agents) | Systematize and enrich as a feedback loop | Defer until post-prototype; HITL as specification |
+| **Agent autonomy target** | Full autonomy with self-sovereign keys | "Goldilocks" — constrained but flexible | Task-appropriate; workflows vs. agents per use case |
+| **Developer entry point** | Infra-first (security, identity, keys) | Framework-first (LangGraph orchestration) | Pattern-first (Reflect / Tool / Plan / Multi-Agent) |
+| **Communication protocol** | AITP (Agent Interaction and Transaction Protocol) | LangGraph APIs + MCP | MCP (full embrace) |
+| **Model stance** | Open-weight preferred; TEE-verifiable execution | Model-agnostic in principle, family-tuned in practice | Open-weight advocate, often Chinese models in production |
+| **Enterprise value prop** | Trustless privacy for regulated data | Observability + reliability + memory moats | ROI through workflow redesign; vertical apps |
+| **Political economy** | AI as commons; user sovereignty | AI as industry standard; enterprise toolchain | AI as productivity multiplier; vertical application layer |
+| **One-line summary** | Building rails | Building runtime | Writing the curriculum |
+
+The three fault lines worth naming:
+
+1. **Where trust lives.** Polosukhin: cryptography. Chase: observability. Ng: evals. These encode different threat models, not just different tools.
+2. **HITL as a philosophy of agent maturity.** Chase treats HITL as *permanent and enriching*. Polosukhin treats it as a *temporary limitation* dissolved by cryptographic trust. Ng treats it as a *specification mechanism* — humans define the task, then get out of the way.
+3. **Decentralization vs. integration.** Polosukhin requires buy-in to a blockchain ecosystem (NEAR), a new trust model (TEEs), and a new commerce layer. Chase requires LangGraph/LangSmith adoption but integrates with existing cloud + identity. Ng requires no platform buy-in at all.
+
+---
+
+## Operational Schools
+
+The philosophical schools sit at the level of *what to believe*. The operational schools sit at the level of *what to inherit*. These are the actual working stacks you can copy.
+
+### The Stripe School
+
+> See: [Approaches § Stripe Minions](approaches.md#stripe-minions)
+
+Pattern: pre-warmed devboxes (EC2 instances cloned from production developer machines) + Goose-derived harness + Toolshed MCP server + blueprint orchestration. Engineers invoke minions from Slack and receive complete PRs. *"Spin up many in parallel; one-shot design (task in, PR out, no interaction in between); max 2 CI rounds."*
+
+**Trust mechanism:** organizational — Stripe owns the model, the harness, the devbox, the CI pipeline, and the people. Trust is end-to-end vertical.
+
+**Philosophical alignment:** Mostly Chase-aligned (observability + structured orchestration), with elements of Ng-aligned process discipline. Not Polosukhin-aligned at all — Stripe is the *most centralized* trust model possible.
+
+### The Tan School
+
+> See: [Approaches § GStack](approaches.md#gstack) + [GBrain](approaches.md#gbrain)
+
+Pattern: one-engineer, opinionated SKILL.md skill pack + parallel worktree execution + persistent markdown brain. [Garry Tan's](who-is-who.md#garry-tan) stated workflow runs 10–15 parallel Claude Code sessions inside [Conductor](infrastructure.md#autonomous-coding-agents) on a single Mac with gstack as the engine and gbrain as the memory companion.
+
+**Trust mechanism:** craft — *"skill files are code,"* every skill encodes battle-tested verification, the human reads every PR before merge.
+
+**Philosophical alignment:** Chase-aligned (observability via gbrain + structured skills) with Ng-aligned process discipline (the gstack skills *are* the four-pattern framework in practice — reflection, tool use, planning, multi-agent built into specific commands).
+
+### The Walking Labs / Mastery School
+
+> See: [Harness Engineering](harness-engineering.md)
+
+Pattern: validator-first methodology. The [Walking Labs *Learn Harness Engineering*](https://walkinglabs.github.io/learn-harness-engineering/en/) course argues that *"a good validator with a bad workflow beats a good workflow without a validator,"* and that the arithmetic of serial steps (5 × 80% = 33% success) makes verification mandatory rather than optional. The five-subsystem model (instructions / tools / environment / state / feedback) is its taxonomic backbone.
+
+**Trust mechanism:** verification — every step has executable success criteria; the harness *enforces* the criteria; failures are mapped to specific subsystem defects via the diagnostic loop.
+
+**Philosophical alignment:** Almost pure Ng — process / evals / error analysis as the load-bearing layer, infrastructure interchangeable. The "thin harness, fat skills" ethos that recurs in [GBrain](approaches.md#gbrain) and [AgentHub](approaches.md#agenthub) is the direct lineage.
+
+### The Steinberger School
+
+> See: [Approaches § The Steinberger School](approaches.md#the-steinberger-school)
+
+Pattern: token-unbounded automation. [Peter Steinberger's](who-is-who.md#peter-steinberger-steipete) reported workflow runs ~100 Codex agents continuously, ~$1.3M/month inference spend, ~3 engineers. Every project event — PR review, commit security scan, issue triage, meeting transcript, performance regression — has an agent listening. Supporting toolchain: [Crabbox](approaches.md#crabbox), [Clawpatch](approaches.md#clawpatch), [ClawSweeper](approaches.md#clawsweeper), Discrawl, CodexBar, fs-safe, peekaboo.
+
+**Trust mechanism:** automation surface area — the assumption is that *every* event is worth an agent pass, and the volume of automation compensates for individual call unreliability.
+
+**Philosophical alignment:** Hybrid. The infrastructure is centralized cloud (Chase-aligned), but the *spirit* is closer to Polosukhin in that Steinberger explicitly experiments with infrastructure choices most operators don't (fs-safe for filesystem isolation, TEE-friendly architecture in IronClaw). The harness discipline is Walking Labs / Ng-aligned. The whole stack is what happens when you take Chase's observability bet, Ng's workflow-redesign bet, and Walking Labs' validator-first bet and *spend on all three simultaneously*.
+
+---
+
+## Cross-Map: Operational × Philosophical
+
+| Operational school | Polosukhin | Chase | Ng |
+|--------------------|-----------|-------|-----|
+| **Stripe** | ✗ | ◐ (centralized, deeply observed) | ◐ (blueprints = workflow redesign) |
+| **Tan** | ✗ | ◐ (gbrain is its observability layer) | ● (gstack ≈ the four patterns) |
+| **Walking Labs / Mastery** | ✗ | ◐ (validator = a kind of observer) | ● (evals-first is the thesis) |
+| **Steinberger** | ◐ (fs-safe + TEE-friendly architecture) | ● (everything is observed) | ● (workflows redesigned per project event) |
+
+`●` strongly aligned · `◐` partially aligned · `✗` not aligned
+
+The diagonal reading: nobody yet runs a *Polosukhin-aligned operational school* at production scale. That's the unbuilt cell. If decentralized TEE-secured agents become a dominant pattern in regulated-data verticals over the next 24 months, there will be a fifth school worth naming.
+
+---
+
+## What the Next 24 Months Look Like
+
+Likely convergence at the infrastructure layer:
+
+- **MCP** becomes the dominant agent communication protocol (already adopted by Anthropic and OpenAI), making Chase's and Ng's architectures interoperable
+- **TEE-secured compute** gains traction *even without* blockchain — Google Cloud Confidential VMs and Azure Confidential Computing offer similar guarantees on traditional clouds, which lifts Polosukhin's infrastructure ideas without requiring his political-economy bet
+- **HITL primitives** Chase shipped in LangGraph (approve/edit/reject/time-travel) become the blueprint other frameworks copy
+- **The four-pattern framework** stays as the common vocabulary across teams using LangGraph, AutoGen, OpenAI Agents SDK, gstack, or raw Python
+
+Likely persistent divergence at the philosophy layer:
+
+- Polosukhin's bet: dominant trust infrastructure is *cryptographic sovereignty*, not *institutional accountability*
+- Chase's bet: *observable, governed cloud infrastructure* is sufficient if rigorously implemented
+- Ng's bet: *task decomposition and measurement* solve the reliability problem regardless of infrastructure
+
+Each finds its natural market: Polosukhin in crypto-native and regulated-data enterprises; Chase in the broad enterprise middleware stack; Ng in education and the vertical application layer.
+
+The practical takeaway: a builder who can hold all three philosophies in mind simultaneously — and pick the right one per context — will outperform anyone treating these as competing religious doctrines.
+
+---
+
+## Further Reading
+
+Primary sources for the three philosophical schools:
+
+- **Polosukhin** — [Shade Agents](https://www.near.org/blog/shade-agents-the-first-truly-autonomous-ai-agents) · [Intelligence at the Frontier keynote](https://www.youtube.com/watch?v=M-BVxaqKp-0) · [Business Insider interview, April 2026](https://www.businessinsider.com/illia-polosukhin-transformer-author-ai-agents-near-protocol-2026-4)
+- **Chase** — [How to Think About Agent Frameworks](https://www.langchain.com/blog/how-to-think-about-agent-frameworks) · [How and When to Build Multi-Agent Systems](https://www.langchain.com/blog/how-and-when-to-build-multi-agent-systems) · [Sequoia podcast: Context Engineering Our Way to Long-Horizon Agents](https://sequoiacap.com/podcast/context-engineering-our-way-to-long-horizon-agents-langchains-harrison-chase/) · [State of Agent Engineering 2025](https://www.langchain.com/state-of-agent-engineering)
+- **Ng** — [DeepLearning.AI Agentic AI course](https://www.deeplearning.ai/courses/agentic-ai) · [Snowflake BUILD 2024 talk](https://www.youtube.com/watch?v=KrRD7r7y7NY) · [VB Transform 2025](https://www.youtube.com/watch?v=lB8jythC-vQ)
+
+For the operational schools, see the per-school links inline above. For the underlying methodology, see [Harness Engineering](harness-engineering.md).
+
+> *Some numerical claims in the philosophical-school sections are drawn from public talks and interviews and have not been independently verified — particularly LangChain's monthly-download figures, NEAR's marketplace agent counts, and AI Fund's reported portfolio metrics. Treat them as directional rather than precise.*
   </script>
   <script type="text/markdown" data-page="benchmarks">
 # Benchmarks
@@ -2493,7 +2726,7 @@ The key insight from both Stripe and the open-source community: **the hard part 
   <script type="text/markdown" data-page="who-is-who">
 # Who's Who in Agentic Engineering
 
-The shortest way to get oriented in agentic engineering is to figure out *whose work to follow*. This is the people page — twelve names worth knowing, why they matter, and the single thing of theirs to read or watch first.
+The shortest way to get oriented in agentic engineering is to figure out *whose work to follow*. This is the people page — twenty names worth knowing, why they matter, and the single thing of theirs to read or watch first.
 
 Three rough archetypes:
 
@@ -2522,6 +2755,24 @@ Career: BSc Toronto under Hinton, PhD Stanford under Fei-Fei Li (designed CS231n
 - *[Deep Dive into LLMs like ChatGPT](https://www.youtube.com/watch?v=7xTGNNLPyMI)* (2025) — under-the-hood explanation aimed at general audiences
 
 **Start here:** If you've never watched it, *State of GPT* is the highest-leverage 40 minutes in this list — every later "LLM OS" / "agent stack" diagram you'll see traces back to it.
+
+---
+
+## Lilian Weng
+
+> 🧠 Researcher / educator · Co-founder, [Thinking Machines Lab](https://thinkingmachines.ai/) · [@lilianweng](https://twitter.com/lilianweng) · [lilianweng.github.io](https://lilianweng.github.io/)
+
+The author of *[LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)* (June 2023) — the foundational blog post that defined the planning / memory / tool-use decomposition every subsequent agent framework rests on. Weng spent six years at OpenAI on safety, red-teaming, and post-training (Instruction Hierarchy, automated red teaming, RLHF), then co-founded Thinking Machines Lab with Mira Murati in 2025. Her 2025 writing on test-time compute ("Why We Think") is the cleanest single primer for how to reason about reasoning models. If the schools framing this repo uses has a *taxonomic ancestor*, it's Weng's planning/memory/tool-use breakdown.
+
+**Key works to know:**
+
+- *[LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)* (2023) — the foundational decomposition
+- *[Why We Think](https://lilianweng.github.io/posts/2025-05-01-thinking/)* (2025) — test-time compute primer
+- *[The Instruction Hierarchy: Training LLMs to Prioritize Privileged Instructions](https://arxiv.org/abs/2404.13208)* (2024)
+- Her [blog](https://lilianweng.github.io/) — every long-form post is a citable source for someone
+- [Thinking Machines Lab](https://thinkingmachines.ai) — current home
+
+**Start here:** *LLM Powered Autonomous Agents*. If you read one blog post about agents before reading any others, this is the one.
 
 ---
 
@@ -2555,6 +2806,23 @@ Career: founder of Posterous (acq. Twitter), then Initialized Capital (early Coi
 - [garrytan.com](https://garrytan.com) + [YC YouTube](https://www.youtube.com/@ycombinator) for the broader founder-mode commentary
 
 **Start here:** Install GStack into your own `~/.claude/skills/` and read the SKILL.md files. The skills *are* the playbook — that's the whole point of the project.
+
+---
+
+## Boris Cherny
+
+> 🔨 Operator · Creator / Lead of [Claude Code](approaches.md#terminal-coding-clis) · Anthropic · [@bcherny](https://twitter.com/bcherny) · [GitHub](https://github.com/bcherny)
+
+The engineer behind Claude Code — the coding agent that the entire Claude Code ecosystem covered in this repo (GStack, GBrain, Superpowers, AgentHub, Crabbox, Clawpatch, ClawSweeper, OpenClaw…) is built on top of. Cherny's bet — articulated in his AI Ascent 2026 talk and the Pragmatic Engineer interview — was that **agentic coding works better with `glob`/`grep` over a real filesystem than with RAG / vector DBs over a parsed codebase**. That single architectural choice is why most of the harnesses in this repo are *file-first* rather than *embedding-first*, and why "agent + bash" became the dominant pattern. Before Anthropic he authored *Programming TypeScript* (O'Reilly, 2020) and led developer tooling at Brigade and Khan Academy.
+
+**Key works to know:**
+
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — the coding agent
+- [*Building Claude Code with Boris Cherny*](https://newsletter.pragmaticengineer.com/p/building-claude-code-with-boris-cherny) — Pragmatic Engineer interview
+- [AI Ascent 2026 talk](https://www.youtube.com/watch?v=SlGRN8jh2RI) — the "glob is all you need" thesis
+- *Programming TypeScript* (O'Reilly, 2020)
+
+**Start here:** The Pragmatic Engineer interview — the cleanest first-person account of the design decisions that shape the entire coding-agent ecosystem the rest of this repo covers.
 
 ---
 
@@ -2615,6 +2883,24 @@ Vincent's relevance: he brings the long view. The discipline he's encoding into 
 
 ---
 
+## Harrison Chase
+
+> 🔨 Operator · Co-founder & CEO, [LangChain](https://www.langchain.com/) · [@hwchase17](https://twitter.com/hwchase17) · [GitHub](https://github.com/hwchase17)
+
+Made the first commit to LangChain on October 24, 2022. By 2025–2026, LangChain + LangGraph + LangSmith was the most-deployed agent stack in enterprise production — referenced across our [Infrastructure / Orchestration tables](infrastructure.md#agent-specific-orchestration-frameworks) and the [Vercel Open Agents](approaches.md#vercel-open-agents) stack. Chase has articulated more of the *practitioner vocabulary* of the field than almost anyone else: he popularized **context engineering**, the **scaffold vs. harness** distinction, **ambient agents**, and the **read-vs-write multi-agent scalability axis**. His worldview — *trust through observability, HITL as a permanent feedback loop, memory as the next moat* — gets a dedicated treatment in our [Schools](schools.md#trust-as-observability--chase) page.
+
+**Key works to know:**
+
+- [LangChain](https://github.com/langchain-ai/langchain) (2022) — abstractions for LLM apps + tools
+- [LangGraph](https://github.com/langchain-ai/langgraph) (early 2024) — stateful agent orchestration
+- [LangSmith](https://smith.langchain.com/) — observability + evals + Prompt Hub
+- *[How and When to Build Multi-Agent Systems](https://www.langchain.com/blog/how-and-when-to-build-multi-agent-systems)* (June 2025) — the multi-agent design framework
+- *[Reflections on Three Years of Building LangChain](https://www.langchain.com/blog/three-years-langchain)* — the meta-take
+
+**Start here:** *[How to Think About Agent Frameworks](https://www.langchain.com/blog/how-to-think-about-agent-frameworks)* (April 2025) — Chase's cleanest framing of where the agent stack is going. Pair with the [Sequoia podcast episode](https://sequoiacap.com/podcast/training-data-harrison-chase-2/) for long-form.
+
+---
+
 ## Teknium (Karan Malhotra)
 
 > 🧠 Operator + researcher · Nous Research · [Hermes Agent](approaches.md#hermes-agent) / [Hermes model line](https://nousresearch.com/) / [Atropos RL](https://github.com/NousResearch/atropos) · [@Teknium1](https://twitter.com/Teknium1)
@@ -2650,6 +2936,84 @@ Why he matters: SWE-bench / SWE-bench Verified is *the* shared metric in coding-
 - [SWE-bench Multimodal](https://www.swebench.com/multimodal.html), [SWE-bench Multilingual](https://www.swebench.com/multilingual.html), [SWE-bench Pro](https://github.com/scaleapi/SWE-bench_Pro-os) — the expanding family
 
 **Start here:** Read the *[SWE-agent](https://arxiv.org/abs/2405.15793)* NeurIPS 2024 paper. Then look at [mini-SWE-agent's 100-line agent](https://github.com/SWE-agent/mini-SWE-agent) and ask why it works.
+
+---
+
+## Shunyu Yao
+
+> 🧠 Researcher · Research Scientist, OpenAI · [@ShunyuYao12](https://twitter.com/ShunyuYao12) · [ysymyth.github.io](https://ysymyth.github.io/)
+
+Yao's PhD thesis at Princeton (under Karthik Narasimhan) is essentially the canonical academic story of how the modern language-agent stack came together. He's lead or co-lead on **[ReAct](https://arxiv.org/abs/2210.03629)** (the reasoning+acting interleave pattern), **[Tree of Thoughts](https://arxiv.org/abs/2305.10601)** (deliberate problem-solving via search), **[Reflexion](https://arxiv.org/abs/2303.11366)** (verbal RL), **[WebShop](https://arxiv.org/abs/2207.01206)** (the original web-environment benchmark), **[τ-bench](https://arxiv.org/abs/2406.12045)** (tool-agent-user interaction), and **SWE-bench / SWE-agent** alongside [John Yang](#john-yang). Now at OpenAI working on Computer-Using Agent (CUA) and Deep Research.
+
+His essay *[The Second Half](https://ysymyth.github.io/The-Second-Half/)* argues the next phase of agentic AI is about *evaluation* rather than capability — which is exactly the thesis our [Benchmarks](benchmarks.md) page tracks.
+
+**Key works to know:**
+
+- *[ReAct](https://arxiv.org/abs/2210.03629)* (ICLR 2023) — the reasoning + acting interleave
+- *[Tree of Thoughts](https://arxiv.org/abs/2305.10601)* (NeurIPS 2023) — search over reasoning trees
+- *[Reflexion](https://arxiv.org/abs/2303.11366)* (NeurIPS 2023) — verbal reinforcement learning
+- *[SWE-agent](https://arxiv.org/abs/2405.15793)* (NeurIPS 2024) — the canonical reference harness
+- *[The Second Half](https://ysymyth.github.io/The-Second-Half/)* (2025) — the eval-first thesis for what comes next
+
+**Start here:** Read ReAct first, then *The Second Half*. ReAct shows where the agent stack came from; *The Second Half* tells you where it's going.
+
+---
+
+## Noam Brown
+
+> 🧠 Researcher · Research Scientist, OpenAI · [@polynoamial](https://twitter.com/polynoamial) · [noambrown.github.io](https://noambrown.github.io/)
+
+The reasoning lineage from poker to o1. Brown spent the late 2010s building **Libratus** (2017, superhuman heads-up no-limit poker) and **Pluribus** (2019, superhuman multiplayer poker) — both demonstrations that *search at inference time* could close the gap between fixed-policy models and human experts. Then **CICERO** (Science 2022) extended that to natural-language Diplomacy, the first AI to play at human level in a strategic-communication game. He joined OpenAI in 2023 and was a foundational contributor to the **o1** reasoning models.
+
+His core thesis — that test-time search / planning matters as much as model scale — is the intellectual root of the entire "reasoning model" wave of 2024–2026, and is why our [Inference Strategy for Agents](inference.md#inference-strategy-for-agents) treats inference compute as a first-class variable.
+
+**Key works to know:**
+
+- Libratus (2017) + Pluribus (2019) — superhuman poker via search + CFR
+- *[Human-level play in the game of Diplomacy](https://www.science.org/doi/10.1126/science.ade9097)* (Science 2022) — CICERO
+- OpenAI o1 / o3 reasoning models — research contributor
+- *[OpenAI talk on planning in AI](https://www.youtube.com/watch?v=eaAonE58sLU)* — the cleanest single-source explanation of the thesis
+
+**Start here:** The OpenAI talk on planning above. It traces the line from poker through Diplomacy to o1 in one self-contained presentation.
+
+---
+
+## Douwe Kiela
+
+> 🧠 Researcher / 🔨 Operator · Co-founder & CEO, [Contextual AI](https://contextual.ai/) · Adjunct Prof, Stanford Symbolic Systems · [@douwekiela](https://twitter.com/douwekiela)
+
+The RAG paper's first author. Kiela led the team behind *[Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401)* (NeurIPS 2020) — the paper that named and operationalized retrieval-augmented generation. Since then he's been the bridge between retrieval research and enterprise production: Contextual AI ships the RAG + context-engineering platform that grounds agents over private high-stakes knowledge.
+
+Why he matters for this repo: every agent in [Approaches](approaches.md) that touches enterprise documents — Sierra, LlamaIndex, GBrain, Clawpatch — sits on top of variants of the RAG architecture Kiela helped define. He's also Dynabench's co-creator, which set the template for the "evals-as-product" startup pattern that's now everywhere in our [Eval](infrastructure.md#evaluation--testing) section.
+
+**Key works to know:**
+
+- *[Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401)* (NeurIPS 2020) — the RAG paper
+- *[Retrieval Augmentation Reduces Hallucination in Conversation](https://arxiv.org/abs/2104.07567)* (2021)
+- *[Dynabench](https://dynabench.org/)* — dynamic NLP benchmarking, predecessor of many eval-as-product startups
+- [Contextual AI blog](https://contextual.ai/blog) — production RAG patterns
+
+**Start here:** The original RAG paper. It's short, technical, and you'll see why every "retrieval over private data" product is downstream of it.
+
+---
+
+## Illia Polosukhin
+
+> 🧠 Researcher / 🔨 Operator · Co-founder, [NEAR Protocol](https://near.org/) + [NEAR AI](https://near.ai/) · *Attention Is All You Need* co-author · [@ilblackdragon](https://twitter.com/ilblackdragon)
+
+One of the eight co-authors of *Attention Is All You Need* (2017) — the Transformer paper — Polosukhin is the most prominent voice making a **decentralized-trust** case for agentic infrastructure. His thesis, covered in our [Schools](schools.md#trust-as-cryptography--polosukhin) page: centralized AI providers represent a structural manipulation risk; agents need their own keys, TEE-isolated execution, and on-chain identity to be genuinely autonomous economic participants.
+
+His current work — **NEAR AI**, **[IronClaw](approaches.md#openclaw)** (a Rust agent runtime that runs inside Trusted Execution Environments and serves as the OS layer of the OpenClaw ecosystem), the **Confidential GPU Marketplace**, and the **Shade Agent** framework — bets that cryptographic sovereignty is the foundation autonomous agents will eventually require. Worth understanding even if you don't buy the blockchain framing, because the TEE-secured-execution argument is increasingly being adopted on traditional clouds (Azure Confidential Computing, Google Cloud Confidential VMs).
+
+**Key works to know:**
+
+- *[Attention Is All You Need](https://arxiv.org/abs/1706.03762)* (2017) — the Transformer paper, co-author
+- [NEAR AI](https://near.ai) — current home
+- IronClaw (Rust agent runtime in TEE; OpenClaw ecosystem OS layer)
+- *[Shade Agents: The First Truly Autonomous AI Agents](https://www.near.org/blog/shade-agents-the-first-truly-autonomous-ai-agents)* — the "if an agent doesn't have its own keys, it's not an agent" thesis
+- [Intelligence at the Frontier keynote](https://www.youtube.com/watch?v=M-BVxaqKp-0) (2026)
+
+**Start here:** Read the Shade Agents post — the clearest one-page version of his argument, and the cleanest diff against the Chase/Ng frame.
 
 ---
 
@@ -2729,6 +3093,25 @@ Background: Stanford CS, Palantir before Sourcegraph. Hosts the **[Sourcegraph D
 
 ---
 
+## Jerry Liu
+
+> 🔨 Operator · Co-founder & CEO, [LlamaIndex](https://www.llamaindex.ai/) · [@jerryjliu0](https://twitter.com/jerryjliu0)
+
+Founder of [LlamaIndex](https://github.com/run-llama/llama_index), which began life as GPT Index in 2022 as one of the earliest RAG frameworks (alongside [LangChain](#harrison-chase)) and has since pivoted into **agentic document infrastructure** — the parsing, extraction, classification, and workflow-orchestration layer that lets agents reliably operate over real-world enterprise documents (invoices, contracts, medical records, regulatory filings). His 2025–2026 pivot from "RAG framework for everyone" to "agentic document workflows for enterprise" is one of the clearest examples in the ecosystem of an open-source framework finding its specific load-bearing position in the broader agent stack.
+
+**LlamaParse**, **LlamaCloud**, and **LlamaIndex Workflows** are the productization. If [Douwe Kiela](#douwe-kiela) defined the retrieval substrate, Liu defined the document-pipeline substrate.
+
+**Key works to know:**
+
+- [LlamaIndex](https://github.com/run-llama/llama_index) — the framework
+- [LlamaCloud + LlamaParse](https://cloud.llamaindex.ai/) — managed document parsing / extraction
+- *[LlamaIndex Is More Than a RAG Framework](https://www.llamaindex.ai/blog/llamaindex-is-more-than-a-rag-framework)* — the architectural pivot in his own words
+- [LlamaIndex blog](https://www.llamaindex.ai/blog) — the most useful single source on "how to actually do agentic document work"
+
+**Start here:** Sign up for LlamaCloud and parse one of your own complex PDFs. Then read the "more than a RAG framework" post to see why the pivot was the right call.
+
+---
+
 ## Appendix: people, projects, and writers we considered but didn't profile
 
 This page caps at 12 to stay useful. Strong candidates we deliberately didn't write up — each of them is worth following:
@@ -2745,8 +3128,17 @@ This page caps at 12 to stay useful. Strong candidates we deliberately didn't wr
 - **Garry Tan's GBrain co-architects** — gbrain's contributors deserve credit beyond just Garry's branding.
 - **Logan Kilpatrick** — ex-OpenAI DevRel, now Google DeepMind; defines how a lot of API-facing engineers think about agents.
 - **Anna Gutowska** (IBM) — author of [IBM's *What is Agentic Engineering?*](https://www.ibm.com/think/topics/agentic-engineering); good mainstream-enterprise framing.
+- **João Moura** (CrewAI) — multi-agent orchestration framework with significant enterprise adoption; products covered in our [Infrastructure / Orchestration](infrastructure.md#agent-specific-orchestration-frameworks) section.
+- **Demis Hassabis** (Google DeepMind / Isomorphic Labs) — the establishment heavyweight whose AlphaGo / AlphaFold lineage underpins much of how the field thinks about planning + search + memory.
+- **Robert Nishihara** (Anyscale / Ray) — distributed compute substrate that increasingly underpins agentic RL workloads.
+- **Bret Taylor** (Sierra, OpenAI Chairman) — enterprise CX agents; not coding-agent-shaped but a major voice on enterprise agent deployment.
+- **Mustafa Suleyman** (Microsoft AI) — DeepMind co-founder, Inflection co-founder, now leads MAI Superintelligence team; the "humanist superintelligence" framing.
+- **Chip Huyen** — *AI Engineering* (O'Reilly 2025) and *Designing Machine Learning Systems* (2022); the production-ML engineering discipline upstream of agentic engineering.
+- **Yohei Nakajima** (BabyAGI) — the 2023 task-loop architecture that kicked off the modern autonomous-agent boom; now invests via Untapped Capital and Agent Fund.
+- **Joon Sung Park** (Simile, ex-Stanford) — *Generative Agents: Interactive Simulacra of Human Behavior* (2023) — the Smallville paper that defined memory-stream / reflection / retrieval agent architecture.
+- **Sholto Douglas** (Anthropic) — RL scaling, verifiable rewards, computer-use; deep agent-infrastructure work.
 
-If you'd extend the page to 24, those are the next 12.
+If you'd extend the page to 30+, those are the next names worth profiling.
 
 ---
 

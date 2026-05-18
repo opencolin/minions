@@ -35,6 +35,7 @@ export default defineConfig({
             { label: 'Approaches', slug: 'approaches' },
             { label: 'Patterns', slug: 'patterns' },
             { label: 'Harness Engineering', slug: 'harness-engineering' },
+            { label: 'Schools', slug: 'schools' },
             { label: 'Benchmarks', slug: 'benchmarks' },
             { label: 'Comparison', slug: 'comparison' },
             { label: 'Organizations', slug: 'organizations' },

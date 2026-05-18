@@ -1,9 +1,10 @@
 ---
 title: "Who's Who"
-description: "Twelve names worth knowing in agentic engineering — researchers, operators, and chroniclers. Who they are, what they shaped, and the single thing of theirs to read or watch first."
+description: "Twenty names worth knowing in agentic engineering — researchers, operators, and chroniclers. Who they are, what they shaped, and the single thing of theirs to read or watch first."
 ---
 
-The shortest way to get oriented in agentic engineering is to figure out *whose work to follow*. This is the people page — twelve names worth knowing, why they matter, and the single thing of theirs to read or watch first.
+
+The shortest way to get oriented in agentic engineering is to figure out *whose work to follow*. This is the people page — twenty names worth knowing, why they matter, and the single thing of theirs to read or watch first.
 
 Three rough archetypes:
 
@@ -32,6 +33,24 @@ Career: BSc Toronto under Hinton, PhD Stanford under Fei-Fei Li (designed CS231n
 - *[Deep Dive into LLMs like ChatGPT](https://www.youtube.com/watch?v=7xTGNNLPyMI)* (2025) — under-the-hood explanation aimed at general audiences
 
 **Start here:** If you've never watched it, *State of GPT* is the highest-leverage 40 minutes in this list — every later "LLM OS" / "agent stack" diagram you'll see traces back to it.
+
+---
+
+## Lilian Weng
+
+> 🧠 Researcher / educator · Co-founder, [Thinking Machines Lab](https://thinkingmachines.ai/) · [@lilianweng](https://twitter.com/lilianweng) · [lilianweng.github.io](https://lilianweng.github.io/)
+
+The author of *[LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)* (June 2023) — the foundational blog post that defined the planning / memory / tool-use decomposition every subsequent agent framework rests on. Weng spent six years at OpenAI on safety, red-teaming, and post-training (Instruction Hierarchy, automated red teaming, RLHF), then co-founded Thinking Machines Lab with Mira Murati in 2025. Her 2025 writing on test-time compute ("Why We Think") is the cleanest single primer for how to reason about reasoning models. If the schools framing this repo uses has a *taxonomic ancestor*, it's Weng's planning/memory/tool-use breakdown.
+
+**Key works to know:**
+
+- *[LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)* (2023) — the foundational decomposition
+- *[Why We Think](https://lilianweng.github.io/posts/2025-05-01-thinking/)* (2025) — test-time compute primer
+- *[The Instruction Hierarchy: Training LLMs to Prioritize Privileged Instructions](https://arxiv.org/abs/2404.13208)* (2024)
+- Her [blog](https://lilianweng.github.io/) — every long-form post is a citable source for someone
+- [Thinking Machines Lab](https://thinkingmachines.ai) — current home
+
+**Start here:** *LLM Powered Autonomous Agents*. If you read one blog post about agents before reading any others, this is the one.
 
 ---
 
@@ -65,6 +84,23 @@ Career: founder of Posterous (acq. Twitter), then Initialized Capital (early Coi
 - [garrytan.com](https://garrytan.com) + [YC YouTube](https://www.youtube.com/@ycombinator) for the broader founder-mode commentary
 
 **Start here:** Install GStack into your own `~/.claude/skills/` and read the SKILL.md files. The skills *are* the playbook — that's the whole point of the project.
+
+---
+
+## Boris Cherny
+
+> 🔨 Operator · Creator / Lead of [Claude Code](/approaches/#terminal-coding-clis) · Anthropic · [@bcherny](https://twitter.com/bcherny) · [GitHub](https://github.com/bcherny)
+
+The engineer behind Claude Code — the coding agent that the entire Claude Code ecosystem covered in this repo (GStack, GBrain, Superpowers, AgentHub, Crabbox, Clawpatch, ClawSweeper, OpenClaw…) is built on top of. Cherny's bet — articulated in his AI Ascent 2026 talk and the Pragmatic Engineer interview — was that **agentic coding works better with `glob`/`grep` over a real filesystem than with RAG / vector DBs over a parsed codebase**. That single architectural choice is why most of the harnesses in this repo are *file-first* rather than *embedding-first*, and why "agent + bash" became the dominant pattern. Before Anthropic he authored *Programming TypeScript* (O'Reilly, 2020) and led developer tooling at Brigade and Khan Academy.
+
+**Key works to know:**
+
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — the coding agent
+- [*Building Claude Code with Boris Cherny*](https://newsletter.pragmaticengineer.com/p/building-claude-code-with-boris-cherny) — Pragmatic Engineer interview
+- [AI Ascent 2026 talk](https://www.youtube.com/watch?v=SlGRN8jh2RI) — the "glob is all you need" thesis
+- *Programming TypeScript* (O'Reilly, 2020)
+
+**Start here:** The Pragmatic Engineer interview — the cleanest first-person account of the design decisions that shape the entire coding-agent ecosystem the rest of this repo covers.
 
 ---
 
@@ -125,6 +161,24 @@ Vincent's relevance: he brings the long view. The discipline he's encoding into 
 
 ---
 
+## Harrison Chase
+
+> 🔨 Operator · Co-founder & CEO, [LangChain](https://www.langchain.com/) · [@hwchase17](https://twitter.com/hwchase17) · [GitHub](https://github.com/hwchase17)
+
+Made the first commit to LangChain on October 24, 2022. By 2025–2026, LangChain + LangGraph + LangSmith was the most-deployed agent stack in enterprise production — referenced across our [Infrastructure / Orchestration tables](/infrastructure/#agent-specific-orchestration-frameworks) and the [Vercel Open Agents](/approaches/#vercel-open-agents) stack. Chase has articulated more of the *practitioner vocabulary* of the field than almost anyone else: he popularized **context engineering**, the **scaffold vs. harness** distinction, **ambient agents**, and the **read-vs-write multi-agent scalability axis**. His worldview — *trust through observability, HITL as a permanent feedback loop, memory as the next moat* — gets a dedicated treatment in our [Schools](/schools/#trust-as-observability--chase) page.
+
+**Key works to know:**
+
+- [LangChain](https://github.com/langchain-ai/langchain) (2022) — abstractions for LLM apps + tools
+- [LangGraph](https://github.com/langchain-ai/langgraph) (early 2024) — stateful agent orchestration
+- [LangSmith](https://smith.langchain.com/) — observability + evals + Prompt Hub
+- *[How and When to Build Multi-Agent Systems](https://www.langchain.com/blog/how-and-when-to-build-multi-agent-systems)* (June 2025) — the multi-agent design framework
+- *[Reflections on Three Years of Building LangChain](https://www.langchain.com/blog/three-years-langchain)* — the meta-take
+
+**Start here:** *[How to Think About Agent Frameworks](https://www.langchain.com/blog/how-to-think-about-agent-frameworks)* (April 2025) — Chase's cleanest framing of where the agent stack is going. Pair with the [Sequoia podcast episode](https://sequoiacap.com/podcast/training-data-harrison-chase-2/) for long-form.
+
+---
+
 ## Teknium (Karan Malhotra)
 
 > 🧠 Operator + researcher · Nous Research · [Hermes Agent](/approaches/#hermes-agent) / [Hermes model line](https://nousresearch.com/) / [Atropos RL](https://github.com/NousResearch/atropos) · [@Teknium1](https://twitter.com/Teknium1)
@@ -160,6 +214,84 @@ Why he matters: SWE-bench / SWE-bench Verified is *the* shared metric in coding-
 - [SWE-bench Multimodal](https://www.swebench.com/multimodal.html), [SWE-bench Multilingual](https://www.swebench.com/multilingual.html), [SWE-bench Pro](https://github.com/scaleapi/SWE-bench_Pro-os) — the expanding family
 
 **Start here:** Read the *[SWE-agent](https://arxiv.org/abs/2405.15793)* NeurIPS 2024 paper. Then look at [mini-SWE-agent's 100-line agent](https://github.com/SWE-agent/mini-SWE-agent) and ask why it works.
+
+---
+
+## Shunyu Yao
+
+> 🧠 Researcher · Research Scientist, OpenAI · [@ShunyuYao12](https://twitter.com/ShunyuYao12) · [ysymyth.github.io](https://ysymyth.github.io/)
+
+Yao's PhD thesis at Princeton (under Karthik Narasimhan) is essentially the canonical academic story of how the modern language-agent stack came together. He's lead or co-lead on **[ReAct](https://arxiv.org/abs/2210.03629)** (the reasoning+acting interleave pattern), **[Tree of Thoughts](https://arxiv.org/abs/2305.10601)** (deliberate problem-solving via search), **[Reflexion](https://arxiv.org/abs/2303.11366)** (verbal RL), **[WebShop](https://arxiv.org/abs/2207.01206)** (the original web-environment benchmark), **[τ-bench](https://arxiv.org/abs/2406.12045)** (tool-agent-user interaction), and **SWE-bench / SWE-agent** alongside [John Yang](#john-yang). Now at OpenAI working on Computer-Using Agent (CUA) and Deep Research.
+
+His essay *[The Second Half](https://ysymyth.github.io/The-Second-Half/)* argues the next phase of agentic AI is about *evaluation* rather than capability — which is exactly the thesis our [Benchmarks](/benchmarks/) page tracks.
+
+**Key works to know:**
+
+- *[ReAct](https://arxiv.org/abs/2210.03629)* (ICLR 2023) — the reasoning + acting interleave
+- *[Tree of Thoughts](https://arxiv.org/abs/2305.10601)* (NeurIPS 2023) — search over reasoning trees
+- *[Reflexion](https://arxiv.org/abs/2303.11366)* (NeurIPS 2023) — verbal reinforcement learning
+- *[SWE-agent](https://arxiv.org/abs/2405.15793)* (NeurIPS 2024) — the canonical reference harness
+- *[The Second Half](https://ysymyth.github.io/The-Second-Half/)* (2025) — the eval-first thesis for what comes next
+
+**Start here:** Read ReAct first, then *The Second Half*. ReAct shows where the agent stack came from; *The Second Half* tells you where it's going.
+
+---
+
+## Noam Brown
+
+> 🧠 Researcher · Research Scientist, OpenAI · [@polynoamial](https://twitter.com/polynoamial) · [noambrown.github.io](https://noambrown.github.io/)
+
+The reasoning lineage from poker to o1. Brown spent the late 2010s building **Libratus** (2017, superhuman heads-up no-limit poker) and **Pluribus** (2019, superhuman multiplayer poker) — both demonstrations that *search at inference time* could close the gap between fixed-policy models and human experts. Then **CICERO** (Science 2022) extended that to natural-language Diplomacy, the first AI to play at human level in a strategic-communication game. He joined OpenAI in 2023 and was a foundational contributor to the **o1** reasoning models.
+
+His core thesis — that test-time search / planning matters as much as model scale — is the intellectual root of the entire "reasoning model" wave of 2024–2026, and is why our [Inference Strategy for Agents](/inference/#inference-strategy-for-agents) treats inference compute as a first-class variable.
+
+**Key works to know:**
+
+- Libratus (2017) + Pluribus (2019) — superhuman poker via search + CFR
+- *[Human-level play in the game of Diplomacy](https://www.science.org/doi/10.1126/science.ade9097)* (Science 2022) — CICERO
+- OpenAI o1 / o3 reasoning models — research contributor
+- *[OpenAI talk on planning in AI](https://www.youtube.com/watch?v=eaAonE58sLU)* — the cleanest single-source explanation of the thesis
+
+**Start here:** The OpenAI talk on planning above. It traces the line from poker through Diplomacy to o1 in one self-contained presentation.
+
+---
+
+## Douwe Kiela
+
+> 🧠 Researcher / 🔨 Operator · Co-founder & CEO, [Contextual AI](https://contextual.ai/) · Adjunct Prof, Stanford Symbolic Systems · [@douwekiela](https://twitter.com/douwekiela)
+
+The RAG paper's first author. Kiela led the team behind *[Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401)* (NeurIPS 2020) — the paper that named and operationalized retrieval-augmented generation. Since then he's been the bridge between retrieval research and enterprise production: Contextual AI ships the RAG + context-engineering platform that grounds agents over private high-stakes knowledge.
+
+Why he matters for this repo: every agent in [Approaches](/approaches/) that touches enterprise documents — Sierra, LlamaIndex, GBrain, Clawpatch — sits on top of variants of the RAG architecture Kiela helped define. He's also Dynabench's co-creator, which set the template for the "evals-as-product" startup pattern that's now everywhere in our [Eval](/infrastructure/#evaluation--testing) section.
+
+**Key works to know:**
+
+- *[Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401)* (NeurIPS 2020) — the RAG paper
+- *[Retrieval Augmentation Reduces Hallucination in Conversation](https://arxiv.org/abs/2104.07567)* (2021)
+- *[Dynabench](https://dynabench.org/)* — dynamic NLP benchmarking, predecessor of many eval-as-product startups
+- [Contextual AI blog](https://contextual.ai/blog) — production RAG patterns
+
+**Start here:** The original RAG paper. It's short, technical, and you'll see why every "retrieval over private data" product is downstream of it.
+
+---
+
+## Illia Polosukhin
+
+> 🧠 Researcher / 🔨 Operator · Co-founder, [NEAR Protocol](https://near.org/) + [NEAR AI](https://near.ai/) · *Attention Is All You Need* co-author · [@ilblackdragon](https://twitter.com/ilblackdragon)
+
+One of the eight co-authors of *Attention Is All You Need* (2017) — the Transformer paper — Polosukhin is the most prominent voice making a **decentralized-trust** case for agentic infrastructure. His thesis, covered in our [Schools](/schools/#trust-as-cryptography--polosukhin) page: centralized AI providers represent a structural manipulation risk; agents need their own keys, TEE-isolated execution, and on-chain identity to be genuinely autonomous economic participants.
+
+His current work — **NEAR AI**, **[IronClaw](/approaches/#openclaw)** (a Rust agent runtime that runs inside Trusted Execution Environments and serves as the OS layer of the OpenClaw ecosystem), the **Confidential GPU Marketplace**, and the **Shade Agent** framework — bets that cryptographic sovereignty is the foundation autonomous agents will eventually require. Worth understanding even if you don't buy the blockchain framing, because the TEE-secured-execution argument is increasingly being adopted on traditional clouds (Azure Confidential Computing, Google Cloud Confidential VMs).
+
+**Key works to know:**
+
+- *[Attention Is All You Need](https://arxiv.org/abs/1706.03762)* (2017) — the Transformer paper, co-author
+- [NEAR AI](https://near.ai) — current home
+- IronClaw (Rust agent runtime in TEE; OpenClaw ecosystem OS layer)
+- *[Shade Agents: The First Truly Autonomous AI Agents](https://www.near.org/blog/shade-agents-the-first-truly-autonomous-ai-agents)* — the "if an agent doesn't have its own keys, it's not an agent" thesis
+- [Intelligence at the Frontier keynote](https://www.youtube.com/watch?v=M-BVxaqKp-0) (2026)
+
+**Start here:** Read the Shade Agents post — the clearest one-page version of his argument, and the cleanest diff against the Chase/Ng frame.
 
 ---
 
@@ -239,6 +371,25 @@ Background: Stanford CS, Palantir before Sourcegraph. Hosts the **[Sourcegraph D
 
 ---
 
+## Jerry Liu
+
+> 🔨 Operator · Co-founder & CEO, [LlamaIndex](https://www.llamaindex.ai/) · [@jerryjliu0](https://twitter.com/jerryjliu0)
+
+Founder of [LlamaIndex](https://github.com/run-llama/llama_index), which began life as GPT Index in 2022 as one of the earliest RAG frameworks (alongside [LangChain](#harrison-chase)) and has since pivoted into **agentic document infrastructure** — the parsing, extraction, classification, and workflow-orchestration layer that lets agents reliably operate over real-world enterprise documents (invoices, contracts, medical records, regulatory filings). His 2025–2026 pivot from "RAG framework for everyone" to "agentic document workflows for enterprise" is one of the clearest examples in the ecosystem of an open-source framework finding its specific load-bearing position in the broader agent stack.
+
+**LlamaParse**, **LlamaCloud**, and **LlamaIndex Workflows** are the productization. If [Douwe Kiela](#douwe-kiela) defined the retrieval substrate, Liu defined the document-pipeline substrate.
+
+**Key works to know:**
+
+- [LlamaIndex](https://github.com/run-llama/llama_index) — the framework
+- [LlamaCloud + LlamaParse](https://cloud.llamaindex.ai/) — managed document parsing / extraction
+- *[LlamaIndex Is More Than a RAG Framework](https://www.llamaindex.ai/blog/llamaindex-is-more-than-a-rag-framework)* — the architectural pivot in his own words
+- [LlamaIndex blog](https://www.llamaindex.ai/blog) — the most useful single source on "how to actually do agentic document work"
+
+**Start here:** Sign up for LlamaCloud and parse one of your own complex PDFs. Then read the "more than a RAG framework" post to see why the pivot was the right call.
+
+---
+
 ## Appendix: people, projects, and writers we considered but didn't profile
 
 This page caps at 12 to stay useful. Strong candidates we deliberately didn't write up — each of them is worth following:
@@ -255,8 +406,17 @@ This page caps at 12 to stay useful. Strong candidates we deliberately didn't wr
 - **Garry Tan's GBrain co-architects** — gbrain's contributors deserve credit beyond just Garry's branding.
 - **Logan Kilpatrick** — ex-OpenAI DevRel, now Google DeepMind; defines how a lot of API-facing engineers think about agents.
 - **Anna Gutowska** (IBM) — author of [IBM's *What is Agentic Engineering?*](https://www.ibm.com/think/topics/agentic-engineering); good mainstream-enterprise framing.
+- **João Moura** (CrewAI) — multi-agent orchestration framework with significant enterprise adoption; products covered in our [Infrastructure / Orchestration](/infrastructure/#agent-specific-orchestration-frameworks) section.
+- **Demis Hassabis** (Google DeepMind / Isomorphic Labs) — the establishment heavyweight whose AlphaGo / AlphaFold lineage underpins much of how the field thinks about planning + search + memory.
+- **Robert Nishihara** (Anyscale / Ray) — distributed compute substrate that increasingly underpins agentic RL workloads.
+- **Bret Taylor** (Sierra, OpenAI Chairman) — enterprise CX agents; not coding-agent-shaped but a major voice on enterprise agent deployment.
+- **Mustafa Suleyman** (Microsoft AI) — DeepMind co-founder, Inflection co-founder, now leads MAI Superintelligence team; the "humanist superintelligence" framing.
+- **Chip Huyen** — *AI Engineering* (O'Reilly 2025) and *Designing Machine Learning Systems* (2022); the production-ML engineering discipline upstream of agentic engineering.
+- **Yohei Nakajima** (BabyAGI) — the 2023 task-loop architecture that kicked off the modern autonomous-agent boom; now invests via Untapped Capital and Agent Fund.
+- **Joon Sung Park** (Simile, ex-Stanford) — *Generative Agents: Interactive Simulacra of Human Behavior* (2023) — the Smallville paper that defined memory-stream / reflection / retrieval agent architecture.
+- **Sholto Douglas** (Anthropic) — RL scaling, verifiable rewards, computer-use; deep agent-infrastructure work.
 
-If you'd extend the page to 24, those are the next 12.
+If you'd extend the page to 30+, those are the next names worth profiling.
 
 ---
 
