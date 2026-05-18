@@ -38,6 +38,7 @@ export default defineConfig({
             { label: 'Benchmarks', slug: 'benchmarks' },
             { label: 'Comparison', slug: 'comparison' },
             { label: 'Organizations', slug: 'organizations' },
+            { label: "Who's Who", slug: 'who-is-who' },
           ],
         },
         {
