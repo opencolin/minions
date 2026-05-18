@@ -35,6 +35,7 @@
             <div class="sidebar-group-title">Landscape</div>
             <a href="#" class="sidebar-link" data-page="approaches">Approaches</a>
             <a href="#" class="sidebar-link" data-page="patterns">Patterns</a>
+            <a href="#" class="sidebar-link" data-page="harness-engineering">Harness Engineering</a>
             <a href="#" class="sidebar-link" data-page="benchmarks">Benchmarks</a>
             <a href="#" class="sidebar-link" data-page="comparison">Comparison</a>
             <a href="#" class="sidebar-link" data-page="organizations">Organizations</a>
@@ -125,6 +126,17 @@ Cross-cutting architectural patterns:
 - [Feedback Loops](patterns.md#4-feedback-loops) — Shift-left, iteration caps, auto-fixes
 - [Failure Recovery](patterns.md#5-failure-recovery) — Retry, typed recovery, three nested loops, checkpoints
 - [Multi-Agent Coordination](patterns.md#6-multi-agent-coordination) — Worktree isolation, intent-aware merging, task decomposition
+
+### [Harness Engineering](harness-engineering.md)
+Deep dive on the practice that makes agents reliable — synthesizes OpenAI's *Harness Engineering*, Anthropic's *Effective Harnesses for Long-Running Agents* / *Harness Design for Long-Running Application Development*, and the Walking Labs course:
+- [Why Harness Beats Model Upgrade](harness-engineering.md#why-harness-beats-model-upgrade) — Anthropic's bare-vs-three-agent experiment, OpenAI's million-line build
+- [The Five-Subsystem Model](harness-engineering.md#the-five-subsystem-model) — Instructions, Tools, Environment, State, Feedback; isometric model control
+- [Foundations](harness-engineering.md#foundations) — Repo as system of record, progressive disclosure, initialization as a phase, cross-session continuity, context anxiety
+- [Scope and Verification](harness-engineering.md#scope-and-verification) — WIP=1, feature lists as primitives, three-layer termination check, worker-vs-checker separation
+- [Observability Inside the Harness](harness-engineering.md#observability-inside-the-harness) — Sprint contracts, evaluator rubrics, OpenTelemetry
+- [The Session Lifecycle and Clean State](harness-engineering.md#the-session-lifecycle-and-clean-state) — Five clean-state dimensions, dual-mode cleanup, harness simplification
+- [Reference Stack](harness-engineering.md#the-reference-stack) — The minimal five-file pack and the tooling that implements each subsystem
+- [Failure-Mode Catalogue](harness-engineering.md#failure-mode-catalogue) — Symptom → subsystem → fix table for the diagnostic loop
 
 ### [Benchmarks](benchmarks.md)
 How agentic coding systems are measured:
@@ -1135,6 +1147,358 @@ Each minion gets its own full development environment. No shared filesystem, no 
 ### Key Insight
 
 Stripe chose to avoid merge conflicts entirely by isolating at the VM level and letting humans handle PR-level conflicts. AgentField chose to embrace parallelism and build automated merge resolution. The right choice depends on how independent your tasks are.
+  </script>
+  <script type="text/markdown" data-page="harness-engineering">
+# Harness Engineering
+
+Most teams think a "harness" is a prompt file. It isn't. A harness is **everything in the engineering infrastructure outside the model weights** — the instructions, tools, environment, state, and feedback machinery that determines how much of a model's capability actually shows up at runtime. Same model, different harness, fundamentally different output.
+
+This page is the deep dive on that discipline. It synthesizes the primary sources — [OpenAI's *Harness Engineering*](https://openai.com/index/harness-engineering/), [Anthropic's *Effective Harnesses for Long-Running Agents*](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) and [*Harness Design for Long-Running Application Development*](https://www.anthropic.com/engineering/harness-design-long-running-apps), and the [Walking Labs *Learn Harness Engineering* course](https://walkinglabs.github.io/learn-harness-engineering/en/) — and maps them onto the broader landscape covered elsewhere in this repo.
+
+For a shorter, pattern-oriented treatment, see [Patterns § Harness Engineering](patterns.md#0-harness-engineering). For tools that implement these principles, see [Sandboxes](sandboxes.md), [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces), and [Agent Observability & Evaluation](infrastructure.md#agent-observability--evaluation).
+
+---
+
+## Why Harness Beats Model Upgrade
+
+When an agent fails, the first instinct is "the model isn't good enough — upgrade." Hold off. The empirical record says the model is usually fine; the harness is the bottleneck.
+
+**Anthropic's controlled experiment** (Opus 4.5, prompt "build a 2D retro game maker"):
+
+| Harness | Runtime | Cost | Outcome |
+|---------|---------|------|---------|
+| Bare (no support) | 20 min | $9 | Game's core features didn't work |
+| Three-agent (planner + generator + evaluator) | 6 hours | $200 | Playable game |
+
+Same model. Same prompt. Different saddle.
+
+**OpenAI's million-line experiment**: three engineers driving Codex built a complete internal product — application code, infra, tooling, internal dev tools — from an empty repo. ~1M lines, ~1,500 PRs merged, ~3.5 PRs/engineer/day, over five months. Constraint: **humans never write code directly**. Early progress was slower than expected — not because Codex wasn't capable, but because the environment wasn't complete enough. The engineers' job became designing environments, expressing intent, and building feedback loops. When something failed, the fix was almost never "try harder" — it was "what capability is the agent missing, and how do we make it both understandable and executable?"
+
+**The principle**: when things fail, **check the harness first, then the model**. Swapping models is the most expensive option, and it's usually not even a model problem.
+
+Five common failure layers, in roughly the order to suspect them:
+
+1. **Task specification** — Agent and you have different ideas of "done."
+2. **Context provision** — Rules and conventions in your head, not the repo.
+3. **Execution environment** — Missing tools, wrong versions, broken services.
+4. **Verification feedback** — No tests, or no commands the agent knows to run.
+5. **State management** — Long tasks span sessions; nothing persists.
+
+Attribute every failure to one of these. The pattern that emerges is your harness's bottleneck.
+
+---
+
+## The Five-Subsystem Model
+
+Anthropic and OpenAI both converge on the same decomposition. A harness has five subsystems, and missing any one is a missing kitchen station — you can still cook, but it's always awkward:
+
+| Subsystem | Kitchen analogue | Concrete form |
+|-----------|------------------|---------------|
+| **Instructions** | The recipe shelf | `AGENTS.md` / `CLAUDE.md` + topic docs |
+| **Tools** | The knife rack | Shell access, MCP servers, custom CLIs |
+| **Environment** | The stove | Locked dependencies, devcontainers, sandboxes |
+| **State** | The prep station | `PROGRESS.md`, `DECISIONS.md`, git checkpoints |
+| **Feedback** | The quality-check window | Verification commands, tests, E2E checks |
+
+The diagnostic tool is **isometric model control**: keep the model fixed, remove subsystems one at a time, and measure which removal hurts most. That's your bottleneck — invest there. This generalizes the same logic that the [sandbox market structure](sandboxes.md#the-sandbox-market-structure) uses to pin down where a buying decision lives.
+
+Of the five, the **feedback subsystem** typically has the lowest investment-to-impact ratio. A short `make check` target that runs lint + types + tests, exposed to the agent via `AGENTS.md`, frequently moves a project from "agent unreliable" to "agent reliable" in a single afternoon.
+
+---
+
+## Foundations
+
+### The repo is the system of record
+
+Information the agent can't see in the repo, for all practical purposes, doesn't exist. Slack history, Confluence pages, that decision you discussed with a colleague over coffee — none of it is accessible to the agent. OpenAI states this bluntly: **the repo IS the spec**.
+
+The diagnostic is the **cold-start test**. Open a fresh agent session and give it only repo contents. Can it answer:
+
+1. What is this project? (one sentence)
+2. How do I run it? (commands)
+3. How do I verify it? (commands)
+4. What architectural conventions must I follow?
+5. What's the current progress / what's blocked?
+
+If the answer to any of these requires a human, that's a blank spot on the map — and the agent will guess every time it crosses one. Anthropic and OpenAI both observe that good progress records alone reduce session startup diagnostic time by 60–80%.
+
+Apply **ACID** to agent state: atomic commits (each logical operation as one commit, `git stash` to roll back), consistency (verification predicates that must pass before commit), isolation (per-agent branches or progress files for parallel work), durability (critical knowledge in git-tracked files, not in conversation memory).
+
+### Progressive disclosure for instructions
+
+The "one giant `AGENTS.md`" pattern is a trap. As the file grows past ~300 lines, three things compound:
+
+- **Context budget gets eaten alive.** A 600-line file is 10–20K tokens before the agent reads a single source file.
+- **Lost in the middle.** [Liu et al. (2023)](https://arxiv.org/abs/2307.03172) showed LLMs use information at the beginning and end of long contexts significantly better than the middle. A security constraint at line 300 of a 600-line file is effectively ignored.
+- **Priority conflicts.** Non-negotiable hard constraints, design suggestions, and one-off historical fixes all look identical on the page. The agent picks one at random.
+
+The fix is **progressive disclosure**:
+
+- **Entry file** (`AGENTS.md` / `CLAUDE.md`) is a **router**: 50–200 lines, with project overview, run commands, ≤15 non-negotiable hard constraints, and links to topic docs.
+- **Topic docs** live in module directories or `docs/` (e.g. `src/api/ARCHITECTURE.md`, `src/db/CONSTRAINTS.md`). 50–150 lines each. The agent reads them only when needed.
+- **Inline knowledge** lives in code — type annotations, interface comments, config-file explanations — so the agent sees it naturally when reading source.
+
+Every instruction should have a source ("why was this added?"), an applicability condition, and an expiry condition. Audit regularly. Manage instructions like you manage code dependencies.
+
+### Initialization as a dedicated phase
+
+Initialization and implementation optimize for different things — mixing them drags both down. The implementation phase optimizes for verified features; initialization optimizes for the reliability and efficiency of *all subsequent* implementation. Pour the foundation, let it cure, then build the walls.
+
+The acceptance test is the **bootstrap contract**: a fresh agent session, given only repo contents, can:
+
+1. **Start** the project (`make setup`, `make dev`)
+2. **Test** the project (`make test` and at least one passing test)
+3. **See progress** (`PROGRESS.md` exists and is current)
+4. **Pick up next steps** (task breakdown exists)
+
+Warm start (project template + preset directory structure + configured test framework) dominates cold start. Anthropic's experimental data: projects with a dedicated initialization phase showed 31% higher feature completion rates in multi-session scenarios.
+
+### Continuity for long-running tasks
+
+Context windows are finite — even at 1M tokens, complex tasks exhaust them. The solution isn't a bigger window; it's **better state persistence**. Treat the agent like a brilliant engineer with amnesia: before clocking out, write down what was done, why, and what's next.
+
+Minimum continuity artifacts:
+
+- **`PROGRESS.md`** — current state, what's done, what's in progress, blockers, next steps.
+- **`DECISIONS.md`** — important design decisions with reasons and rejected alternatives.
+- **Git commits as checkpoints** — atomic units with messages explaining *what* and *why*.
+- **Clock-in / clock-out routine** — encoded in `AGENTS.md`. New sessions read state, run `make check`, then continue. Old sessions update state, run `make check`, then commit.
+
+**Context anxiety** is a specific failure mode worth naming. Anthropic observed that agents approaching window limits exhibit "premature convergence" — rushing to closure, skipping verification, picking the simplest solution over the optimal one. Two mitigations:
+
+- **Compaction** — summarize early conversation within the same session. Preserves "what" but often loses "why."
+- **Context reset** — clear the session and rebuild from persisted artifacts. Clean mental state but depends on artifact completeness.
+
+The right strategy is model-dependent. Anthropic's actual data: for Sonnet 4.5, context anxiety is severe enough that compaction alone isn't sufficient and context reset is critical. For Opus 4.5, the behavior is greatly diminished. **Harness design needs specific understanding of the target model**, not a one-size-fits-all template.
+
+The metric to optimize is **rebuild cost** — the time a new session needs to reach an executable, productive state. Good harnesses compress this from 15+ minutes to under 3.
+
+---
+
+## Scope and Verification
+
+### WIP=1 and the feature list as primitive
+
+Agents have an impulse to "do a little extra" — they see a related issue and just handle it along the way, like someone who went out for soy sauce and came home with a full cart. The math is unforgiving: with context capacity *C* split across *k* parallel activated tasks, each task gets *C/k*. Below a threshold, none of them finish. Anthropic's data: agents using a "small next step" strategy (effectively WIP=1) show 37% higher task completion rates than agents working from broad prompts. Lines of code generated and feature completion are weakly **negatively** correlated.
+
+The harness primitive that enforces this is the **feature list**. Not a memo — a machine-readable backbone that the scheduler, the verifier, and the handoff reporter all consume. Every entry is a triple:
+
+```json
+{
+  "id": "F03",
+  "behavior": "POST /cart/items with {product_id, quantity} returns 201",
+  "verification": "curl -X POST http://localhost:3000/api/cart/items -H 'Content-Type: application/json' -d '{\"product_id\":1,\"quantity\":2}' | jq .status == 201",
+  "state": "passing",
+  "evidence": "commit abc123, test output log"
+}
+```
+
+State machine: `not_started → active → blocked → passing`. The **transition to `passing` is gated by verification command success** and is irreversible. The agent doesn't change states by hand — the harness does, after running the check. This is the same logic as a CI gate: "the test runner says it passed" is verifiable; "the agent says it's done" is not.
+
+Granularity matters: each entry should be "completable in one session." "Implement the shopping cart" is too broad. "Create the name field on the Cart model" is too narrow. "User can add items to cart" is right.
+
+### The verification gap
+
+[Guo et al. (2017)](https://arxiv.org/abs/1706.04599) proved modern neural networks are systematically overconfident — reported confidence exceeds actual accuracy. The same is true of agents: they "feel" done long before they are. Your harness must replace feelings with executable evidence.
+
+The standard structure is a **three-layer termination check**:
+
+1. **Syntax & static analysis** — type checks, lint. Cheap, low-information, but mandatory.
+2. **Runtime behavior** — unit tests, integration tests, app starts and reaches ready state.
+3. **System-level / end-to-end** — full flow verification, including failure scenarios.
+
+Each layer is a prerequisite for the next. Skip a layer = not done.
+
+Beyond the layered check, **separate the worker from the checker**. Anthropic's three-agent architecture (planner expands requirements → generator implements feature by feature → evaluator clicks through with Playwright) outperforms a single agent on the same model by a wide margin precisely because the same generator-as-evaluator is structurally lenient with its own work. Independent evaluating agents, tuned to be picky, are far more effective than self-evaluation.
+
+Two design choices that compound this gain:
+
+- **Agent-oriented error messages.** Don't write `"Test failed"`. Write `"Test failed: POST /api/reset-password returned 500. The email service config is missing from environment variables. The template file should be at templates/reset-email.html."` Failures with fix instructions become a self-correction loop.
+- **Completion priority constraint.** No refactoring or performance work until core functionality is verified. Refactors silently alter the boundary between verified and unverified code, which makes premature optimization in agent contexts more dangerous than in human ones.
+
+### Unit tests are not verification
+
+Unit tests' isolation design — mocking dependencies, focusing on the unit — is exactly what prevents them from catching the interaction defects that dominate agent failures: interface mismatches, state-propagation errors across layers, resource lifecycle issues, environment dependencies. End-to-end testing is the only layer that proves system-level correctness.
+
+E2E doesn't just detect more defects — it changes the agent's coding behavior. When the agent knows its work will be E2E-tested, it pays attention to component interactions, respects architectural boundaries, and handles error paths during code generation, not after.
+
+Two patterns that pay outsized returns here:
+
+- **Architectural rules as executable checks.** "Render process must not directly access the file system" sitting in a doc gets ignored. The same rule as a lint rule with an agent-oriented error message (`"Move this call to preload/file-ops.ts and invoke it via window.api."`) becomes a self-correcting constraint.
+- **Review-feedback promotion.** Every time a recurring issue shows up in code review, turn it into an automated check. A month later, your harness is materially stronger than at month start. This is the agent-era version of "fix the bug class, not just the bug."
+
+---
+
+## Observability Inside the Harness
+
+Reliability is an evidence problem. Without observability, the agent makes decisions under uncertainty, evaluations become subjective, and retries become blind wandering. The course's framing splits this into two layers:
+
+- **Runtime observability** — system signals: logs, traces, process events, health checks. Answers *what did the system do?*
+- **Process observability** — harness decision artifacts: plans, scoring rubrics, acceptance criteria. Answers *why should this change be accepted?*
+
+Two structural artifacts make process observability cheap and reproducible:
+
+**Sprint contract.** Negotiated before coding, between the planner (or human) and the evaluator. Includes scope (what gets modified), verification standards (what counts as done), and exclusions (what's explicitly out of scope). Front-loads alignment to prevent "the generator built something the evaluator immediately rejects for foreseeable reasons":
+
+```markdown
+# Sprint Contract: Dark Mode Support
+## Scope
+- Modify the theme toggle component
+- Update global CSS variables
+- Add dark mode tests
+## Verification Standards
+- Visual regression tests pass per component
+- Main flow E2E passes
+- No flash of unstyled content (FOUC)
+## Exclusions
+- Not handling print styles
+- Not handling third-party component dark mode
+```
+
+**Evaluator rubric.** Turns "is it good?" into dimension-by-dimension scoring with evidence citations. Different evaluators produce similar scores for the same output. The companion artifact to the sprint contract.
+
+Standardize the runtime layer on OpenTelemetry — trace per session, span per task, sub-spans per verification step. This makes harness data interoperable with standard tracing tools (Jaeger, Honeycomb) and frees you from rolling your own log format. See [Agent Observability & Evaluation](infrastructure.md#agent-observability--evaluation) for the vendor landscape.
+
+Why agents can't solve observability themselves: they don't know what they don't know, log formats drift between sessions, and structured artifacts like sprint contracts need harness-level support. This is a property of the system, not a feature you ask the agent to remember.
+
+---
+
+## The Session Lifecycle and Clean State
+
+[Lehman's laws of software evolution](https://ieeexplore.ieee.org/document/1702314) tell us that continuously changing systems inevitably grow in complexity unless actively managed. With AI coding agents the effect is exponential — every session introduces changes, and without cleanup at exit, technical debt compounds. A 12-week experiment from the Walking Labs course:
+
+| Week | No cleanup strategy | With cleanup strategy |
+|------|---------------------|----------------------|
+| 1 | Build 100%, tests 100%, startup 5 min | Build 100%, tests 100%, startup 5 min |
+| 12 | Build 68%, tests 61%, startup 60+ min | Build 97%, tests 95%, startup 9 min |
+
+A 29-point gap on build pass rate after three months. **Clean state is a necessary condition for session completion**, not optional housekeeping.
+
+The five clean-state dimensions, all required:
+
+| Dimension | Check |
+|-----------|-------|
+| **Build** | Code builds without errors |
+| **Tests** | All tests pass — including pre-existing ones |
+| **Progress** | `PROGRESS.md` (or feature list) is current |
+| **Artifacts** | No stale debug logs, commented-out code, ambiguous TODOs |
+| **Startup** | The standard startup path still works for the next session |
+
+The operational pattern is **dual-mode cleanup**:
+
+- **Immediate** — at the end of every session, clean up that session's artifacts, update state, ensure build+tests pass. Reference-counting cleanup.
+- **Periodic** — weekly or per-milestone, full-system scan to handle accumulated structural issues, refresh quality documents, run benchmarks to detect drift. Tracing-style cleanup.
+
+Two adjacent practices worth the discipline:
+
+- **Quality document.** An active artifact scoring each module on verification health, agent understandability, test stability, architectural compliance, and conventions. New sessions read it and immediately know where the lowest-quality module is. Fix that one first.
+- **Harness simplification.** Every harness component exists because the model can't reliably do something on its own. As models improve, some of those assumptions become outdated. Every month, pick one component, temporarily disable it, run benchmarks. If results don't degrade, remove it permanently. A constraint essential three months ago may be unnecessary overhead today.
+
+Cleanup operations must be idempotent — safe to run repeatedly, even mid-failure.
+
+---
+
+## The Reference Stack
+
+The patterns above map onto a concrete set of artifacts, files, and tools. The minimal pack — five files in a fresh repo — handles most workflows:
+
+| Artifact | Role | Lecture cluster |
+|----------|------|-----------------|
+| `AGENTS.md` / `CLAUDE.md` (50–200 lines) | Routing entry point — overview, hard constraints, links | Instructions |
+| `feature_list.json` | The backbone — feature triples + state | Scope + Verification |
+| `PROGRESS.md` / `claude-progress.md` | The journal — cross-session continuity | State |
+| `init.sh` | Bootstrap — environment setup, ready-state check | Initialization |
+| Clean-state exit checklist | Session completion contract | Lifecycle |
+
+For longer-running systems, layer in:
+
+- **Sprint contracts** per task (process observability)
+- **Evaluator rubrics** per quality dimension (reproducible evaluation)
+- **OpenTelemetry tracing** across the harness (runtime observability)
+- **Quality document** scoring modules over time (drift detection)
+- The full **OpenAI-style "layered domain architecture"** with mechanical lint enforcement of cross-domain rules (advanced repo skeleton)
+
+### Implementation tooling
+
+| Layer | Implementations | Repo cross-reference |
+|-------|-----------------|----------------------|
+| Skill / plugin format | SKILL.md, Claude Code Plugins (Anthropic, MIT), Vercel Skills (`npx skills` to 51+ agents), Cursor Rules, Continue rules | [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces) |
+| Harness-builder skill | Walking Labs `harness-creator` (production-grade skill, built with Anthropic's `skill-creator`), Anthropic [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) | [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces) |
+| Feature-list / progress templates | Walking Labs templates ([`feature_list.json`, `claude-progress.md`, `init.sh`, `session-handoff.md`, `evaluator-rubric.md`, clean-state checklist](https://github.com/walkinglabs/learn-harness-engineering/tree/main/docs/en/resources/templates)); OpenAI's advanced repo skeleton | (referenced inline) |
+| Verification + eval | DeepEval, Future AGI, Anthropic Bloom, LangSmith, Braintrust, Patronus, Confident AI | [Eval](infrastructure.md#evaluation--testing) |
+| Observability | LangSmith, Langfuse (ClickHouse, Jan 2026), Arize, Honeycomb, AgentOps, OpenLLMetry, OpenObserve | [LLM & Agent Tracing](infrastructure.md#llm--agent-tracing--observability) |
+| Sandbox / isolation primitive | Contree (git-native branching), E2B, Sprites.dev, Blaxel, Modal, Kubernetes agent-sandbox, SmolVM | [Sandboxes](sandboxes.md#purpose-built-agent-sandboxes) |
+| Identity, secrets, governance | Microsoft Agent Governance Toolkit, ZeroID, Agent Vault, Bedrock AgentCore Identity | [Agent Identity, Auth & Secrets](infrastructure.md#agent-identity-auth--secrets) |
+
+The point of cataloguing these together: a harness isn't any one of them. It's the *composition* — instructions wire into skills, feature lists wire into evaluators, sandboxes provide the environment, observability proves the rest. The five subsystems all need an implementation.
+
+---
+
+## Failure-Mode Catalogue
+
+Map a symptom to a defense layer to a fix. This is the diagnostic loop you'll spend most of your time in.
+
+| Symptom | Root cause | Subsystem | Fix |
+|---------|-----------|-----------|-----|
+| Agent claims done, tests fail | No verification gate | Feedback | Three-layer termination check; gate `passing` state on command success |
+| New session re-explores the project | No persistent state | State | `PROGRESS.md` + bootstrap contract + cold-start test |
+| Critical constraint ignored at runtime | Buried at line 300 of a giant `AGENTS.md` | Instructions | Split into router + topic docs; move hard constraints to top of router |
+| Modifies 12 files, none work end-to-end | No WIP limit, no E2E layer | Scope + Feedback | Enforce WIP=1; add end-to-end verification as a gate |
+| Build red between sessions | No clean-state exit | Lifecycle | Five-dimension exit checklist; idempotent cleanup |
+| Refactors before core works | No completion priority | Scope | "No refactoring until verified" rule; promote to executable check |
+| Half-done feature at session boundary | No handoff artifact | State | `session-handoff.md` template; clock-out routine in `AGENTS.md` |
+| Same output scored differently by different evaluators | No rubric | Process observability | `evaluator-rubric.md` with dimension-by-dimension scoring |
+| Architecture rule violated despite being documented | Rule only lives in prose | Verification | Promote to lint + agent-oriented error message with fix instructions |
+| Premature convergence near context limit | Compaction without reset, or vice versa | State + Lifecycle | Combine compaction + reset; tune ratio to target model (Sonnet 4.5 needs more reset than Opus 4.5) |
+| Agent confidently praises its own bad work | Self-evaluation bias | Verification | Separate worker from checker; introduce evaluator agent |
+| Different sessions diverge on architectural choices | Implicit knowledge outside repo | Instructions + State | Externalize decisions to `DECISIONS.md`; cold-start test |
+
+Build this habit and "the model isn't good enough" stops showing up in your failure logs.
+
+---
+
+## Decision Framework
+
+| Question | If yes | If no |
+|----------|--------|-------|
+| Single-session task with explicit verification? | A short prompt + a `make check` may be enough | Add `PROGRESS.md` + feature list + bootstrap |
+| Cross-session task? | Need `PROGRESS.md`, `DECISIONS.md`, bootstrap contract, clock-in/clock-out routine | — |
+| Multiple agents in parallel on the same repo? | Add WIP discipline, per-agent isolation (worktrees, sandboxes), evaluator separation, ACID-style commits | Skip; serialize work |
+| Architecture rules that the agent keeps violating? | Promote to lint + agent-oriented error messages; review-feedback promotion process | — |
+| Hitting context anxiety / premature convergence? | Mix compaction + context reset; check model-specific thresholds; lean harder on `PROGRESS.md` | — |
+| Want to know which subsystem is the bottleneck? | Isometric model control — remove subsystems one at a time, measure regression | — |
+| Working with an external team / vendor? | Quality document per module so they can read project health from the repo | — |
+| Building tooling for many teams? | Standardize on SKILL.md format + Vercel Skills CLI so a single skill installs into 51+ agents | — |
+
+---
+
+## Further Reading
+
+Primary sources:
+
+- [OpenAI: Harness Engineering — Leveraging Codex in an Agent-First World](https://openai.com/index/harness-engineering/) — the million-line experiment, layered domain architecture, "enforce invariants, don't micromanage."
+- [Anthropic: Effective Harnesses for Long-Running Agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) — handoff files, "small next step" strategy, session continuity.
+- [Anthropic: Harness Design for Long-Running Application Development](https://www.anthropic.com/engineering/harness-design-long-running-apps) — three-agent planner/generator/evaluator architecture, context anxiety, model-specific tuning.
+
+Synthesis:
+
+- [Walking Labs: Learn Harness Engineering](https://walkinglabs.github.io/learn-harness-engineering/en/) — 12-lecture course with hands-on projects, the most thorough public treatment. Templates and the `harness-creator` skill at [github.com/walkinglabs/learn-harness-engineering](https://github.com/walkinglabs/learn-harness-engineering).
+- [HumanLayer: Skill Issue — Harness Engineering for Coding Agents](https://humanlayer.dev/articles/harness-engineering-for-coding-agents/)
+- [Awesome Harness Engineering](https://github.com/walkinglabs/awesome-harness-engineering)
+
+Foundational research:
+
+- [Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172) (Liu et al., 2023)
+- [On Calibration of Modern Neural Networks](https://arxiv.org/abs/1706.04599) (Guo et al., 2017)
+- [Programs, Life Cycles, and Laws of Software Evolution](https://ieeexplore.ieee.org/document/1702314) (Lehman)
+
+Adjacent reading in this repo:
+
+- [Patterns § Harness Engineering](patterns.md#0-harness-engineering) — the cross-cutting pattern view
+- [Approaches](approaches.md) — concrete agent systems and how each handles these problems
+- [Sandboxes](sandboxes.md) — the execution-environment subsystem in depth
+- [Agent Identity, Auth & Secrets](infrastructure.md#agent-identity-auth--secrets) — runtime governance that pairs with verification
+- [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces) — how harness-builder skills get distributed
   </script>
   <script type="text/markdown" data-page="benchmarks">
 # Benchmarks

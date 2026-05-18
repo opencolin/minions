@@ -29,6 +29,8 @@ Plain HTML/CSS/JS, no build framework. Markdown content lives in `content/*.md` 
 │   ├── index.md
 │   ├── approaches.md
 │   ├── patterns.md
+│   ├── harness-engineering.md
+│   ├── benchmarks.md
 │   ├── comparison.md
 │   ├── organizations.md
 │   ├── inference.md
@@ -81,6 +83,8 @@ docs/
             ├── index.mdx
             ├── approaches.mdx
             ├── patterns.mdx
+            ├── harness-engineering.mdx
+            ├── benchmarks.mdx
             ├── comparison.mdx
             ├── organizations.mdx
             ├── inference.mdx

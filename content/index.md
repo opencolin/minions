@@ -60,6 +60,17 @@ Cross-cutting architectural patterns:
 - [Failure Recovery](patterns.md#5-failure-recovery) — Retry, typed recovery, three nested loops, checkpoints
 - [Multi-Agent Coordination](patterns.md#6-multi-agent-coordination) — Worktree isolation, intent-aware merging, task decomposition
 
+### [Harness Engineering](harness-engineering.md)
+Deep dive on the practice that makes agents reliable — synthesizes OpenAI's *Harness Engineering*, Anthropic's *Effective Harnesses for Long-Running Agents* / *Harness Design for Long-Running Application Development*, and the Walking Labs course:
+- [Why Harness Beats Model Upgrade](harness-engineering.md#why-harness-beats-model-upgrade) — Anthropic's bare-vs-three-agent experiment, OpenAI's million-line build
+- [The Five-Subsystem Model](harness-engineering.md#the-five-subsystem-model) — Instructions, Tools, Environment, State, Feedback; isometric model control
+- [Foundations](harness-engineering.md#foundations) — Repo as system of record, progressive disclosure, initialization as a phase, cross-session continuity, context anxiety
+- [Scope and Verification](harness-engineering.md#scope-and-verification) — WIP=1, feature lists as primitives, three-layer termination check, worker-vs-checker separation
+- [Observability Inside the Harness](harness-engineering.md#observability-inside-the-harness) — Sprint contracts, evaluator rubrics, OpenTelemetry
+- [The Session Lifecycle and Clean State](harness-engineering.md#the-session-lifecycle-and-clean-state) — Five clean-state dimensions, dual-mode cleanup, harness simplification
+- [Reference Stack](harness-engineering.md#the-reference-stack) — The minimal five-file pack and the tooling that implements each subsystem
+- [Failure-Mode Catalogue](harness-engineering.md#failure-mode-catalogue) — Symptom → subsystem → fix table for the diagnostic loop
+
 ### [Benchmarks](benchmarks.md)
 How agentic coding systems are measured:
 - [SWE-bench](benchmarks.md#swe-bench) — Real GitHub issues from 12 Python repos; the standard coding-agent leaderboard
