@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events — Agentic Engineering</title>
+  <meta name="description" content="A live map of agentic-engineering events worldwide — conferences, meetups, workshops, hackathons, and book launches.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="./events.css">
+</head>
+<body class="events-page">
+  <header class="topbar">
+    <button class="sidebar-toggle" aria-label="Toggle events list">&#9776;</button>
+    <a href="../" class="topbar-brand"><span>&gt;_</span> Agentic Engineering</a>
+    <div class="topbar-events-title">Events</div>
+  </header>
+
+  <div class="events-layout">
+    <aside class="events-sidebar" aria-label="Upcoming events">
+      <div class="events-sidebar-header">
+        <h2>Upcoming</h2>
+        <span class="events-count" id="events-count"></span>
+      </div>
+      <ol class="events-list" id="events-list" role="list">
+        <li class="events-empty">Loading events…</li>
+      </ol>
+      <footer class="events-sidebar-footer">
+        <a href="https://github.com/opencolin/agentic-engineering/blob/main/events/events.json" target="_blank" rel="noopener">Edit on GitHub →</a>
+      </footer>
+    </aside>
+
+    <main class="events-main">
+      <div id="events-map" role="application" aria-label="World map of agentic-engineering events"></div>
+      <div class="events-map-legend">
+        <span class="legend-dot"></span> Confirmed event
+        <span class="legend-dot flagship"></span> Flagship
+      </div>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="./events.js"></script>
+</body>
+</html>

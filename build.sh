@@ -55,6 +55,10 @@ cat > index.html << 'HTMLHEAD'
             <a href="#" class="sidebar-link" data-page="infrastructure">Hosting &amp; Execution</a>
           </div>
           <div class="sidebar-group">
+            <div class="sidebar-group-title">Community</div>
+            <a href="events/" class="sidebar-link sidebar-link-external">Events &#8599;</a>
+          </div>
+          <div class="sidebar-group">
             <div class="sidebar-group-title">Project</div>
             <a href="https://github.com/opencolin/agentic-engineering" class="sidebar-link sidebar-link-external" target="_blank" rel="noopener">GitHub &#8599;</a>
           </div>
