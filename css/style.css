@@ -567,13 +567,46 @@ body {
   .markdown-body tbody { display: block; }
   .markdown-body tr {
     display: block;
+    position: relative;
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 0.5rem 0.85rem 0.65rem;
     margin-bottom: 0.6rem;
+    transition: border-color 0.15s, background 0.15s;
   }
   .markdown-body tr:hover td { background: transparent; }
+  /* Cards that contain a primary link get a chevron affordance and an
+     active state so they read as tappable. */
+  .markdown-body tr:has(.card-primary-link) {
+    padding-right: 2rem;
+  }
+  .markdown-body tr:has(.card-primary-link)::after {
+    content: '›';
+    position: absolute;
+    right: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 1.4rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .markdown-body tr:has(.card-primary-link:active),
+  .markdown-body tr:has(.card-primary-link):active {
+    border-color: var(--accent);
+    background: rgba(99, 102, 241, 0.08);
+  }
+  .markdown-body .card-primary-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+  .markdown-body td a:not(.card-primary-link) {
+    position: relative;
+    z-index: 2;
+  }
   .markdown-body td {
     display: grid;
     grid-template-columns: 5.5rem 1fr;
