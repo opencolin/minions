@@ -574,6 +574,225 @@ Universal HTTP API to run any coding agent (Claude Code, Codex, OpenCode, Amp) i
 
 ---
 
+## GStack
+
+- **Type:** Open Source (MIT)
+- **Stars:** 82.7K (12K forks)
+- **GitHub:** https://github.com/garrytan/gstack
+- **Origin:** Garry Tan (President & CEO, Y Combinator), released March 2026
+- **Companion site:** https://gstacks.org/
+
+Garry Tan's exact Claude Code setup, open-sourced as a SKILL.md pack. Installing it gives Claude Code 23 specialist personas — CEO, Designer, Eng Manager, Release Manager, Doc Engineer, QA — each as a `SKILL.md` file with an explicit workflow and verification standard. This is the most-cited public example of [harness engineering](harness-engineering.md) packaged as a one-command install, and one of the fastest-growing OSS AI repos of the year.
+
+### Install
+
+```bash
+git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git \
+  ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup
+```
+
+Requires a Claude Pro or Team subscription (Claude Code itself).
+
+### The 23 skills
+
+Workflow-defining: `/office-hours` (YC-style forcing-question reframe + builder-mode brainstorm), `/plan-ceo-review`, `/plan-eng-review`, `/plan-design-review`, `/design-consultation`, `/design-shotgun`, `/design-html`, `/design-review`, `/review`, `/qa`, `/qa-only`, `/ship`, `/land-and-deploy`, `/canary`, `/benchmark`, `/browse`, `/open-gstack-browser`, `/setup-browser-cookies`, `/setup-deploy`, `/setup-gbrain`, `/sync-gbrain`, `/retro`, `/investigate`, `/document-release`, `/document-generate`, `/codex`, `/cso`, `/autoplan`, `/pair-agent`, `/careful`, `/freeze`, `/guard`, `/unfreeze`, `/gstack-upgrade`, `/learn`.
+
+### Recommended workflow loop
+
+`/office-hours` (reframe the product) → `/plan-ceo-review` + `/plan-eng-review` (architecture, data flow, failure modes, tests) → build → `/review` (find production bugs) → `/qa` (open a real browser, iteratively fix bugs, commit each fix atomically) → `/ship` (sync with main, run tests, open PR) → `/retro`.
+
+### Key Properties
+
+- **YC-CEO-grade prompts** — each skill is a battle-tested SKILL.md with explicit verification standards. The intellectual content (not just the structure) is the differentiator.
+- **Persona-first** — every command is bound to a specialist role with permission boundaries and a definition-of-done.
+- **Pairs with Conductor** — Garry's reported workflow is gstack inside [Conductor](infrastructure.md#autonomous-coding-agents), running 10–15 parallel sprints across Claude Code worktrees on a single Mac. He reports 600K production LOC in 60 days using this combination.
+- **Browser policy** — `/browse` replaces direct Chrome MCP usage; the skill encodes how to use it correctly so the agent doesn't reinvent the wheel.
+- **Skills standard** — uses the cross-agent SKILL.md format documented in [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces), so it also works in Codex, Cursor, OpenCode, etc. via `npx skills add`.
+
+### When to Pick GStack
+
+- You want a working harness today, not a framework to build one
+- Your work is product/web-application development (where the personas were tuned)
+- You're willing to adopt one opinionated workflow rather than wire your own
+- You want to pair with parallel-worktree runners like Conductor or Superset
+
+### When to Pick Something Else
+
+- Highly novel algorithms, hardware-adjacent code, or heavily regulated domains — Garry himself notes the gains are much smaller here
+- You need a runtime control plane with hooks, gates, and a GUI → [AgentHub](approaches.md#agenthub) instead, or wire the harness yourself per [Harness Engineering](harness-engineering.md)
+- Non-Claude-Code agent → Mostly portable via SKILL.md, but some commands assume Claude Code's tool set
+
+---
+
+## GBrain
+
+- **Type:** Open Source (MIT)
+- **Stars:** 11.1K (1.3K forks)
+- **GitHub:** https://github.com/garrytan/gbrain
+- **Origin:** Garry Tan, 2026; the persistent-memory companion to [GStack](approaches.md#gstack)
+- **Tagline:** *"Your AI agent is smart but forgetful. GBrain gives it a brain."*
+
+The other half of the Garry Tan stack. Where GStack is *coding skills*, GBrain is *everything-else skills* — persistent memory, a self-wiring typed knowledge graph, ingestion of meetings/emails/voice/links, autonomous overnight maintenance, and a durable Postgres-native job queue. Built to run Garry's actual personal AI agents on [OpenClaw](approaches.md#openclaw) and Hermes Agent. The production deployment claim: 17,888 pages, 4,383 people, 723 companies, 21 cron jobs running autonomously, built in 12 days.
+
+GStack and GBrain compose: *"GStack is the engine. GBrain is the mod."* When the agent codes on itself, it uses GStack; when it remembers, thinks, and operates, it uses GBrain. A `hosts/gbrain.ts` bridge tells GStack's coding skills to check the brain before coding.
+
+### Install
+
+Either auto-install via an agent:
+
+```
+Retrieve and follow the instructions at:
+https://raw.githubusercontent.com/garrytan/gbrain/master/INSTALL_FOR_AGENTS.md
+```
+
+Or standalone CLI:
+
+```bash
+git clone https://github.com/garrytan/gbrain.git && cd gbrain && bun install && bun link
+gbrain init    # local PGLite brain ready in ~2 seconds
+```
+
+Approximately 30 minutes end-to-end, mostly answering API-key prompts. PGLite is the default (embedded Postgres 17.5, zero config); migrate to Supabase Pro when you outgrow local.
+
+### Architecture: thin harness, fat skills
+
+The repo (markdown files) is the system of record. GBrain is the retrieval + graph + scheduler layer:
+
+```
+Brain Repo (git, markdown)
+       ↓                                 ↑
+  GBrain engine (Postgres + pgvector  / PGLite)
+       ↓ ↑
+  AI Agent — 29 skills define HOW to use the brain
+  RESOLVER.md (or AGENTS.md) routes intent → skill
+```
+
+Every page follows a **compiled truth + timeline** pattern: above the `---`, the agent's current best understanding (rewritten when evidence changes); below, append-only events. Edits to any file are picked up by `gbrain sync` so a human can always read and edit the brain directly.
+
+### The 29 skills, by role
+
+| Role | Skill |
+|------|-------|
+| Always-on | `signal-detector` (fires on every message, captures original thinking + entity refs in parallel), `brain-ops` (brain-first lookup before any external API) |
+| Ingestion | `ingest` (router), `idea-ingest` (links/articles/tweets), `media-ingest` (video/audio/PDF/books/screenshots/repos), `meeting-ingestion` (transcripts → attendee enrichment + company timelines) |
+| Brain ops | `enrich` (tiered: stub → web+social → full pipeline), `query` (3-layer search with synthesis), `maintain` (stale pages, orphans, citation audit), `citation-fixer`, `repo-architecture`, `publish`, `data-research` |
+| Operational | `daily-task-manager`, `daily-task-prep`, `cron-scheduler`, `reports`, `cross-modal-review` (second-model quality gate), `webhook-transforms`, `testing`, `skill-creator`, `skillify`, `skillpack-check`, `smoke-test`, `minion-orchestrator` |
+| Identity / setup | `soul-audit` (generates `SOUL.md` + `USER.md` + `ACCESS_POLICY.md` + `HEARTBEAT.md`), `setup`, `migrate` (Obsidian / Notion / Logseq / Roam / CSV / JSON), `briefing` |
+
+### Knowledge graph (zero-LLM auto-linking)
+
+Every page write extracts entity references and creates typed edges (`attended`, `works_at`, `invested_in`, `founded`, `advises`) with zero LLM calls — regex + page-role priors + within-page dedup + stale-link reconciliation. Backfill an existing brain:
+
+```bash
+gbrain extract links --source db
+gbrain extract timeline --source db
+```
+
+Then ask graph questions: *"who works at Acme AI?"*, *"what did Bob invest in this quarter?"*, *"find the connection between Alice and Carol"*. Recursive CTE with cycle prevention, type-filtered edges, depth-capped (≤10 for remote MCP, DoS prevention).
+
+### Search (hybrid, benchmarked)
+
+Vector (HNSW cosine over OpenAI embeddings) + keyword (Postgres tsvector + `websearch_to_tsquery`) + Reciprocal Rank Fusion + cosine re-ranking + compiled-truth boost + backlink boost + multi-query expansion via Haiku + 4-layer dedup. Their own benchmark (BrainBench, 240-page Opus-generated rich-prose corpus): **P@5 49.1%, R@5 97.9%** — beats hybrid-no-graph by +31.4 points P@5; beats ripgrep-BM25 and vector-only RAG by a similar margin. Quality is reproducibly measured (`gbrain eval --qrels queries.json`) in the sibling [gbrain-evals](https://github.com/garrytan/gbrain-evals) repo (their own [Benchmarks](benchmarks.md) entry).
+
+### Minions — the durable job queue built into the brain
+
+A Postgres-native job queue (parent-child DAGs, `child_done` inbox, durability across worker restarts, atomic PID locking, structured audit at `~/.gbrain/audit/`). The routing rule: **deterministic work → Minions; judgment work → sub-agents.** Their reported production numbers on a real OpenClaw workload (pulling a month of social posts and ingesting them):
+
+| | Minions | Sub-agent spawn |
+|---|---------|----------------|
+| Wall time | 753 ms | 10s+ (gateway timeout) |
+| Token cost | $0 | ~$0.03/run |
+| Success rate | 100% | 0% (couldn't spawn) |
+| Memory/job | ~2 MB | ~80 MB |
+
+### Skillify — the "skillify it!" meta-skill
+
+When the agent hits a new failure, you fix it once in conversation, then say *"skillify it!"* and a 10-step pipeline turns the fix into a permanent skill: SKILL.md with triggers, deterministic script with tests, routing fixture re-evaluated daily, filing audit. Enforced via `gbrain skillify check` and `gbrain check-resolvable` (resolver reachability, MECE overlap, DRY, routing fixtures, filing audit, no `SKILLIFY_STUB` sentinels). Works against any OpenClaw workspace's `AGENTS.md`, not just gbrain's repo — first run on a real OpenClaw deployment found ~15% of skills unreachable.
+
+This is the cleanest implementation of [Harness Engineering § review-feedback promotion](harness-engineering.md#unit-tests-are-not-verification) I've seen — every recurring agent failure becomes a permanent, structurally-enforced check.
+
+### MCP surface
+
+Exposes 30+ MCP tools via stdio for Claude Code / Cursor / Windsurf, or as a remote MCP for Claude Desktop / Claude Cowork / Perplexity (HTTP transport, auth tokens, ngrok-friendly).
+
+### Integration recipes
+
+Ngrok tunnel, Credential Gateway, Voice-to-Brain (Twilio + OpenAI Realtime), Email-to-Brain (Gmail), X-to-Brain (timeline + mentions + deletions), Calendar-to-Brain, Meeting Sync (Circleback). Plus parameterized `data-research` recipes for investor updates (MRR, ARR, runway, headcount), expenses, and company metrics.
+
+### Key Properties
+
+- **Self-wiring knowledge graph** — typed edges extracted with zero LLM calls on every write; backfillable on existing brains.
+- **Repo as system of record** — markdown files are the truth; the engine is a retrieval layer. Human always wins on conflicts.
+- **Compiled truth + timeline** — every page separates "current best understanding" (rewritable) from "evidence trail" (append-only).
+- **Durable everything** — `gbrain agent run` survives crashes; tool calls persist as a two-phase `pending → complete | failed` ledger; replay is safe by construction.
+- **Reproducible benchmarks** — BrainBench corpus and A/B harness in [gbrain-evals](https://github.com/garrytan/gbrain-evals); ablation shows the graph layer + extract quality together carry the gap.
+- **Pluggable engine** — PGLite by default; `gbrain migrate --to supabase` (bidirectional) when you outgrow local. S3 / R2 / MinIO / Supabase Storage / local for binary files.
+
+### When to Pick GBrain
+
+- You want a long-term, persistent memory layer for an agent that ingests messy real-world signal (meetings, email, voice, social)
+- You want a knowledge graph but don't want to wire one yourself
+- You're running OpenClaw or Hermes Agent and want Garry's actual deployment patterns
+- You want a durable job queue for deterministic background work, not just inference-style agent calls
+- You're using [GStack](approaches.md#gstack) for coding and want the matching memory/ops side
+
+### When to Pick Something Else
+
+- You just need short-term conversation memory → [Mem0, Letta, Zep](infrastructure.md#purpose-built-agent-memory)
+- You don't want to run Postgres / PGLite → simpler vector-only memory layers
+- Your data is heavily regulated / multi-tenant — single-user "personal brain" framing isn't the design center
+- You want a black-box hosted memory API rather than git-as-source-of-truth — see [Letta](infrastructure.md#purpose-built-agent-memory) or [Graphlit](infrastructure.md#purpose-built-agent-memory)
+
+---
+
+## AgentHub
+
+- **Type:** Open Source (MIT)
+- **GitHub:** https://github.com/Stanshy/AgentHub
+- **Origin:** Stanshy, 2026; companion to the [Claude Code Mastery](https://github.com/Stanshy/Claude-code-mastery) course (the same intellectual lineage as the [Walking Labs *Learn Harness Engineering*](https://walkinglabs.github.io/learn-harness-engineering/en/) course referenced in [Harness Engineering](harness-engineering.md))
+- **Stack:** Electron 35, Vue 3, TailwindCSS 4, Pinia, sql.js (WASM SQLite), xterm.js + node-pty, chokidar
+
+An Electron desktop **harness-engineering control plane** that sits on top of Claude Code CLI. AgentHub doesn't replace Claude Code — it instruments it. You manage a virtual development company (46 agents across 9 departments) through a GUI, with workflows enforced by Skills, runtime constraints enforced by Hooks, state-as-markdown synced live by a FileWatcher, and a 7-gate quality pipeline that can't be skipped.
+
+### The four harness primitives
+
+| Primitive | What it does | Maps to |
+|-----------|-------------|---------|
+| **Skill** (23 built-in) | Workflow templates auto-loaded per task type — `/sprint-proposal`, `/task-dispatch`, `/review`, `/gate-record`, `/pre-deploy`, `/harness-audit`, etc. | Instructions + Tools |
+| **Hook** (5 templates) | Runtime interceptors. **PreToolUse** blocks `kill-port`, `--no-verify`, `force push main`. **PostToolUse** forces doc sync when core services change. **Stop** refuses session end until tests + typecheck pass. | Feedback |
+| **FileWatcher** | `chokidar` watches `.tasks/*.md` — markdown IS the database. Change → parse → SQLite upsert → eventBus → Vue reactive update → GUI live-reflects | State |
+| **Gate** | G0 Requirements → G1 Design → G2 Code Review → G3 Test → G4 Doc → G5 Deploy-Ready → G6 Released. Architecturally enforced, can't skip. | Verification + Lifecycle |
+
+### The org chart
+
+A strict chain of command — **L2 can't escalate to boss, boss can't bypass L1**, like a real company. 46 agents across 9 departments: Product, Engineering, Design, Marketing, Testing, Project Management, Studio Operations, plus Studio Coach and Joker as bonus roles. The agent role definitions are adapted from [contains-studio/agents](https://github.com/contains-studio/agents).
+
+L1 (8 leadership agents reporting to the boss): Product Manager, Tech Lead, Design Director, Marketing Lead, QA Lead, Project Lead, Operations Lead, Company Manager.
+
+### Key Properties
+
+- **Router CLAUDE.md (3.19 KB / 75 lines)** — the cleanest real-world implementation of the "50–200 line entry file + topic docs" pattern from [Harness Engineering § Progressive Disclosure](harness-engineering.md#progressive-disclosure-for-instructions). Three "fatal rules" + commands + index; every real rule lives in a `.knowledge/*.md` topic doc.
+- **Rules promoted to executable checks** — dangerous commands aren't documented, they're blocked by PreToolUse Hook. The repo's own example of [agent-oriented error messages with fix instructions](harness-engineering.md#scope-and-verification).
+- **Markdown-as-database** — `.tasks/*.md`, `.knowledge/*.md`, `dev-plan.md` are the single source of truth; the GUI is a live view, not an alternative store.
+- **Project scaffolding** — one click generates a full Harness (CLAUDE.md + `.knowledge/` + Skills + Hooks) into a child project, with 4 templates (web-app / api-service / library / mobile-app).
+- **Cross-project knowledge** — postmortems and gotchas captured in one project sync to a company-wide store and inherit to new projects.
+- **Slogan worth quoting**: *"A good validator with a bad workflow beats a good workflow without a validator."* Their arithmetic: 5 serial steps at 80% = 33% end-to-end; add a validator with retry = 99%. The whole product is built around that math.
+
+### When to Pick AgentHub
+
+- You want a runtime control plane (not just templates) for Claude Code agent work
+- You want hooks + gates + filewatcher as a *managed* GUI surface, not as files you maintain by hand
+- You want to formalize a multi-role org structure (PM / TL / DD …) rather than treat agents as undifferentiated workers
+- You're on Windows / macOS / Linux and OK with an Electron desktop app
+
+### When to Pick Something Else
+
+- You're a hands-on terminal user who'd rather wire the harness yourself in `~/.claude/` → [GStack](approaches.md#gstack) or roll your own per [Harness Engineering](harness-engineering.md)
+- You want parallel multi-agent worktrees on a single repo, not a single-session-at-a-time harness → [Conductor](infrastructure.md#autonomous-coding-agents), [Superset](infrastructure.md#autonomous-coding-agents), [Orchestrator.build](infrastructure.md#autonomous-coding-agents)
+- You don't use Claude Code — AgentHub depends on the Claude Code CLI as its execution engine
+
+---
+
 ## Terminal coding CLIs
 
 The surface agents an engineer actually types into. Most of these are CLI harnesses around frontier models — you pick the CLI (the scaffolding, UX, permissions model, tool wiring) and plug in whichever model makes sense for the task. This is the list behind [Docking Station](https://github.com/opencolin/dockingstation), the containerized dev environment that ships all 25 of them side-by-side.

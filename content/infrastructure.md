@@ -414,6 +414,7 @@ Memory layers designed specifically for AI agents, with multi-level scoping (use
 | **Motorhead** | Chat memory server | OSS | Lightweight chat history service |
 | **Basic Memory / OpenMemory** | OSS agent memory protocols | Free OSS | Standardized memory protocols |
 | **MemMachine** | Universal memory layer for agents | OSS | Persistent multi-session memory that works across models and environments — drop-in alternative when you don't want to lock into Mem0 / Letta APIs |
+| **[GBrain](approaches.md#gbrain)** | Self-wiring knowledge graph + memory + durable job queue | OSS (MIT, 11.1K stars) | Garry Tan's production memory layer — markdown as system of record, Postgres + pgvector engine (PGLite or Supabase), typed-edge graph extracted with zero LLM calls, 29 built-in skills, "Minions" Postgres-native job queue (753 ms vs 10 s + sub-agent spawn); pairs with [GStack](approaches.md#gstack) |
 
 ### Vector Databases
 

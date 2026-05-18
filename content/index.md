@@ -49,6 +49,9 @@ Deep dives into each major system and framework:
 - [Mastra](approaches.md#mastra) — TypeScript framework for building custom agent systems
 - [OpenClaw](approaches.md#openclaw) — 355K stars, self-hosted assistant with messaging integration
 - [Rivet Sandbox Agent](approaches.md#rivet-sandbox-agent) — Universal API for running agents in sandboxes
+- [GStack](approaches.md#gstack) — Garry Tan's 23-skill Claude Code setup, MIT, 82.7K stars; CEO / Designer / Eng Manager / QA personas, paired with Conductor for 10–15 parallel sprints
+- [GBrain](approaches.md#gbrain) — Garry Tan's persistent-memory companion to GStack, MIT, 11.1K stars; self-wiring typed knowledge graph + 29 skills + Postgres-native "Minions" job queue; *"the engine is GStack; GBrain is the mod"*
+- [AgentHub](approaches.md#agenthub) — Electron harness-engineering control plane (Skills + Hooks + FileWatcher + 7-gate pipeline) on top of Claude Code CLI, 46-agent org chart
 
 ### [Patterns](patterns.md)
 Cross-cutting architectural patterns:
