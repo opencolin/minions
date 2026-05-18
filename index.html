@@ -39,7 +39,6 @@
             <a href="#" class="sidebar-link" data-page="harness-engineering">Harness Engineering</a>
             <a href="#" class="sidebar-link" data-page="schools">Schools</a>
             <a href="#" class="sidebar-link" data-page="benchmarks">Benchmarks</a>
-            <a href="#" class="sidebar-link" data-page="comparison">Comparison</a>
             <a href="#" class="sidebar-link" data-page="organizations">Organizations</a>
             <a href="#" class="sidebar-link" data-page="who-is-who">Who's Who</a>
           </div>
@@ -93,15 +92,16 @@ A comprehensive reference to autonomous coding agents, agentic organizations, an
 | 3 | [Harness Engineering](harness-engineering.md) | The deep-dive page on what makes agents reliable — five-subsystem model, repo-as-system-of-record, WIP=1, three-layer verification, sprint contracts, clean-state exits |
 | 4 | [Schools](schools.md) | Where does trust live? The three philosophical schools (Polosukhin / Chase / Ng) and the four operational schools (Stripe / Tan / Walking Labs / Steinberger) |
 | 5 | [Benchmarks](benchmarks.md) | SWE-bench, SWE-bench Verified / Pro / Multimodal / Multilingual, Terminal Bench 2.0; how to read the leaderboards and what they actually mean |
-| 6 | [Comparison](comparison.md) | Side-by-side feature matrix and capability rankings across the major systems |
-| 7 | [Organizations](organizations.md) | How companies organize around agents — Stripe model, open-source model, agent-first development, infrastructure tiers |
-| 8 | [Who's Who](who-is-who.md) | Twenty named profiles of the people shaping the field — researchers, operators, chroniclers — with the single thing of theirs to read or watch first |
-| 9 | [Inference](inference.md) | LLM inference solutions: direct API providers, platforms (Nebius, Together, Fireworks, Groq), routing gateways, self-hosted inference |
-| 10 | [Sandboxes](sandboxes.md) | The execution-environment layer — purpose-built agent sandboxes, Contree deep dive, CDEs, isolation tiers, integration patterns |
-| 11 | [Hosting & Execution](infrastructure.md) | 150+ infrastructure vendors across 9 categories — turnkey platforms, agent-optimized hosting, orchestration, Cloud Mac, GPU clouds, VPS for agents, memory, observability, MCP, identity/auth |
-| 12 | [Generative UI](generative-ui.md) | The agent's front-end story — Static, Declarative (A2UI), Open-ended patterns; CopilotKit, AG-UI, A2UI, MCP-UI; Vercel AI SDK; trade-offs between consistency and flexibility |
+| 6 | [Organizations](organizations.md) | How companies organize around agents — Stripe model, open-source model, agent-first development, infrastructure tiers |
+| 7 | [Who's Who](who-is-who.md) | Twenty named profiles of the people shaping the field — researchers, operators, chroniclers — with the single thing of theirs to read or watch first |
+| 8 | [Inference](inference.md) | LLM inference solutions: direct API providers, platforms (Nebius, Together, Fireworks, Groq), routing gateways, self-hosted inference |
+| 9 | [Sandboxes](sandboxes.md) | The execution-environment layer — purpose-built agent sandboxes, Contree deep dive, CDEs, isolation tiers, integration patterns |
+| 10 | [Hosting & Execution](infrastructure.md) | 150+ infrastructure vendors across 9 categories — turnkey platforms, agent-optimized hosting, orchestration, Cloud Mac, GPU clouds, VPS for agents, memory, observability, MCP, identity/auth |
+| 11 | [Generative UI](generative-ui.md) | The agent's front-end story — Static, Declarative (A2UI), Open-ended patterns; CopilotKit, AG-UI, A2UI, MCP-UI; Vercel AI SDK; trade-offs between consistency and flexibility |
 
-If you're new to the field, the suggested reading order is Chapter 1 → Chapter 3 → Chapter 4 → then any others by interest. Chapter 8 (Who's Who) doubles as a "what to read next" map keyed to specific authors.
+The [Approaches](approaches.md) chapter ends with a [Feature Matrix](approaches.md#feature-matrix), [Capability Breakdown](approaches.md#capability-breakdown), and [Composability](approaches.md#composability) — side-by-side comparisons across the major systems.
+
+If you're new to the field, the suggested reading order is Chapter 1 → Chapter 3 → Chapter 4 → then any others by interest. Chapter 7 (Who's Who) doubles as a "what to read next" map keyed to specific authors.
 
 ---
 
@@ -161,6 +161,7 @@ Deep dives into each major system and framework:
 - [Crabbox](approaches.md#crabbox) — Ephemeral test-box control plane with diff sync, multi-provider runners, Windows + Linux, native OpenClaw plugin
 - [Clawpatch](approaches.md#clawpatch) — Automated code review via semantic feature slicing + explicit fix loop
 - [ClawSweeper](approaches.md#clawsweeper) — Conservative issue/PR triage bot — six narrow close cases, never touches maintainer items
+- [Feature Matrix](approaches.md#feature-matrix), [Capability Breakdown](approaches.md#capability-breakdown), [Composability](approaches.md#composability) — side-by-side comparisons across all the systems above
 
 ### [Patterns](patterns.md)
 Cross-cutting architectural patterns:
@@ -189,12 +190,6 @@ How agentic coding systems are measured:
 - [SWE-bench Verified](benchmarks.md#variants) — 500 human-filtered instances, the metric production agents publish
 - [Terminal Bench](benchmarks.md#terminal-bench) — Stanford × Laude, 89 tasks spanning software eng, security, sysadmin, data science, ML
 - [Choosing a benchmark](benchmarks.md#choosing-a-benchmark) — Matching benchmark to what you care about
-
-### [Comparison](comparison.md)
-Side-by-side feature matrix and capability rankings:
-- [Feature Matrix](comparison.md#feature-matrix) — All approaches compared across 8 dimensions
-- [Capability Breakdown](comparison.md#capability-breakdown) — Best tools for each use case
-- [Composability](comparison.md#composability) — How to combine tools to build a full system
 
 ### [Organizations](organizations.md)
 How companies organize around agents:
@@ -284,6 +279,9 @@ Per-system deep dives across 25+ agentic engineering products.
 - [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces)
 - [Browser-Use & Computer-Use Frameworks](approaches.md#browser-use--computer-use-frameworks)
 - [Terminal coding CLIs](approaches.md#terminal-coding-clis) — the 28-CLI comparison table
+- [Feature Matrix](approaches.md#feature-matrix) — side-by-side comparison across all systems above
+- [Capability Breakdown](approaches.md#capability-breakdown) — best-for-X rankings
+- [Composability](approaches.md#composability) — how to assemble an equivalent stack
 
 ---
 
@@ -348,17 +346,7 @@ How agentic coding is evaluated.
 
 ---
 
-## 6. [Comparison](comparison.md)
-
-Side-by-side capability rankings.
-
-- [Feature Matrix](comparison.md#feature-matrix)
-- [Capability Breakdown](comparison.md#capability-breakdown)
-- [Composability](comparison.md#composability)
-
----
-
-## 7. [Organizations](organizations.md)
+## 6. [Organizations](organizations.md)
 
 How companies organize around agents.
 
@@ -370,7 +358,7 @@ How companies organize around agents.
 
 ---
 
-## 8. [Who's Who](who-is-who.md)
+## 7. [Who's Who](who-is-who.md)
 
 20 named profiles of the people shaping the field.
 
@@ -382,7 +370,7 @@ How companies organize around agents.
 
 ---
 
-## 9. [Inference](inference.md)
+## 8. [Inference](inference.md)
 
 LLM inference solutions.
 
@@ -396,7 +384,7 @@ LLM inference solutions.
 
 ---
 
-## 10. [Sandboxes](sandboxes.md)
+## 9. [Sandboxes](sandboxes.md)
 
 The execution-environment layer.
 
@@ -414,7 +402,7 @@ The execution-environment layer.
 
 ---
 
-## 11. [Hosting & Execution Infrastructure](infrastructure.md)
+## 10. [Hosting & Execution Infrastructure](infrastructure.md)
 
 150+ vendors across 9 major categories.
 
@@ -434,7 +422,7 @@ The execution-environment layer.
 
 ---
 
-## 12. [Generative UI](generative-ui.md)
+## 11. [Generative UI](generative-ui.md)
 
 The agent's front-end story.
 
@@ -469,7 +457,7 @@ A deep dive into the major systems and frameworks driving autonomous software en
 - **Based on:** Goose fork
 - **Blog:** https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents
 
-Stripe's homegrown coding agents are the industry benchmark for unattended, one-shot agentic coding at enterprise scale. Engineers invoke minions from Slack, internal tools, or CLI, and receive a complete pull request with no human-written code. This is the canonical example of the [Stripe School](schools.md#the-stripe-school) — see also [Benchmarks](benchmarks.md) for how its 1,300+ PRs/week metric compares to leaderboard scores.
+Stripe's homegrown coding agents are the industry benchmark for unattended, one-shot agentic coding at enterprise scale. Engineers invoke minions from Slack, internal tools, or CLI, and receive a complete pull request with no human-written code.
 
 ### Architecture
 
@@ -503,7 +491,7 @@ Slack / CLI → Devbox → Pre-hydrate Context → Blueprint Loop → Local Lint
 - **GitHub:** https://github.com/Agent-Field/agentfield
 - **Blog:** https://agentfield.ai/blog/beyond-vibe-coding
 
-AgentField is both a control plane for managing AI agents as production services and an orchestration framework (SWE-AF) for multi-agent coding workflows. It addresses the infrastructure gap that [Stripe](#stripe-minions) solved internally.
+AgentField is both a control plane for managing AI agents as production services and an orchestration framework (SWE-AF) for multi-agent coding workflows. It addresses the infrastructure gap that Stripe solved internally.
 
 ### Control Plane
 
@@ -561,7 +549,7 @@ Formerly OpenDevin, OpenHands is the most mature open-source autonomous software
 - **Stars:** 9.5K
 - **GitHub:** https://github.com/langchain-ai/open-swe
 
-[LangChain](who-is-who.md#harrison-chase)'s cloud-native async coding agent, explicitly modeled on patterns from companies like Stripe, Ramp, and Coinbase. Uses a [multi-agent architecture](patterns.md#6-multi-agent-coordination) built on LangGraph.
+LangChain's cloud-native async coding agent, explicitly modeled on patterns from companies like Stripe, Ramp, and Coinbase. Uses a multi-agent architecture built on LangGraph.
 
 ### Architecture
 
@@ -636,7 +624,7 @@ The most-starred open-source coding agent, featuring a TUI, client/server archit
 - **Origin:** Princeton / Stanford
 - **GitHub:** https://github.com/SWE-agent/SWE-agent
 
-Pioneered the "GitHub issue in, pull request out" paradigm. Published at NeurIPS 2024 by [John Yang](who-is-who.md#john-yang) and collaborators including [Shunyu Yao](who-is-who.md#shunyu-yao). Also produced mini-swe-agent, a 100-line agent scoring 74%+ on [SWE-bench](benchmarks.md#swe-bench).
+Pioneered the "GitHub issue in, pull request out" paradigm. Published at NeurIPS 2024. Also produced mini-swe-agent, a 100-line agent scoring 74%+ on SWE-bench.
 
 ### Architecture
 
@@ -658,7 +646,7 @@ Pioneered the "GitHub issue in, pull request out" paradigm. Published at NeurIPS
 - **Stars:** 6.2K
 - **GitHub:** https://github.com/ComposioHQ/agent-orchestrator
 
-The best open-source match for [Stripe](#stripe-minions)'s [multi-agent parallelization pattern](patterns.md#6-multi-agent-coordination). Decomposes tasks, spawns parallel agents, and autonomously handles CI fixes and merge conflicts.
+The best open-source match for Stripe's multi-agent parallelization pattern. Decomposes tasks, spawns parallel agents, and autonomously handles CI fixes and merge conflicts.
 
 ### Architecture
 
@@ -681,7 +669,7 @@ The best open-source match for [Stripe](#stripe-minions)'s [multi-agent parallel
 - **Stars:** 1.5K
 - **GitHub:** https://github.com/patched-codes/patchwork
 
-Framework for patching code repos using LLMs. Its "patchflows" — reusable workflows combining atomic actions with LLM prompts — are the closest open-source analog to [Stripe's blueprint pattern](patterns.md#2-orchestration-models).
+Framework for patching code repos using LLMs. Its "patchflows" — reusable workflows combining atomic actions with LLM prompts — are the closest open-source analog to Stripe's blueprint pattern.
 
 ### Architecture
 
@@ -703,7 +691,7 @@ Framework for patching code repos using LLMs. Its "patchflows" — reusable work
 - **Stars:** 41K
 - **GitHub:** https://github.com/block/goose (also https://github.com/aaif-goose/goose)
 
-The general-purpose AI agent framework from Block that Stripe forked in late 2024 to build [Minions](#stripe-minions). Now maintained by the Agentic AI Foundation (AAIF) under the Linux Foundation.
+The general-purpose AI agent framework from Block that Stripe forked in late 2024 to build Minions. Now maintained by the Agentic AI Foundation (AAIF) under the Linux Foundation.
 
 ### Architecture
 
@@ -714,7 +702,7 @@ The general-purpose AI agent framework from Block that Stripe forked in late 202
 
 ### Key Properties
 
-- Minions ancestor — [Stripe's Minions](#stripe-minions) were literally built from a Goose fork
+- Minions ancestor — Stripe's Minions were literally built from a Goose fork
 - Linux Foundation — Transitioned from Block to AAIF for community governance
 - **Gap:** Interactive, not unattended. No sandbox isolation, CI loops, or blueprint orchestration
 
@@ -743,7 +731,7 @@ A TypeScript framework for building AI-powered applications and autonomous agent
 - MCP servers — Author and consume MCP tools via standard interfaces
 - Evaluations — Built-in eval framework for measuring agent quality
 - Production-ready — Observability, error handling, state persistence
-- **Role in agentic engineering:** Mastra is a framework for building custom agent systems, not a pre-built coding agent. Teams would use it to build their own [Minions](#stripe-minions)-like system in TypeScript, with the workflow engine serving a similar role to [Stripe's blueprints](patterns.md#2-orchestration-models).
+- **Role in agentic engineering:** Mastra is a framework for building custom agent systems, not a pre-built coding agent. Teams would use it to build their own Minions-like system in TypeScript, with the workflow engine serving a similar role to Stripe's blueprints.
 
 ---
 
@@ -752,7 +740,7 @@ A TypeScript framework for building AI-powered applications and autonomous agent
 - **Type:** Open Source
 - **Stars:** 355K (fastest-growing open-source project on GitHub)
 - **GitHub:** https://github.com/openclaw/openclaw
-- **Origin:** Created by [Peter Steinberger](who-is-who.md#peter-steinberger-steipete) (Austria), originally named Clawdbot (Nov 2025)
+- **Origin:** Created by Peter Steinberger (Austria), originally named Clawdbot (Nov 2025)
 
 A self-hosted personal AI assistant platform that connects LLMs to real software via messaging platforms. Not a coding agent per se, but a general-purpose agent framework that can execute coding tasks among many other capabilities.
 
@@ -772,7 +760,7 @@ A self-hosted personal AI assistant platform that connects LLMs to real software
 - Voice capabilities — Wake words, continuous voice mode, ElevenLabs integration
 - A2UI (Agent-to-UI) — Live Canvas for agent-driven visual workspaces
 - NemoClaw — Nvidia-built security add-on with OpenShell sandboxing (released March 2026)
-- **Role in agentic engineering:** OpenClaw's messaging-platform integration mirrors how Stripe engineers invoke [minions](#stripe-minions) from Slack. Its self-hosted nature and [multi-agent coordination](patterns.md#6-multi-agent-coordination) make it a potential foundation for building an agentic engineering workflow, though it requires more custom configuration than purpose-built coding agents. The skills platform and agent-to-agent tools could power a Minions-like system where coding tasks are dispatched through familiar messaging channels.
+- **Role in agentic engineering:** OpenClaw's messaging-platform integration mirrors how Stripe engineers invoke minions from Slack. Its self-hosted nature and multi-agent coordination make it a potential foundation for building an agentic engineering workflow, though it requires more custom configuration than purpose-built coding agents. The skills platform and agent-to-agent tools could power a Minions-like system where coding tasks are dispatched through familiar messaging channels.
 
 ### The OpenClaw Ecosystem
 
@@ -787,13 +775,13 @@ OpenClaw has spawned a family of derivative projects and an entire hosting marke
 | **ZeroClaw** | Rust | 20K+ | Edge-first, 3.4-5MB binary, <50ms startup, container isolation |
 | **NanoClaw** | TypeScript | Growing | ~500 lines, auditable in 8 min, Agent Swarms, container-per-group |
 
-**Hosting ecosystem:** 30+ vendors now offer OpenClaw-compatible hosting across six tiers — from turnkey platforms (ZenClaw AI, KlausAI, Coral) to self-hosted infrastructure. See the [Hosting & Execution Infrastructure](infrastructure.md#agent-hosting--execution-platforms) page for the full vendor landscape.
+**Hosting ecosystem:** 30+ vendors now offer OpenClaw-compatible hosting across six tiers — from turnkey platforms (ZenClaw AI, KlausAI, Coral) to self-hosted infrastructure. See the [Infrastructure](infrastructure.md#agent-hosting--execution-platforms) page for the full vendor landscape.
 
 ### The Steinberger School
 
-> *"How would we build software in the future if tokens don't matter?"* — [Peter Steinberger](who-is-who.md#peter-steinberger-steipete)
+> *"How would we build software in the future if tokens don't matter?"* — Peter Steinberger
 
-OpenClaw's founder runs the project as a deliberate experiment in **token-unbounded agentic engineering** — what he calls his AI Software Factory. The methodology has consolidated into a recognizable *school* with its own toolchain, idioms, and operational assumptions, distinct from the [Stripe School](schools.md#the-stripe-school) (large-org devbox + blueprints), the [Tan School](schools.md#the-tan-school) (one-engineer skill packs + parallel worktrees), and the [Walking Labs / Mastery School](schools.md#the-walking-labs--mastery-school) (validator-first methodology). Reported spend is around $1.3M/month across roughly 100 Codex instances in the cloud, operated by a team of ~3. That cost is the point of the experiment, not a bug — it's a working answer to *"what's possible if inference cost stops being the binding constraint?"*
+OpenClaw's founder runs the project as a deliberate experiment in **token-unbounded agentic engineering** — what he calls his AI Software Factory. The methodology has consolidated into a recognizable *school* with its own toolchain, idioms, and operational assumptions, distinct from the [Stripe School](#stripe-minions) (large-org devbox + blueprints), the [Tan School](#gstack) (one-engineer skill packs + parallel worktrees), and the [Walking Labs / Mastery School](harness-engineering.md) (validator-first methodology). Reported spend is around $1.3M/month across roughly 100 Codex instances in the cloud, operated by a team of ~3. That cost is the point of the experiment, not a bug — it's a working answer to *"what's possible if inference cost stops being the binding constraint?"*
 
 The pattern is worth studying as a real-world counterpart to [Stripe Minions](#stripe-minions). Steinberger's setup runs a Codex (or equivalent) agent on essentially every event in the project lifecycle:
 
@@ -821,7 +809,7 @@ The supporting ecosystem (all open source, all by Steinberger / the OpenClaw org
 
 The factory runs on a *mix* of model providers — Codex, Claude, Cursor, OpenCode, Kiro, [Hermes Agent](#hermes-agent) — picked per task. This is the inference-strategy pattern from [Inference Strategy for Agents](inference.md#inference-strategy-for-agents) operating at production scale: cheap models for triage and routing, expensive ones for reasoning and code generation.
 
-The lesson isn't *"spend $1.3M/month"* — it's that **a small team with a comprehensive harness can run a project the size and quality of a much larger company**. The token cost is the harness's externality; what's compounding is the operational leverage. See [Harness Engineering](harness-engineering.md) for the principles; the [Steinberger School](schools.md#the-steinberger-school) is the most aggressive public example of those principles in production.
+The lesson isn't *"spend $1.3M/month"* — it's that **a small team with a comprehensive harness can run a project the size and quality of a much larger company**. The token cost is the harness's externality; what's compounding is the operational leverage. See [Harness Engineering](harness-engineering.md) for the principles; the Steinberger School is the most aggressive public example of those principles in production.
 
 ---
 
@@ -829,10 +817,10 @@ The lesson isn't *"spend $1.3M/month"* — it's that **a small team with a compr
 
 - **Type:** Open Source
 - **GitHub:** https://github.com/openclaw/crabbox · **Docs:** https://crabbox.sh
-- **Origin:** [OpenClaw](#openclaw) org, [Peter Steinberger](who-is-who.md#peter-steinberger-steipete) maintains
+- **Origin:** OpenClaw org, Peter Steinberger maintains
 - **Tagline:** *"Crabbox: warm a box, sync the diff, run the suite."*
 
-An agent workspace control plane for maintainers and AI agents. Crabbox sits between your dirty checkout and a remote runner — lease fast managed cloud capacity, BYO SSH host, or use any [agent sandbox provider](sandboxes.md#purpose-built-agent-sandboxes); sync the diff; run commands remotely; stream output; collect evidence; release the box. Native [OpenClaw](#openclaw) plugin: `crabbox_run`, `crabbox_warmup`, `crabbox_status`, `crabbox_list`, `crabbox_stop`.
+An agent workspace control plane for maintainers and AI agents. Crabbox sits between your dirty checkout and a remote runner — lease fast managed cloud capacity, BYO SSH host, or use any agent sandbox provider; sync the diff; run commands remotely; stream output; collect evidence; release the box. Native OpenClaw plugin: `crabbox_run`, `crabbox_warmup`, `crabbox_status`, `crabbox_list`, `crabbox_stop`.
 
 ### Architecture
 
@@ -852,7 +840,7 @@ An agent workspace control plane for maintainers and AI agents. Crabbox sits bet
 ### When to Pick Crabbox
 
 - You want reproducible ephemeral test environments without committing to one cloud vendor
-- You're already running [OpenClaw](#openclaw) or want a native plugin for agent box lifecycle
+- You're already running OpenClaw or want a native plugin for agent box lifecycle
 - You need Windows desktop + WSL2 environments (most agent sandboxes are Linux-only)
 - You're hitting GitHub Actions runner pain (slow boots, missing tools, secret-management headaches) and want a faster, reproducible alternative
 - You want failed boxes preserved for SSH debugging rather than torn down
@@ -1782,6 +1770,76 @@ For agentic engineering teams, these matter as **tools an agent calls** — for 
 - **Self-host a full Operator alternative for end users** → Open-CUAK or Open Computer Agent.
 - **Already on Claude** → Anthropic Computer Use directly via the API; Claude Cowork if you want the productized desktop UX.
 - **Visual testing / regression** → Magnitude (visual assertions), Skyvern (workflow builder), or Stagehand on top of Playwright's existing assertions.
+
+---
+
+## Feature Matrix
+
+Side-by-side feature comparison across the major agentic coding systems profiled above.
+
+| Project | Stars | Unattended PR | Orchestration | Sandbox | MCP | CI Feedback | Multi-Agent | License |
+|---------|-------|--------------|---------------|---------|-----|-------------|-------------|---------|
+| **Claude Managed Agents** | N/A | Yes | Built-in harness | Managed container | Yes (MCP) | Yes | Research preview | Commercial |
+| **Stripe Minions** | N/A | Yes | Blueprints | EC2 Devboxes | Yes (~500 tools) | Yes (2 rounds) | Parallel runs | Proprietary |
+| **AgentField** | 1.4K | Yes | SWE-AF levels | Git Worktrees | Agent mesh | Yes (gated) | Yes (orchestrated) | Apache 2.0 |
+| **OpenHands** | 71K | Yes | Planning Mode | Docker | No | Yes | No | MIT |
+| **Open SWE** | 9.5K | Yes | LangGraph | Cloud sandbox | No | Yes | Yes (4 agents) | Open Source |
+| **OhMyOpenAgent** | 50.6K | Partial | Named agents | No | Yes (built-in) | Partial | Yes (team) | Open Source |
+| **OpenCode** | 142K | Partial (GH mode) | No | No | No | No | No | Open Source |
+| **SWE-agent** | 19K | Yes | No | Docker | No | Partial | No | MIT |
+| **Composio** | 6.2K | Yes | Task decomp | Configurable | No | Yes | Yes (parallel) | Open Source |
+| **Patchwork** | 1.5K | Yes | Patchflows | No | No | Yes (CI/CD) | No | Open Source |
+| **Goose** | 41K | No (interactive) | No | No | Yes (70+ tools) | No | No | Apache 2.0 |
+| **Symphony** | 15K+ | Yes | 6-layer architecture | Worktrees | Via integrations | Yes (CI-gated) | Yes (orchestrated) | Apache 2.0 |
+| **Vercel Open Agents** | 3.7K | Yes | Vercel Workflow SDK (durable) | Vercel Sandbox (microVM) | Yes (MCP) | Via tools | Subagents built-in | MIT |
+| **Mastra** | 22.9K | Framework | Workflows | Configurable | Yes (MCP) | Via workflows | Via workflows | Apache 2.0 |
+| **OpenClaw** | 355K | Via skills | No | Via NemoClaw | No | No | Yes (sessions) | Open Source |
+| **Rivet Sandbox** | 1.3K | Infrastructure | No | Yes (multi-runtime) | No | No | API-level | Open Source |
+
+## Capability Breakdown
+
+### Best for Unattended PR Production
+1. **Stripe Minions** — Gold standard, 1,300+ PRs/week in production
+2. **OpenHands** — Most mature open-source option, 50%+ SWE-bench
+3. **Open SWE** — Best multi-agent architecture for PR production
+
+### Best for Orchestration / Workflow
+1. **Stripe Minions** — Blueprints (hybrid deterministic + agentic)
+2. **Patchwork** — Patchflows (closest open-source blueprint analog)
+3. **Open SWE** — LangGraph (graph-based multi-agent)
+
+### Best for Sandbox Isolation
+1. **Stripe Minions** — EC2 devboxes, pre-warmed in 10s
+2. **Rivet Sandbox Agent** — Universal API for any agent in any sandbox
+3. **OpenHands** — Docker-based, Kubernetes-ready
+
+### Best for Multi-Agent Parallelization
+1. **Composio Orchestrator** — Purpose-built for parallel agent coordination
+2. **AgentField** — Full orchestration with failure recovery
+3. **OhMyOpenAgent** — Named specialist team with model routing
+
+### Best for Context Management
+1. **Stripe Minions** — Toolshed MCP (~500 tools), conditional rules, pre-hydration
+2. **OhMyOpenAgent** — Hierarchical AGENTS.md, built-in MCPs, multi-model routing
+3. **Goose** — MCP-native with 70+ extensions
+
+### Best for Failure Recovery
+1. **AgentField** — Three nested loops, typed recovery, checkpoint-based
+2. **Stripe Minions** — Pragmatic 2-round CI cap with auto-fixes
+3. **OhMyOpenAgent** — Ralph Loop for persistent iteration
+
+## Composability
+
+No single open-source project replicates the full Stripe Minions architecture. To build an equivalent, you would likely combine:
+
+| Layer | Option A | Option B |
+|-------|----------|----------|
+| **Core Agent** | OpenHands | Open SWE |
+| **Sandbox** | Rivet Sandbox Agent | E2B / Docker |
+| **Orchestration** | Patchwork patchflows | LangGraph |
+| **Parallelization** | Composio Orchestrator | AgentField |
+| **Context** | MCP servers | OhMyOpenAgent MCPs |
+| **Control Plane** | AgentField | Custom |
   </script>
   <script type="text/markdown" data-page="patterns">
 # Architectural Patterns in Agentic Engineering
@@ -2742,83 +2800,6 @@ Neither benchmark is sufficient on its own. A team shipping autonomous PRs inter
 - [Approaches](approaches.md) — Agents and their published benchmark scores
 - [Patterns § Harness engineering](patterns.md) — Why harness-is-the-model for benchmark performance
 - [Organizations](organizations.md) — How teams measure agent value beyond benchmarks
-  </script>
-  <script type="text/markdown" data-page="comparison">
-# Comparison Table
-
-Side-by-side feature comparison of all major agentic coding approaches.
-
----
-
-## Feature Matrix
-
-| Project | Stars | Unattended PR | Orchestration | Sandbox | MCP | CI Feedback | Multi-Agent | License |
-|---------|-------|--------------|---------------|---------|-----|-------------|-------------|---------|
-| **Claude Managed Agents** | N/A | Yes | Built-in harness | Managed container | Yes (MCP) | Yes | Research preview | Commercial |
-| **Stripe Minions** | N/A | Yes | Blueprints | EC2 Devboxes | Yes (~500 tools) | Yes (2 rounds) | Parallel runs | Proprietary |
-| **AgentField** | 1.4K | Yes | SWE-AF levels | Git Worktrees | Agent mesh | Yes (gated) | Yes (orchestrated) | Apache 2.0 |
-| **OpenHands** | 71K | Yes | Planning Mode | Docker | No | Yes | No | MIT |
-| **Open SWE** | 9.5K | Yes | LangGraph | Cloud sandbox | No | Yes | Yes (4 agents) | Open Source |
-| **OhMyOpenAgent** | 50.6K | Partial | Named agents | No | Yes (built-in) | Partial | Yes (team) | Open Source |
-| **OpenCode** | 142K | Partial (GH mode) | No | No | No | No | No | Open Source |
-| **SWE-agent** | 19K | Yes | No | Docker | No | Partial | No | MIT |
-| **Composio** | 6.2K | Yes | Task decomp | Configurable | No | Yes | Yes (parallel) | Open Source |
-| **Patchwork** | 1.5K | Yes | Patchflows | No | No | Yes (CI/CD) | No | Open Source |
-| **Goose** | 41K | No (interactive) | No | No | Yes (70+ tools) | No | No | Apache 2.0 |
-| **Symphony** | 15K+ | Yes | 6-layer architecture | Worktrees | Via integrations | Yes (CI-gated) | Yes (orchestrated) | Apache 2.0 |
-| **Vercel Open Agents** | 3.7K | Yes | Vercel Workflow SDK (durable) | Vercel Sandbox (microVM) | Yes (MCP) | Via tools | Subagents built-in | MIT |
-| **Mastra** | 22.9K | Framework | Workflows | Configurable | Yes (MCP) | Via workflows | Via workflows | Apache 2.0 |
-| **OpenClaw** | 355K | Via skills | No | Via NemoClaw | No | No | Yes (sessions) | Open Source |
-| **Rivet Sandbox** | 1.3K | Infrastructure | No | Yes (multi-runtime) | No | No | API-level | Open Source |
-
----
-
-## Capability Breakdown
-
-### Best for Unattended PR Production
-1. **Stripe Minions** — Gold standard, 1,300+ PRs/week in production
-2. **OpenHands** — Most mature open-source option, 50%+ SWE-bench
-3. **Open SWE** — Best multi-agent architecture for PR production
-
-### Best for Orchestration / Workflow
-1. **Stripe Minions** — Blueprints (hybrid deterministic + agentic)
-2. **Patchwork** — Patchflows (closest open-source blueprint analog)
-3. **Open SWE** — LangGraph (graph-based multi-agent)
-
-### Best for Sandbox Isolation
-1. **Stripe Minions** — EC2 devboxes, pre-warmed in 10s
-2. **Rivet Sandbox Agent** — Universal API for any agent in any sandbox
-3. **OpenHands** — Docker-based, Kubernetes-ready
-
-### Best for Multi-Agent Parallelization
-1. **Composio Orchestrator** — Purpose-built for parallel agent coordination
-2. **AgentField** — Full orchestration with failure recovery
-3. **OhMyOpenAgent** — Named specialist team with model routing
-
-### Best for Context Management
-1. **Stripe Minions** — Toolshed MCP (~500 tools), conditional rules, pre-hydration
-2. **OhMyOpenAgent** — Hierarchical AGENTS.md, built-in MCPs, multi-model routing
-3. **Goose** — MCP-native with 70+ extensions
-
-### Best for Failure Recovery
-1. **AgentField** — Three nested loops, typed recovery, checkpoint-based
-2. **Stripe Minions** — Pragmatic 2-round CI cap with auto-fixes
-3. **OhMyOpenAgent** — Ralph Loop for persistent iteration
-
----
-
-## Composability
-
-No single open-source project replicates the full Stripe Minions architecture. To build an equivalent, you would likely combine:
-
-| Layer | Option A | Option B |
-|-------|----------|----------|
-| **Core Agent** | OpenHands | Open SWE |
-| **Sandbox** | Rivet Sandbox Agent | E2B / Docker |
-| **Orchestration** | Patchwork patchflows | LangGraph |
-| **Parallelization** | Composio Orchestrator | AgentField |
-| **Context** | MCP servers | OhMyOpenAgent MCPs |
-| **Control Plane** | AgentField | Custom |
   </script>
   <script type="text/markdown" data-page="organizations">
 # Agentic Organizations

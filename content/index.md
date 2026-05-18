@@ -15,15 +15,16 @@ A comprehensive reference to autonomous coding agents, agentic organizations, an
 | 3 | [Harness Engineering](harness-engineering.md) | The deep-dive page on what makes agents reliable — five-subsystem model, repo-as-system-of-record, WIP=1, three-layer verification, sprint contracts, clean-state exits |
 | 4 | [Schools](schools.md) | Where does trust live? The three philosophical schools (Polosukhin / Chase / Ng) and the four operational schools (Stripe / Tan / Walking Labs / Steinberger) |
 | 5 | [Benchmarks](benchmarks.md) | SWE-bench, SWE-bench Verified / Pro / Multimodal / Multilingual, Terminal Bench 2.0; how to read the leaderboards and what they actually mean |
-| 6 | [Comparison](comparison.md) | Side-by-side feature matrix and capability rankings across the major systems |
-| 7 | [Organizations](organizations.md) | How companies organize around agents — Stripe model, open-source model, agent-first development, infrastructure tiers |
-| 8 | [Who's Who](who-is-who.md) | Twenty named profiles of the people shaping the field — researchers, operators, chroniclers — with the single thing of theirs to read or watch first |
-| 9 | [Inference](inference.md) | LLM inference solutions: direct API providers, platforms (Nebius, Together, Fireworks, Groq), routing gateways, self-hosted inference |
-| 10 | [Sandboxes](sandboxes.md) | The execution-environment layer — purpose-built agent sandboxes, Contree deep dive, CDEs, isolation tiers, integration patterns |
-| 11 | [Hosting & Execution](infrastructure.md) | 150+ infrastructure vendors across 9 categories — turnkey platforms, agent-optimized hosting, orchestration, Cloud Mac, GPU clouds, VPS for agents, memory, observability, MCP, identity/auth |
-| 12 | [Generative UI](generative-ui.md) | The agent's front-end story — Static, Declarative (A2UI), Open-ended patterns; CopilotKit, AG-UI, A2UI, MCP-UI; Vercel AI SDK; trade-offs between consistency and flexibility |
+| 6 | [Organizations](organizations.md) | How companies organize around agents — Stripe model, open-source model, agent-first development, infrastructure tiers |
+| 7 | [Who's Who](who-is-who.md) | Twenty named profiles of the people shaping the field — researchers, operators, chroniclers — with the single thing of theirs to read or watch first |
+| 8 | [Inference](inference.md) | LLM inference solutions: direct API providers, platforms (Nebius, Together, Fireworks, Groq), routing gateways, self-hosted inference |
+| 9 | [Sandboxes](sandboxes.md) | The execution-environment layer — purpose-built agent sandboxes, Contree deep dive, CDEs, isolation tiers, integration patterns |
+| 10 | [Hosting & Execution](infrastructure.md) | 150+ infrastructure vendors across 9 categories — turnkey platforms, agent-optimized hosting, orchestration, Cloud Mac, GPU clouds, VPS for agents, memory, observability, MCP, identity/auth |
+| 11 | [Generative UI](generative-ui.md) | The agent's front-end story — Static, Declarative (A2UI), Open-ended patterns; CopilotKit, AG-UI, A2UI, MCP-UI; Vercel AI SDK; trade-offs between consistency and flexibility |
 
-If you're new to the field, the suggested reading order is Chapter 1 → Chapter 3 → Chapter 4 → then any others by interest. Chapter 8 (Who's Who) doubles as a "what to read next" map keyed to specific authors.
+The [Approaches](approaches.md) chapter ends with a [Feature Matrix](approaches.md#feature-matrix), [Capability Breakdown](approaches.md#capability-breakdown), and [Composability](approaches.md#composability) — side-by-side comparisons across the major systems.
+
+If you're new to the field, the suggested reading order is Chapter 1 → Chapter 3 → Chapter 4 → then any others by interest. Chapter 7 (Who's Who) doubles as a "what to read next" map keyed to specific authors.
 
 ---
 
@@ -83,6 +84,7 @@ Deep dives into each major system and framework:
 - [Crabbox](approaches.md#crabbox) — Ephemeral test-box control plane with diff sync, multi-provider runners, Windows + Linux, native OpenClaw plugin
 - [Clawpatch](approaches.md#clawpatch) — Automated code review via semantic feature slicing + explicit fix loop
 - [ClawSweeper](approaches.md#clawsweeper) — Conservative issue/PR triage bot — six narrow close cases, never touches maintainer items
+- [Feature Matrix](approaches.md#feature-matrix), [Capability Breakdown](approaches.md#capability-breakdown), [Composability](approaches.md#composability) — side-by-side comparisons across all the systems above
 
 ### [Patterns](patterns.md)
 Cross-cutting architectural patterns:
@@ -111,12 +113,6 @@ How agentic coding systems are measured:
 - [SWE-bench Verified](benchmarks.md#variants) — 500 human-filtered instances, the metric production agents publish
 - [Terminal Bench](benchmarks.md#terminal-bench) — Stanford × Laude, 89 tasks spanning software eng, security, sysadmin, data science, ML
 - [Choosing a benchmark](benchmarks.md#choosing-a-benchmark) — Matching benchmark to what you care about
-
-### [Comparison](comparison.md)
-Side-by-side feature matrix and capability rankings:
-- [Feature Matrix](comparison.md#feature-matrix) — All approaches compared across 8 dimensions
-- [Capability Breakdown](comparison.md#capability-breakdown) — Best tools for each use case
-- [Composability](comparison.md#composability) — How to combine tools to build a full system
 
 ### [Organizations](organizations.md)
 How companies organize around agents:

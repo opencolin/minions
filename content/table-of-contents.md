@@ -44,6 +44,9 @@ Per-system deep dives across 25+ agentic engineering products.
 - [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces)
 - [Browser-Use & Computer-Use Frameworks](approaches.md#browser-use--computer-use-frameworks)
 - [Terminal coding CLIs](approaches.md#terminal-coding-clis) — the 28-CLI comparison table
+- [Feature Matrix](approaches.md#feature-matrix) — side-by-side comparison across all systems above
+- [Capability Breakdown](approaches.md#capability-breakdown) — best-for-X rankings
+- [Composability](approaches.md#composability) — how to assemble an equivalent stack
 
 ---
 
@@ -108,17 +111,7 @@ How agentic coding is evaluated.
 
 ---
 
-## 6. [Comparison](comparison.md)
-
-Side-by-side capability rankings.
-
-- [Feature Matrix](comparison.md#feature-matrix)
-- [Capability Breakdown](comparison.md#capability-breakdown)
-- [Composability](comparison.md#composability)
-
----
-
-## 7. [Organizations](organizations.md)
+## 6. [Organizations](organizations.md)
 
 How companies organize around agents.
 
@@ -130,7 +123,7 @@ How companies organize around agents.
 
 ---
 
-## 8. [Who's Who](who-is-who.md)
+## 7. [Who's Who](who-is-who.md)
 
 20 named profiles of the people shaping the field.
 
@@ -142,7 +135,7 @@ How companies organize around agents.
 
 ---
 
-## 9. [Inference](inference.md)
+## 8. [Inference](inference.md)
 
 LLM inference solutions.
 
@@ -156,7 +149,7 @@ LLM inference solutions.
 
 ---
 
-## 10. [Sandboxes](sandboxes.md)
+## 9. [Sandboxes](sandboxes.md)
 
 The execution-environment layer.
 
@@ -174,7 +167,7 @@ The execution-environment layer.
 
 ---
 
-## 11. [Hosting & Execution Infrastructure](infrastructure.md)
+## 10. [Hosting & Execution Infrastructure](infrastructure.md)
 
 150+ vendors across 9 major categories.
 
@@ -194,7 +187,7 @@ The execution-environment layer.
 
 ---
 
-## 12. [Generative UI](generative-ui.md)
+## 11. [Generative UI](generative-ui.md)
 
 The agent's front-end story.
 
