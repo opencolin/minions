@@ -2,6 +2,61 @@
 
 A deep dive into the major systems and frameworks driving autonomous software engineering — from enterprise-internal platforms to open-source tools.
 
+## Index
+
+### Commercial / proprietary
+
+- [Stripe Minions](#stripe-minions) — 1,300+ PRs/week, blueprints, devboxes, Toolshed MCP
+- [Claude Managed Agents](#claude-managed-agents) — Anthropic's vertically integrated harness, $0.08/agent-hour
+- [OpenAI Symphony](#openai-symphony) — 15K+ stars, 6-layer orchestration, work management over agent supervision
+- [Vercel Open Agents](#vercel-open-agents) — MIT reference template, durable workflows + Vercel Sandbox + GitHub App
+
+### Open-source agents
+
+- [OpenHands](#openhands) — 71K stars, most mature open-source autonomous engineer
+- [OpenCode](#opencode) — 142K stars, provider-agnostic with GitHub agent mode
+- [OhMyOpenAgent](#ohmyopenagent) — 50.6K stars, named specialist agents, hash-anchored edits
+- [Goose](#goose) — MCP-native, the ancestor Stripe forked for Minions
+- [Open SWE (LangChain)](#open-swe-langchain) — multi-agent async coding agent
+- [SWE-agent](#swe-agent) — Princeton/Stanford, pioneered issue-to-PR paradigm
+- [AgentField](#agentfield) — open-source control plane with three nested failure loops
+- [Composio Agent Orchestrator](#composio-agent-orchestrator) — best multi-agent parallelization
+- [Patchwork](#patchwork) — patchflows, closest open-source analog to Stripe's blueprints
+- [OpenClaw](#openclaw) — 355K stars, self-hosted assistant with messaging integration
+- [DeerFlow](#deerflow) — ByteDance's long-horizon SuperAgent harness, LangGraph-based
+- [Hermes Agent](#hermes-agent) — Nous Research's self-improving personal agent
+
+### Frameworks & SDKs
+
+- [Mastra](#mastra) — TypeScript framework for building custom agent systems
+- [Rivet Sandbox Agent](#rivet-sandbox-agent) — universal API for running agents in sandboxes
+
+### Harness & skill packs
+
+- [GStack](#gstack) — Garry Tan's 23-skill Claude Code setup, CEO / Designer / Eng Manager / QA personas
+- [GBrain](#gbrain) — Garry Tan's persistent-memory companion to GStack
+- [Superpowers](#superpowers) — Jesse Vincent's skills framework + design-then-implement methodology
+- [Everything Claude Code](#everything-claude-code) — Affaan M.'s security-auditing harness pack
+- [AgentHub](#agenthub) — Electron harness-engineering control plane on top of Claude Code CLI
+
+### The Steinberger ecosystem
+
+- [Crabbox](#crabbox) — ephemeral test-box control plane with diff sync
+- [Clawpatch](#clawpatch) — automated code review via semantic feature slicing
+- [ClawSweeper](#clawsweeper) — conservative issue/PR triage bot
+
+### Cross-cutting
+
+- [Terminal coding CLIs](#terminal-coding-clis) — the 28-CLI comparison table
+- [Skills, Plugins & Marketplaces](#skills-plugins--marketplaces) — Cursor Rules · SKILL.md · Continue · plugins
+- [Browser-Use & Computer-Use Frameworks](#browser-use--computer-use-frameworks) — Browser Use, Stagehand, Magnitude, Skyvern, Operator
+
+### Side-by-side comparisons
+
+- [Feature Matrix](#feature-matrix) — every system across 8 dimensions
+- [Capability Breakdown](#capability-breakdown) — best-for-X rankings
+- [Composability](#composability) — how to assemble an equivalent stack
+
 ---
 
 ## Stripe Minions
