@@ -80,7 +80,18 @@ The deep dive on what makes agents reliable.
 
 ---
 
-## 4. [Schools](schools.md)
+## 4. [Benchmarks](benchmarks.md)
+
+How agentic coding is evaluated.
+
+- [SWE-bench](benchmarks.md#swe-bench) and [variants](benchmarks.md#variants) — Verified, Lite, Multimodal, Multilingual, Pro
+- [Terminal Bench](benchmarks.md#terminal-bench)
+- [Choosing a benchmark](benchmarks.md#choosing-a-benchmark)
+- [Benchmark-adjacent reading](benchmarks.md#benchmark-adjacent-reading)
+
+---
+
+## 5. [Schools](schools.md)
 
 Where does trust live? Three philosophical schools + four operational schools.
 
@@ -100,30 +111,7 @@ Where does trust live? Three philosophical schools + four operational schools.
 
 ---
 
-## 5. [Benchmarks](benchmarks.md)
-
-How agentic coding is evaluated.
-
-- [SWE-bench](benchmarks.md#swe-bench) and [variants](benchmarks.md#variants) — Verified, Lite, Multimodal, Multilingual, Pro
-- [Terminal Bench](benchmarks.md#terminal-bench)
-- [Choosing a benchmark](benchmarks.md#choosing-a-benchmark)
-- [Benchmark-adjacent reading](benchmarks.md#benchmark-adjacent-reading)
-
----
-
-## 6. [Organizations](organizations.md)
-
-How companies organize around agents.
-
-- [The Stripe Model](organizations.md#the-stripe-model)
-- [The Open-Source / Startup Model](organizations.md#the-open-source--startup-model)
-- [Organizational Patterns](organizations.md#organizational-patterns)
-- [The Infrastructure You Need](organizations.md#the-infrastructure-you-need)
-- [The Future](organizations.md#the-future)
-
----
-
-## 7. [Who's Who](who-is-who.md)
+## 6. [Who's Who](who-is-who.md)
 
 20 named profiles of the people shaping the field.
 
@@ -132,6 +120,18 @@ How companies organize around agents.
 - ✍️ Chroniclers / synthesizers: [Willison](who-is-who.md#simon-willison) · [Osmani](who-is-who.md#addy-osmani) · [Mollick](who-is-who.md#ethan-mollick) · [swyx + Fanelli](who-is-who.md#swyx-shawn-wang--alessio-fanelli)
 - [Appendix](who-is-who.md#appendix-people-projects-and-writers-we-considered-but-didnt-profile) — 12 more candidates
 - [Reading order if you're new](who-is-who.md#reading-order-if-youre-new) — one-week onboarding path
+
+---
+
+## 7. [Organizations](organizations.md)
+
+How companies organize around agents.
+
+- [The Stripe Model](organizations.md#the-stripe-model)
+- [The Open-Source / Startup Model](organizations.md#the-open-source--startup-model)
+- [Organizational Patterns](organizations.md#organizational-patterns)
+- [The Infrastructure You Need](organizations.md#the-infrastructure-you-need)
+- [The Future](organizations.md#the-future)
 
 ---
 
@@ -167,7 +167,7 @@ The execution-environment layer.
 
 ---
 
-## 10. [Hosting & Execution Infrastructure](infrastructure.md)
+## 10. [Hosting & Execution](infrastructure.md)
 
 150+ vendors across 9 major categories.
 
