@@ -24,7 +24,12 @@ function init() {
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
       .replace(/^-|-$/g, '');
-    return `<h${depth} id="${slug}">${innerHTML}</h${depth}>`;
+    // Add a hover-revealed anchor link before the heading text. depth>1 only
+    // — h1 is the chapter title and doesn't need a self-link.
+    const anchor = depth > 1
+      ? `<a class="heading-anchor" href="#${slug}" aria-label="Link to ${plainText}">#</a>`
+      : '';
+    return `<h${depth} id="${slug}">${anchor}${innerHTML}</h${depth}>`;
   };
   marked.setOptions({ renderer });
 
@@ -110,6 +115,17 @@ function init() {
           renderPage(pageName, fragment);
         });
       });
+
+      // Rewrite heading-anchor links from `#slug` to the SPA `#page:slug`
+      // form so they participate in the hash router instead of being treated
+      // as a different page.
+      contentEl.querySelectorAll('a.heading-anchor').forEach(a => {
+        const slug = a.getAttribute('href').slice(1);
+        a.setAttribute('href', '#' + page + ':' + slug);
+      });
+
+      // Build the right-rail "On this page" TOC from h2s.
+      buildTocRail(page);
     }
 
     if (scrollToFragment) {
@@ -125,6 +141,65 @@ function init() {
     const newHash = page === 'index' && !scrollToFragment ? '' :
       scrollToFragment ? page + ':' + scrollToFragment : page;
     history.replaceState(null, '', '#' + newHash);
+  }
+
+  // On-this-page rail. Show for pages with ≥4 h2s; track active section
+  // via IntersectionObserver as the user scrolls.
+  let tocObserver = null;
+  const tocRail = document.getElementById('toc-rail');
+  const tocRailList = document.getElementById('toc-rail-list');
+  function buildTocRail(page) {
+    if (!tocRail || !tocRailList) return;
+    if (tocObserver) { tocObserver.disconnect(); tocObserver = null; }
+    tocRailList.innerHTML = '';
+
+    const h2s = Array.from(contentEl.querySelectorAll('h2[id]'));
+    if (h2s.length < 4) {
+      tocRail.hidden = true;
+      return;
+    }
+
+    const linksById = {};
+    h2s.forEach(h2 => {
+      const id = h2.id;
+      const label = h2.textContent.replace(/^#\s*/, '').trim();
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = '#' + page + ':' + id;
+      a.textContent = label;
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        renderPage(page, id);
+      });
+      linksById[id] = a;
+      li.appendChild(a);
+      tocRailList.appendChild(li);
+    });
+    tocRail.hidden = false;
+
+    // Highlight the section currently closest to the top of the viewport.
+    const visible = new Set();
+    tocObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) visible.add(e.target.id);
+        else visible.delete(e.target.id);
+      });
+      // Pick the topmost visible h2 (first in document order).
+      let activeId = null;
+      for (const h2 of h2s) {
+        if (visible.has(h2.id)) { activeId = h2.id; break; }
+      }
+      // If nothing is intersecting, fall back to the last h2 above the top.
+      if (!activeId) {
+        for (let i = h2s.length - 1; i >= 0; i--) {
+          if (h2s[i].getBoundingClientRect().top < 100) { activeId = h2s[i].id; break; }
+        }
+      }
+      Object.entries(linksById).forEach(([id, link]) => {
+        link.classList.toggle('active', id === activeId);
+      });
+    }, { rootMargin: '-80px 0px -65% 0px' });
+    h2s.forEach(h2 => tocObserver.observe(h2));
   }
 
   // Page click handlers (sidebar + brand)

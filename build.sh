@@ -78,6 +78,11 @@ cat > index.html << 'HTMLHEAD'
         <p>Agentic Engineering Reference &mdash; Content stored as plain markdown for easy reading by humans and agents alike.</p>
       </footer>
     </main>
+
+    <aside class="toc-rail" id="toc-rail" aria-label="On this page" hidden>
+      <div class="toc-rail-title">On this page</div>
+      <ul id="toc-rail-list"></ul>
+    </aside>
   </div>
 
 HTMLHEAD
