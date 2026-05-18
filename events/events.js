@@ -113,19 +113,7 @@
 
       var title = document.createElement('div');
       title.className = 'event-item-title';
-      if (ev.url) {
-        var a = document.createElement('a');
-        a.href = ev.url;
-        a.target = '_blank';
-        a.rel = 'noopener';
-        a.textContent = ev.title;
-        a.style.color = 'inherit';
-        a.style.textDecoration = 'none';
-        a.addEventListener('click', function (e) { e.stopPropagation(); });
-        title.appendChild(a);
-      } else {
-        title.textContent = ev.title;
-      }
+      title.textContent = ev.title;
       li.appendChild(title);
 
       var loc = document.createElement('div');
@@ -139,6 +127,29 @@
         desc.textContent = ev.description;
         li.appendChild(desc);
       }
+
+      var actions = document.createElement('div');
+      actions.className = 'event-item-actions';
+
+      if (ev.url) {
+        var detailsBtn = document.createElement('a');
+        detailsBtn.className = 'event-details-btn';
+        detailsBtn.href = ev.url;
+        detailsBtn.target = '_blank';
+        detailsBtn.rel = 'noopener';
+        detailsBtn.textContent = 'Details →';
+        detailsBtn.addEventListener('click', function (e) { e.stopPropagation(); });
+        actions.appendChild(detailsBtn);
+      }
+
+      if (ev.sponsor === 'nebius') {
+        var sponsorTag = document.createElement('span');
+        sponsorTag.className = 'event-sponsor-tag';
+        sponsorTag.textContent = 'Nebius';
+        actions.appendChild(sponsorTag);
+      }
+
+      if (actions.children.length) li.appendChild(actions);
 
       li.addEventListener('click', function () { onSelect(ev, li); });
       li.addEventListener('keydown', function (e) {
