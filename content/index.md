@@ -21,6 +21,7 @@ A comprehensive reference to autonomous coding agents, agentic organizations, an
 | 9 | [Inference](inference.md) | LLM inference solutions: direct API providers, platforms (Nebius, Together, Fireworks, Groq), routing gateways, self-hosted inference |
 | 10 | [Sandboxes](sandboxes.md) | The execution-environment layer — purpose-built agent sandboxes, Contree deep dive, CDEs, isolation tiers, integration patterns |
 | 11 | [Hosting & Execution](infrastructure.md) | 150+ infrastructure vendors across 9 categories — turnkey platforms, agent-optimized hosting, orchestration, Cloud Mac, GPU clouds, VPS for agents, memory, observability, MCP, identity/auth |
+| 12 | [Generative UI](generative-ui.md) | The agent's front-end story — Static, Declarative (A2UI), Open-ended patterns; CopilotKit, AG-UI, A2UI, MCP-UI; Vercel AI SDK; trade-offs between consistency and flexibility |
 
 If you're new to the field, the suggested reading order is Chapter 1 → Chapter 3 → Chapter 4 → then any others by interest. Chapter 8 (Who's Who) doubles as a "what to read next" map keyed to specific authors.
 

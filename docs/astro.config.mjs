@@ -53,6 +53,12 @@ export default defineConfig({
             { label: 'Hosting & Execution', slug: 'infrastructure' },
           ],
         },
+        {
+          label: 'Interfaces',
+          items: [
+            { label: 'Generative UI', slug: 'generative-ui' },
+          ],
+        },
       ],
       editLink: {
         baseUrl:

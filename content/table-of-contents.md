@@ -194,6 +194,21 @@ The execution-environment layer.
 
 ---
 
+## 12. [Generative UI](generative-ui.md)
+
+The agent's front-end story.
+
+- [Why it matters for agentic engineering](generative-ui.md#why-it-matters-for-agentic-engineering)
+- [The three primary patterns](generative-ui.md#the-three-primary-patterns) — Static, Declarative, Open-ended
+- [Specifications and protocols](generative-ui.md#specifications-and-protocols) — [A2UI](generative-ui.md#a2ui-agent-to-user-interface), AG-UI, MCP-UI, Open-JSON-UI
+- [Frameworks](generative-ui.md#frameworks) — [CopilotKit](generative-ui.md#copilotkit) (the reference example), Vercel AI SDK, Mastra + CopilotKit
+- [Code examples](generative-ui.md#code-examples) — static, declarative, open-ended
+- [Trade-offs](generative-ui.md#trade-offs-consistency-vs-flexibility) — consistency vs. flexibility
+- [Decision framework](generative-ui.md#decision-framework)
+- [A2UI adoption snapshot](generative-ui.md#a2ui-adoption-snapshot-late-2026)
+
+---
+
 ## Cross-page indexes
 
 - **Schools framing**: introduced in [Approaches § The Steinberger School](approaches.md#the-steinberger-school), formalized in [Schools](schools.md), referenced from [Who's Who](who-is-who.md) profiles

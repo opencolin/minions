@@ -55,6 +55,10 @@ cat > index.html << 'HTMLHEAD'
             <a href="#" class="sidebar-link" data-page="infrastructure">Hosting &amp; Execution</a>
           </div>
           <div class="sidebar-group">
+            <div class="sidebar-group-title">Interfaces</div>
+            <a href="#" class="sidebar-link" data-page="generative-ui">Generative UI</a>
+          </div>
+          <div class="sidebar-group">
             <div class="sidebar-group-title">Community</div>
             <a href="events/" class="sidebar-link sidebar-link-external">Events &#8599;</a>
           </div>
@@ -79,7 +83,7 @@ cat > index.html << 'HTMLHEAD'
 HTMLHEAD
 
 # Inline each markdown file as a script tag
-for page in index table-of-contents approaches patterns harness-engineering schools benchmarks comparison organizations who-is-who inference sandboxes infrastructure; do
+for page in index table-of-contents approaches patterns harness-engineering schools benchmarks comparison organizations who-is-who inference sandboxes infrastructure generative-ui; do
   echo "  <script type=\"text/markdown\" data-page=\"${page}\">" >> index.html
   # Escape </script> in content just in case
   sed 's|</script>|<\\/script>|g' "content/${page}.md" >> index.html
