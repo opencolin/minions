@@ -276,7 +276,8 @@
     var sidebar = document.querySelector('.events-sidebar');
     if (sidebarToggle && sidebar) {
       sidebarToggle.addEventListener('click', function () {
-        sidebar.classList.toggle('open');
+        var opened = sidebar.classList.toggle('open');
+        sidebarToggle.setAttribute('aria-expanded', String(opened));
       });
     }
   });

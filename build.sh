@@ -15,13 +15,14 @@ cat > index.html << 'HTMLHEAD'
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <a href="#main" class="skip-to-content">Skip to content</a>
   <header class="topbar">
-    <button class="sidebar-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <button class="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">&#9776;</button>
     <a href="#" class="topbar-brand" data-page="index"><span>&gt;_</span> Agentic Engineering</a>
     <div class="topbar-search">
       <label class="search-field">
         <span class="search-icon" aria-hidden="true">&#128269;</span>
-        <input type="search" id="search-input" placeholder="Search..." autocomplete="off" spellcheck="false" />
+        <input type="search" id="search-input" placeholder="Search..." autocomplete="off" spellcheck="false" role="combobox" aria-controls="search-results" aria-expanded="false" aria-autocomplete="list" aria-label="Search the reference" />
         <kbd class="search-kbd">/</kbd>
       </label>
       <ul id="search-results" class="search-results" role="listbox" hidden></ul>
@@ -29,7 +30,7 @@ cat > index.html << 'HTMLHEAD'
   </header>
 
   <div class="layout">
-    <aside class="sidebar" aria-label="Navigation">
+    <aside id="sidebar" class="sidebar" aria-label="Navigation">
       <div class="sidebar-inner">
         <nav class="sidebar-nav" aria-label="Primary">
           <div class="sidebar-group">
@@ -69,7 +70,7 @@ cat > index.html << 'HTMLHEAD'
       </div>
     </aside>
 
-    <main class="content">
+    <main id="main" class="content" tabindex="-1">
       <article id="content" class="markdown-body">
         <p class="loading">Loading...</p>
       </article>

@@ -12,14 +12,15 @@
   <link rel="stylesheet" href="./events.css">
 </head>
 <body class="events-page">
+  <a href="#events-main" class="skip-to-content">Skip to content</a>
   <header class="topbar">
-    <button class="sidebar-toggle" aria-label="Toggle events list">&#9776;</button>
+    <button class="sidebar-toggle" aria-label="Toggle events list" aria-expanded="false" aria-controls="events-sidebar">&#9776;</button>
     <a href="../" class="topbar-brand"><span>&gt;_</span> Agentic Engineering</a>
     <div class="topbar-events-title">Events</div>
   </header>
 
   <div class="events-layout">
-    <aside class="events-sidebar" aria-label="Upcoming events">
+    <aside id="events-sidebar" class="events-sidebar" aria-label="Upcoming events">
       <div class="events-sidebar-header">
         <h2>Upcoming</h2>
         <span class="events-count" id="events-count"></span>
@@ -32,7 +33,7 @@
       </footer>
     </aside>
 
-    <main class="events-main">
+    <main id="events-main" class="events-main" tabindex="-1">
       <div id="events-map" role="application" aria-label="World map of agentic-engineering events"></div>
       <div class="events-map-legend">
         <span class="legend-dot"></span> Confirmed event

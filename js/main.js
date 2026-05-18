@@ -86,12 +86,17 @@ function init() {
 
       // Update active sidebar link
       document.querySelectorAll('.sidebar-link').forEach(a => {
-        a.classList.toggle('active', a.dataset.page === page);
+        const isActive = a.dataset.page === page;
+        a.classList.toggle('active', isActive);
+        if (isActive) a.setAttribute('aria-current', 'page');
+        else a.removeAttribute('aria-current');
       });
 
       // Close mobile sidebar after navigating
       const sidebar = document.querySelector('.sidebar');
+      const toggle = document.querySelector('.sidebar-toggle');
       if (sidebar) sidebar.classList.remove('open');
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
 
       // Make markdown links to .md files work as SPA navigation
       contentEl.querySelectorAll('a').forEach(a => {
@@ -134,7 +139,10 @@ function init() {
   const toggle = document.querySelector('.sidebar-toggle');
   const sidebar = document.querySelector('.sidebar');
   if (toggle && sidebar) {
-    toggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+    toggle.addEventListener('click', () => {
+      const opened = sidebar.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(opened));
+    });
   }
 
   // Hash navigation
@@ -169,6 +177,25 @@ function init() {
     if (!resultsList) return;
     resultsList.hidden = true;
     resultsList.innerHTML = '';
+    if (searchInput) {
+      searchInput.setAttribute('aria-expanded', 'false');
+      searchInput.removeAttribute('aria-activedescendant');
+    }
+  }
+
+  function setActiveResult(idx) {
+    if (!resultsList) return;
+    const items = resultsList.querySelectorAll('li[role="option"]');
+    items.forEach((li, i) => {
+      const active = i === idx;
+      li.setAttribute('aria-selected', active ? 'true' : 'false');
+      const a = li.querySelector('a');
+      if (a) a.classList.toggle('is-active', active);
+      if (active) {
+        li.scrollIntoView({ block: 'nearest' });
+        if (searchInput) searchInput.setAttribute('aria-activedescendant', li.id);
+      }
+    });
   }
 
   function render(results, query) {
@@ -182,6 +209,9 @@ function init() {
     } else {
       results.forEach((r, i) => {
         const li = document.createElement('li');
+        li.id = 'search-result-' + i;
+        li.setAttribute('role', 'option');
+        li.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
         const a = document.createElement('a');
         a.href = r.anchor;
         if (i === 0) a.classList.add('is-active');
@@ -206,8 +236,10 @@ function init() {
         li.appendChild(a);
         resultsList.appendChild(li);
       });
+      if (searchInput) searchInput.setAttribute('aria-activedescendant', 'search-result-0');
     }
     resultsList.hidden = false;
+    if (searchInput) searchInput.setAttribute('aria-expanded', 'true');
   }
 
   if (searchInput && resultsList) {
@@ -219,6 +251,25 @@ function init() {
     });
     searchInput.addEventListener('focus', () => {
       if (searchInput.value.trim()) searchInput.dispatchEvent(new Event('input'));
+    });
+    // Arrow keys / Enter on the search input drive the listbox.
+    searchInput.addEventListener('keydown', (e) => {
+      if (resultsList.hidden) return;
+      const items = resultsList.querySelectorAll('li[role="option"]');
+      if (!items.length) return;
+      let idx = Array.from(items).findIndex(li => li.getAttribute('aria-selected') === 'true');
+      if (idx < 0) idx = 0;
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setActiveResult((idx + 1) % items.length);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setActiveResult((idx - 1 + items.length) % items.length);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        const link = items[idx] && items[idx].querySelector('a');
+        if (link) link.click();
+      }
     });
     // Press "/" anywhere to focus search
     document.addEventListener('keydown', (e) => {
