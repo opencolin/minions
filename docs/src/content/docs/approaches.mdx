@@ -512,49 +512,130 @@ The **apply lane** runs every 15 minutes. Before commenting or closing, it re-fe
 - **Type:** Open Source (MIT)
 - **Stars:** 95K+ (released February 25, 2026; crossed 95K in seven weeks — the fastest-growing OSS agent framework of 2026)
 - **GitHub:** https://github.com/NousResearch/hermes-agent
-- **Origin:** Nous Research
+- **Docs:** https://hermes-agent.nousresearch.com/docs/
+- **Origin:** [Nous Research](https://nousresearch.com/) — the lab behind the Hermes language-model series, Atropos, Nomos, and Psyche
 - **Tagline:** *"The agent that grows with you."*
 
-Hermes started as a row in the OpenClaw ecosystem table but is now its own pillar. It's a self-improving personal agent: it runs persistently with memory across sessions, distills reusable skills from completed work, and curates its own skill library on a recurring cycle. Garry Tan's [GBrain](/approaches/#gbrain) project explicitly names Hermes Agent as one of its two reference host platforms (alongside [OpenClaw](/approaches/#openclaw)).
+Hermes is the rare agent project shipped by a *model lab*, which is what gives it its particular shape. Nous Research already trains the Hermes 3/4 model line, the Atropos RL framework, and a distributed-training stack. Hermes Agent is what they get when they assemble those pieces into a runtime that compounds across sessions: an agent that distills its own skills, curates them on a cadence, builds a model of its operator, and feeds its own trajectories back into model training.
 
-### The self-improving loop
+It also matters as the inverse-twin of [OpenClaw](/approaches/#openclaw) and [GBrain](/approaches/#gbrain). All three share a "personal agent with persistent memory" framing, but Hermes is the one where the *model line* and the *agent* are vertically integrated. That integration shows up in concrete places: the Curator's rubric design, the Atropos environments shipped with the agent, the RL training loop available out of the box.
 
-Most agents are static — same harness, same skills, same behavior on day 1 and day 100. Hermes auto-distills skills after complex tasks, stores them in a persistent SQLite + FTS5 index, and then **autonomously grades, consolidates, and prunes them on a 7-day cycle** (the "Curator"). The agent's behavior drifts toward what it's been doing well and away from what it's been doing badly, without explicit human curation. Sub-10ms retrieval even at 10,000+ skill documents.
+### The closed-loop skill learning system
+
+Most agents are static — same harness, same skills, same behavior on day 1 and day 100. Hermes runs two nested learning loops:
+
+**Inner loop (per turn).** After every turn, a rubric-driven self-improvement step decides what memories and skills to save, update, or discard. The threshold isn't time-based — it's complexity-based. When a task crosses ~5 tool calls or a configurable complexity threshold, Hermes writes a Markdown skill document automatically: the procedure followed, pitfalls encountered, and verification steps used. Next time a similar task fires, Hermes starts from that file rather than reasoning from scratch.
+
+**Outer loop (the Curator, every 7 days).** v0.12 (April 30 2026) added an autonomous background agent that runs on the gateway's cron ticker and does library-wide maintenance:
+
+- **Grades skills by usage** — what's actually been called, what's been ignored
+- **Consolidates overlapping skills** — merges near-duplicates with a model + heuristic
+- **Prunes dead skills** — classified consolidated-vs-pruned via model + heuristic; archived rather than deleted, so nothing is destructive
+- **Patches active skills** — refines the markdown of frequently-used skills based on the rubric
+- **Writes per-run reports** to `~/.hermes/logs/curator/<timestamp>/REPORT.md` — human-readable summary showing which skills transitioned, what the reviewer said, and which skills it patched
+
+The agent's behavior **drifts toward what it's been doing well** and away from what it's been doing badly, without explicit human curation. Most "self-improving" claims in the agent space are loose; Hermes is the rare implementation with an explicit cadence, a rubric, persisted decisions, and an audit log.
 
 ### Three-layer memory architecture
 
-1. **Session context** — current conversation
-2. **Persistent store** — SQLite + FTS5 (cross-session recall via LLM summarization)
-3. **User model** — drift-adjusting representation of the operator's preferences and patterns
+Hermes splits memory into three layers, each living in a specific file and serving a different purpose:
 
-The user model is the differentiator vs simpler memory layers — it adapts as you do.
+| Layer | Storage | Purpose |
+|-------|---------|---------|
+| **Frozen identity** | `~/.hermes/SOUL.md`, `~/.hermes/memories/MEMORY.md`, `~/.hermes/memories/USER.md` | Persona + frozen facts. Loaded into every system prompt. Rewritten rarely, by the operator or the soul-audit skill. |
+| **Episodic** (skills) | `~/.hermes/skills/*.md` | Procedural memory — one markdown file per learned skill, with description, triggers, steps, verification. Surfaced via FTS5. |
+| **Session search** | `~/.hermes/state.db` (SQLite + FTS5) | Every message ever sent in any session, full-text searchable. Agent calls `session_search` to retrieve past conversations. |
 
-### Tool and platform surface
+Sub-10ms retrieval even at 10,000+ skill documents. The architecture maps almost exactly onto the [Harness Engineering § State subsystem](/harness-engineering/#continuity-for-long-running-tasks) pattern: durable cross-session knowledge in plain text, indexed for retrieval, separable from the conversation history.
 
-- **40+ built-in tools** (v0.10+) bundling MLOps, GitHub, research, scraping, and code-execution skills as portable markdown
-- **Six terminal backends**: local, Docker, SSH, [Daytona](/sandboxes/#purpose-built-agent-sandboxes), Singularity, [Modal](/sandboxes/#purpose-built-agent-sandboxes) — so the same agent can execute code locally for cheap or in a managed sandbox for safety
-- **Multi-platform interfaces**: Telegram, Discord, Slack, WhatsApp, Signal, CLI — single gateway process
-- **An "awesome list" ecosystem** ([awesome-hermes-agent](https://github.com/0xNyk/awesome-hermes-agent)) tracking community skills, tools, and integrations
+**The user model is the real differentiator vs Mem0/Letta/Zep.** Hermes builds a *drift-adjusting representation of the operator's preferences* — what topics matter, what language patterns to mirror, what's been tried before and rejected. Honcho (the user-modeling provider) runs a three-agent pipeline that builds a persistent "dialect" of each user. This is the layer most simpler memory frameworks omit, and it's the layer that makes Hermes feel like an agent that knows you after a month, not just one that remembers what you said.
 
-### Key Properties
+### The 70+ built-in tools (28 toolsets)
 
-- **Closed-loop skill learning** is the headline — most agent frameworks claim "self-improving" loosely; Hermes ships an actual Curator with an explicit cadence
-- **Personal-agent framing** — like OpenClaw, this is built for a single operator with high-trust memory access, not a multi-tenant service
-- **Pairs naturally with GBrain** — Hermes is one of GBrain's two host platforms; the [Hermes + GBrain combination](https://github.com/garrytan/gbrain#install) is what Garry Tan actually runs
-- **Modal / Daytona terminal backends** show how the personal-agent space is composing with the sandbox vendor landscape we cover in [Sandboxes](/sandboxes/)
+Hermes ships an unusually large standard library. v0.10 bundled 40+ tools as portable markdown; current ships ~70 across 28 toolsets covering MLOps, GitHub, research, scraping, code execution, and more. The point of bundling so much: **the agent's "blank-slate" capability surface should be wide enough that it can be useful immediately on day 1**, not after weeks of skill accumulation. The Curator then narrows and refines that surface based on what the operator actually uses.
+
+The tool surface is portable markdown — not Python tool definitions — so the agent can read, modify, and version its own toolset the same way it reads, modifies, and versions its own skills. This is unusual: most frameworks treat tools as code, skills as data; Hermes treats both as markdown and lets the same loops manage both.
+
+### Six terminal backends, six layers of trust
+
+Hermes abstracts code execution behind a terminal backend interface with six implementations:
+
+| Backend | Use case | Trust / cost |
+|---------|---------|--------------|
+| **Local** | Cheapest, fastest, no isolation | Trusted local work |
+| **Docker** | Container isolation on the same host | Mostly trusted, fast |
+| **SSH** | Run on a remote server you control | Trusted operator-managed infra |
+| **[Daytona](/sandboxes/#purpose-built-agent-sandboxes)** | Managed agent sandbox | Untrusted code, sub-100ms cold start |
+| **Singularity** | HPC-style container | Research compute clusters |
+| **[Modal](/sandboxes/#purpose-built-agent-sandboxes)** | Serverless GPU sandbox | Heavy compute, GPU work |
+
+The agent picks the right backend per task. This is the *executable* version of [Harness Engineering § Environment subsystem](/harness-engineering/#the-five-subsystem-model) — instead of choosing one sandbox and committing, Hermes treats the choice as a tool-call parameter. The same agent can shell into your local dev machine for cheap edits and spawn a Modal A100 for a fine-tune.
+
+### Multi-platform gateway
+
+A single gateway process exposes Hermes through six channels — Telegram, Discord, Slack, WhatsApp, Signal, CLI — with shared state across them. The same conversation can start in Slack, continue in Telegram, and resolve in the CLI without losing context. This is operationally significant: it makes Hermes a viable replacement for a human assistant who's also reachable wherever you are.
+
+The pattern echoes [OpenClaw's messaging-native design](/approaches/#openclaw): both treat messaging surfaces as first-class agent interfaces, not afterthoughts. The difference is that Hermes does it as a single Python process rather than a federation of device nodes.
+
+### The Atropos / RL connection
+
+This is where the model-lab origin shows. Hermes Agent ships with **[Atropos](https://github.com/NousResearch/atropos) — Nous Research's distributed RL framework — wired in by default**:
+
+- Every task execution emits a trajectory: tools used, what failed, what succeeded, the outcome
+- Trajectories are stored as training data
+- Atropos provides a trajectory API server + Tinker training service + Python environment classes defining tasks, scoring, and reward functions
+- An integrated RL training pipeline (Tinker-Atropos with GRPO + LoRA adapters) lets you train an LLM on the actual environment Hermes is running in
+
+In Hermes 4 training, Atropos drives rejection sampling across ~1,000 task-specific verifiers to filter for high-quality reasoning trajectories. The same machinery is exposed to operators — you can fine-tune your local model on the trajectories your agent has produced. **Most agent frameworks treat the model as fixed; Hermes treats the model as another component the agent maintains.**
+
+### Pairing with GBrain
+
+Hermes is one of [GBrain](/approaches/#gbrain)'s two reference host platforms (alongside OpenClaw). The relationship is straightforward: Hermes is the *agent*; GBrain is the *brain*. Hermes handles the run loop, the platform gateway, the skill library, the terminal backends, and the user model. GBrain handles the knowledge graph, the persistent markdown corpus, the typed entity relationships, and the Postgres-native Minions job queue.
+
+If you only run Hermes: you get cross-session memory and self-improving skills, but no structured knowledge graph and no durable background job system.
+
+If you only run GBrain: you get the knowledge graph and job queue, but you're picking your own host agent.
+
+Run them together — Garry Tan's documented setup — and Hermes's per-turn skill learning compounds with GBrain's per-write graph extraction. Skills point at brain pages; brain pages reference skills; the user model adapts based on what's in both.
+
+### Comparison vs OpenClaw
+
+Both are personal AI agent platforms with messaging-native interfaces, multi-model support, and a "you run it yourself" assumption. The differences:
+
+| | OpenClaw | Hermes Agent |
+|---|----------|--------------|
+| **Origin** | Independent OSS (Peter Steinberger) | Model lab (Nous Research) |
+| **Architecture** | WebSocket gateway + federated device nodes | Single Python gateway process |
+| **Memory** | Skill marketplace ([ClawHub](#openclaw)) + per-workspace storage | Three-layer memory baked in (SOUL/MEMORY/USER + skills + SQLite session search) |
+| **Self-improvement** | Plugin-based (e.g., [NemoClaw](#the-openclaw-ecosystem)) | First-party Curator running on a 7-day cycle, with rubric and audit log |
+| **Model loop** | Bring-your-own-model | Hermes 3/4 + Atropos RL training built in (any model still works) |
+| **Communities** | 355K stars, sprawling skill marketplace, 30+ hosting vendors | 95K stars, tight model-lab-driven release cadence, [awesome-hermes-agent](https://github.com/0xNyk/awesome-hermes-agent) tracks the ecosystem |
+| **Best fit** | Maximum extensibility, multi-device companion apps | Vertically-integrated stack, RL-curious operators, model-training-as-feedback |
+
+They're complements as often as alternatives — Steinberger's own setup runs Hermes Agent as one of the underlying engines for OpenClaw work.
 
 ### When to Pick Hermes Agent
 
-- You want a long-running personal agent with cross-session memory, not a per-task coding tool
-- You want the agent to *improve* over time without explicit skill engineering
-- You operate in Telegram / Discord / Slack and want the agent reachable there
-- You're already invested in the Nous Research model ecosystem
+- You want a long-running personal agent with **cross-session memory and skill accumulation**, not a per-task coding tool
+- You want the agent to **improve over time without explicit skill engineering** — and you want an audit log of how it improved
+- You operate in **Telegram / Discord / Slack** and want the agent reachable there
+- You're invested in the **Nous Research model line** and want the agent's trajectories to feed model training
+- You want a **single-process operational footprint** rather than a federated mesh of device nodes
+- You want to **pair with [GBrain](/approaches/#gbrain)** for structured knowledge + durable background jobs
 
 ### When to Pick Something Else
 
-- You need a coding-specific harness → [Claude Code](/approaches/#terminal-coding-clis) + [GStack](/approaches/#gstack), [OpenHands](/approaches/#openhands), or [Vercel Open Agents](/approaches/#vercel-open-agents)
-- Multi-tenant production where the operator isn't a single trusted user → [Claude Managed Agents](/approaches/#claude-managed-agents) or a custom harness
-- Strong audit / compliance requirements — single-operator framing isn't the design center
+- You need a **coding-specific harness** → [Claude Code](/approaches/#terminal-coding-clis) + [GStack](/approaches/#gstack) / [Superpowers](/approaches/#superpowers), [OpenHands](/approaches/#openhands), or [Vercel Open Agents](/approaches/#vercel-open-agents)
+- **Multi-tenant production** where the operator isn't a single trusted user → [Claude Managed Agents](/approaches/#claude-managed-agents) or a custom harness
+- **Strong audit / compliance requirements** — single-operator framing isn't the design center
+- You want the **maximum-extensibility skill marketplace** and don't care about the model-loop integration → [OpenClaw](/approaches/#openclaw)
+- You're not running a model lab and **don't need the Atropos RL machinery** — Hermes still works without it, but the model loop is a chunk of the value you'd be ignoring
+
+### Mental model: an agent that the model lab uses on itself
+
+Strip away the implementation details and the cleanest framing of Hermes is this: it's what a model lab builds when they want an agent whose *own behavior* is a data source for training the *next* model in the line. Skills are the medium for cross-session learning; trajectories are the medium for cross-version learning; the user model is the medium for cross-deployment learning. Each of the three feeds back into the others, and Atropos feeds the whole system into model training.
+
+Whether that vertical integration matters to you depends on whether you want an agent that runs *your* model, or an agent that exists to *make models better*. Hermes is the second thing first, and an excellent personal agent second — but the things that make it interesting as a personal agent (the Curator, the user model, the trajectory capture) are exactly the things the model-training side needs to function.
 
 ---
 
