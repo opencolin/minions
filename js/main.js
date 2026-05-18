@@ -134,14 +134,21 @@ function init() {
   }
 
   // Hash navigation
+  const pageRedirects = { comparison: 'approaches' };
   function handleHash() {
     const raw = window.location.hash.slice(1) || 'index';
     const colonIdx = raw.indexOf(':');
-    if (colonIdx > -1) {
-      renderPage(raw.substring(0, colonIdx), raw.substring(colonIdx + 1));
-    } else {
-      renderPage(raw);
+    let page = colonIdx > -1 ? raw.substring(0, colonIdx) : raw;
+    const fragment = colonIdx > -1 ? raw.substring(colonIdx + 1) : '';
+    if (pageRedirects[page]) {
+      page = pageRedirects[page];
+      // Default the comparison landing to the feature matrix when no anchor.
+      if (!fragment && page === 'approaches') {
+        renderPage(page, 'feature-matrix');
+        return;
+      }
     }
+    renderPage(page, fragment);
   }
   window.addEventListener('hashchange', handleHash);
   handleHash();
