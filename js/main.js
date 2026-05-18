@@ -62,6 +62,19 @@ function init() {
 
       contentEl.innerHTML = marked.parse(md);
 
+      // Tag each <td> with its column header so the mobile card layout can
+      // render a "LABEL: value" stack via CSS ::before.
+      contentEl.querySelectorAll('table').forEach(table => {
+        const headers = Array.from(table.querySelectorAll('thead th'))
+          .map(th => th.textContent.trim());
+        if (!headers.length) return;
+        table.querySelectorAll('tbody tr').forEach(tr => {
+          Array.from(tr.children).forEach((td, i) => {
+            if (headers[i]) td.setAttribute('data-label', headers[i]);
+          });
+        });
+      });
+
       // Update active sidebar link
       document.querySelectorAll('.sidebar-link').forEach(a => {
         a.classList.toggle('active', a.dataset.page === page);
