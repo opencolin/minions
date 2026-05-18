@@ -49,9 +49,17 @@ Deep dives into each major system and framework:
 - [Mastra](approaches.md#mastra) — TypeScript framework for building custom agent systems
 - [OpenClaw](approaches.md#openclaw) — 355K stars, self-hosted assistant with messaging integration
 - [Rivet Sandbox Agent](approaches.md#rivet-sandbox-agent) — Universal API for running agents in sandboxes
+- [DeerFlow](approaches.md#deerflow) — ByteDance's open-source long-horizon SuperAgent harness, LangGraph-based, 32K+ stars
 - [GStack](approaches.md#gstack) — Garry Tan's 23-skill Claude Code setup, MIT, 82.7K stars; CEO / Designer / Eng Manager / QA personas, paired with Conductor for 10–15 parallel sprints
 - [GBrain](approaches.md#gbrain) — Garry Tan's persistent-memory companion to GStack, MIT, 11.1K stars; self-wiring typed knowledge graph + 29 skills + Postgres-native "Minions" job queue; *"the engine is GStack; GBrain is the mod"*
+- [Superpowers](approaches.md#superpowers) — Jesse Vincent's agentic skills framework + software-development methodology, 93K+ stars; design-then-implement gates, TDD enforcement
+- [Everything Claude Code](approaches.md#everything-claude-code) — Affaan M.'s security-auditing harness pack, ~171K stars; scans CLAUDE.md / settings.json / MCP configs / hooks / agents with red-team/blue-team/auditor pipeline
+- [Hermes Agent](approaches.md#hermes-agent) — Nous Research's self-improving personal agent, MIT, 95K+ stars; autonomous skill curation on a 7-day cycle, three-layer memory, 6 terminal backends
 - [AgentHub](approaches.md#agenthub) — Electron harness-engineering control plane (Skills + Hooks + FileWatcher + 7-gate pipeline) on top of Claude Code CLI, 46-agent org chart
+- [The Steinberger School](approaches.md#the-steinberger-school) — Peter Steinberger's AI Software Factory pattern: ~100 Codex agents + Crabbox / Clawpatch / ClawSweeper running OpenClaw on a $1.3M/month budget with ~3 engineers
+- [Crabbox](approaches.md#crabbox) — Ephemeral test-box control plane with diff sync, multi-provider runners, Windows + Linux, native OpenClaw plugin
+- [Clawpatch](approaches.md#clawpatch) — Automated code review via semantic feature slicing + explicit fix loop
+- [ClawSweeper](approaches.md#clawsweeper) — Conservative issue/PR triage bot — six narrow close cases, never touches maintainer items
 
 ### [Patterns](patterns.md)
 Cross-cutting architectural patterns:

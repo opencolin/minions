@@ -324,12 +324,234 @@ OpenClaw has spawned a family of derivative projects and an entire hosting marke
 |---------|---------|-------|-------------------|
 | **OpenClaw** | TypeScript | ~355K | Dominant personal AI agent, multi-channel, multi-model |
 | **NemoClaw** | Python/CUDA | N/A (NVIDIA) | Enterprise OpenShell, GPU guardrails, NVIDIA NIM |
-| **Hermes Agent** | Python | ~24.6K | Self-improving skill loop, RL fine-tuning via Atropos |
+| **Hermes Agent** | Python | ~24.6K | Self-improving skill loop, RL fine-tuning via Atropos *(now an independent project at 95K+ stars — see [dedicated section](#hermes-agent))* |
 | **IronClaw** | Rust | ~2.7K | 5-layer security, WASM sandbox, audit trails, 3.4MB binary |
 | **ZeroClaw** | Rust | 20K+ | Edge-first, 3.4-5MB binary, <50ms startup, container isolation |
 | **NanoClaw** | TypeScript | Growing | ~500 lines, auditable in 8 min, Agent Swarms, container-per-group |
 
 **Hosting ecosystem:** 30+ vendors now offer OpenClaw-compatible hosting across six tiers — from turnkey platforms (ZenClaw AI, KlausAI, Coral) to self-hosted infrastructure. See the [Infrastructure](infrastructure.md#agent-hosting--execution-platforms) page for the full vendor landscape.
+
+### The Steinberger School
+
+> *"How would we build software in the future if tokens don't matter?"* — Peter Steinberger
+
+OpenClaw's founder runs the project as a deliberate experiment in **token-unbounded agentic engineering** — what he calls his AI Software Factory. The methodology has consolidated into a recognizable *school* with its own toolchain, idioms, and operational assumptions, distinct from the [Stripe School](#stripe-minions) (large-org devbox + blueprints), the [Tan School](#gstack) (one-engineer skill packs + parallel worktrees), and the [Walking Labs / Mastery School](harness-engineering.md) (validator-first methodology). Reported spend is around $1.3M/month across roughly 100 Codex instances in the cloud, operated by a team of ~3. That cost is the point of the experiment, not a bug — it's a working answer to *"what's possible if inference cost stops being the binding constraint?"*
+
+The pattern is worth studying as a real-world counterpart to [Stripe Minions](#stripe-minions). Steinberger's setup runs a Codex (or equivalent) agent on essentially every event in the project lifecycle:
+
+- **Every PR** is reviewed by Codex for quality, security, consistency
+- **Every commit** is scanned for security regressions ([Vercel Deepsec](https://vercel.com) + Codex Security)
+- **Every new issue** is read, classified, and — if it fits the documented vision — auto-converted into a PR (then reviewed by another Codex)
+- **Every fix on main** triggers a sweep to close old issues with exact commit references — that's what [ClawSweeper](#clawsweeper) does
+- **Every meeting** is monitored by an agent that proactively opens PRs for features being discussed *as they're being discussed*
+- **Every comment** is scanned for spam; offenders are auto-blocked
+- **Performance benchmarks** run on every change with regression alerts pushed to Discord
+- **Setup recreation** spins up ephemeral cloud machines via [crabbox.sh](#crabbox), can log into Telegram, record a before/after fix video, and post it on the PR
+- **Functional-unit code review** via [clawpatch.ai](#clawpatch) — semantic slicing rather than file-by-file linting
+
+The supporting ecosystem (all open source, all by Steinberger / the OpenClaw org):
+
+| Project | What it does |
+|---------|--------------|
+| [crabbox.sh](#crabbox) | Ephemeral test boxes — leased cloud capacity or BYO SSH host with diff sync, remote run, output streaming, evidence collection |
+| [clawpatch.ai](#clawpatch) | Automated code review via semantic feature slicing + explicit fix loop |
+| [ClawSweeper](#clawsweeper) | Conservative issue/PR triage — six narrow close cases, never touches maintainer items |
+| **Discrawl** ([discrawl.sh](https://discrawl.sh)) | Discord search & archive to SQLite, so a corpus of conversation is searchable from agents |
+| **CodexBar** ([github.com/steipete/CodexBar](https://github.com/steipete/CodexBar)) | macOS menu-bar app showing AI coding limits + costs across providers |
+| **fs-safe** ([github.com/openclaw/fs-safe](https://github.com/openclaw/fs-safe)) | Root-bounded filesystem safety — agents physically cannot write outside the project root |
+| **peekaboo** ([peekaboo.sh](https://peekaboo.sh)) | macOS screen/control toolkit so AI agents can see and drive native desktop apps |
+
+The factory runs on a *mix* of model providers — Codex, Claude, Cursor, OpenCode, Kiro, [Hermes Agent](#hermes-agent) — picked per task. This is the inference-strategy pattern from [Inference Strategy for Agents](inference.md#inference-strategy-for-agents) operating at production scale: cheap models for triage and routing, expensive ones for reasoning and code generation.
+
+The lesson isn't *"spend $1.3M/month"* — it's that **a small team with a comprehensive harness can run a project the size and quality of a much larger company**. The token cost is the harness's externality; what's compounding is the operational leverage. See [Harness Engineering](harness-engineering.md) for the principles; the Steinberger School is the most aggressive public example of those principles in production.
+
+---
+
+## Crabbox
+
+- **Type:** Open Source
+- **GitHub:** https://github.com/openclaw/crabbox · **Docs:** https://crabbox.sh
+- **Origin:** OpenClaw org, Peter Steinberger maintains
+- **Tagline:** *"Crabbox: warm a box, sync the diff, run the suite."*
+
+An agent workspace control plane for maintainers and AI agents. Crabbox sits between your dirty checkout and a remote runner — lease fast managed cloud capacity, BYO SSH host, or use any agent sandbox provider; sync the diff; run commands remotely; stream output; collect evidence; release the box. Native OpenClaw plugin: `crabbox_run`, `crabbox_warmup`, `crabbox_status`, `crabbox_list`, `crabbox_stop`.
+
+### Architecture
+
+- **Go CLI on your laptop** — local control surface
+- **Cloudflare Worker broker** — owns provider credentials and lease state, so secrets don't sit on your laptop
+- **Managed or delegated runners** — Blacksmith, AWS, Azure (Windows desktop + WSL2), Proxmox, Tensorlake, or any SSH host
+- **GitHub Actions wrap** — `crabbox actions hydrate` registers a leased box as an ephemeral Actions runner, so the repo's own workflow installs runtimes, services, and secrets — you get repo-faithful environments without rebuilding them in Crabbox
+
+### What's notable
+
+- **Diff sync, not full clone** — agents push only the changed files, so a 100-MB repo doesn't pay the 100-MB cost on every spawn
+- **Failed boxes stick around for SSH** — when a run breaks, the box is preserved so a human or an agent can shell in and debug
+- **Durable run events** — every phase emits a structured event; `crabbox attach` lets you live-replay a run that was launched headlessly
+- **Cloudflare Access** as the auth front door, so a single CF identity controls who can lease what
+- **Active development** — v0.3 added remote Linux + GitHub browser login + Blacksmith wrap; v0.12 added Azure Windows desktop, Proxmox, Tensorlake, preflight, failure bundles, phase timing
+
+### When to Pick Crabbox
+
+- You want reproducible ephemeral test environments without committing to one cloud vendor
+- You're already running OpenClaw or want a native plugin for agent box lifecycle
+- You need Windows desktop + WSL2 environments (most agent sandboxes are Linux-only)
+- You're hitting GitHub Actions runner pain (slow boots, missing tools, secret-management headaches) and want a faster, reproducible alternative
+- You want failed boxes preserved for SSH debugging rather than torn down
+
+### When to Pick Something Else
+
+- Pure short-lived code execution → [E2B](sandboxes.md#purpose-built-agent-sandboxes), [Sprites.dev](sandboxes.md#purpose-built-agent-sandboxes), [Blaxel](sandboxes.md#purpose-built-agent-sandboxes)
+- You need git-style branching of sandboxes → [Contree](sandboxes.md#contree--the-git-native-sandbox)
+- Multi-tenant SaaS isolation guarantees → enterprise [Northflank](sandboxes.md#purpose-built-agent-sandboxes) / [Runloop](sandboxes.md#purpose-built-agent-sandboxes)
+
+---
+
+## Clawpatch
+
+- **Type:** Open Source
+- **GitHub:** https://github.com/openclaw/clawpatch · **Site:** https://clawpatch.ai
+- **Origin:** OpenClaw org, Peter Steinberger
+- **Tagline:** *"Review code. Patch bugs. Land PRs."*
+
+Automated code review built around **semantic feature slicing** rather than file-by-file linting. The premise: AI reviewers do better when the unit of review is a *feature* (with its entrypoints, owned files, nearby tests, and trust boundaries) than when it's a diff against `main`.
+
+### How the slicing works
+
+Clawpatch maps a repo into **semantic feature slices** — bounded units of functionality with explicit entrypoints, owned files, adjacent tests, and trust boundaries. Each slice is reviewed by a provider with bounded context, findings are persisted, and an explicit fix loop attempts patches one finding at a time with validation.
+
+This is the same principle as [Harness Engineering § Unit tests are not verification](harness-engineering.md#unit-tests-are-not-verification): cross-component defects don't surface in file-by-file review for the same reason they don't surface in isolated unit tests. Reviewing a *feature slice* — entrypoint plus owned files plus adjacent tests — catches the interaction defects that file-by-file scanning misses.
+
+### Workflow
+
+```
+Map repo → feature slices
+  → For each slice, review with provider (Codex / Claude / etc.)
+  → Persist findings (slice → finding ledger)
+  → Fix loop: pick one finding → propose patch → validate → land or reject
+```
+
+The fix loop is **one finding at a time, with validation** — that's a [WIP=1](harness-engineering.md#wip-1-and-the-feature-list-as-primitive) discipline applied to bug remediation.
+
+### Key Properties
+
+- **Slicing > diffing** — review surface area maps to functionality, not file boundaries
+- **Persistent finding ledger** — review state survives across runs; the same bug isn't re-reported every time
+- **Validation-gated fixes** — patches only land if validation passes, mirroring [feature-list-as-primitive](harness-engineering.md#wip-1-and-the-feature-list-as-primitive) `passing`-state gating
+- **Provider-agnostic** — the slicer is the value; the model is swappable
+- **Pairs with [Crabbox](#crabbox)** — Clawpatch can validate fixes inside ephemeral Crabbox runners
+
+### When to Pick Clawpatch
+
+- You're shipping enough volume that file-by-file PR review is missing cross-component bugs
+- You want a review tool that improves *with* the codebase (the slice graph is what compounds) rather than starting from scratch each PR
+- You want the explicit per-finding fix loop, not just commentary
+- You're already in the OpenClaw ecosystem
+
+### When to Pick Something Else
+
+- You want a single-CLI in-terminal reviewer → [CodeRabbit CLI](#terminal-coding-clis), [Continue](#terminal-coding-clis)
+- You need code review baked into CI pipelines without standing up another service → GitHub-native review tools
+
+---
+
+## ClawSweeper
+
+- **Type:** Open Source
+- **GitHub:** https://github.com/openclaw/clawsweeper · **Site:** https://clawsweeper.bot
+- **Origin:** OpenClaw org, Peter Steinberger
+- **Tagline:** *"Conservative maintenance bot for OpenClaw repositories."*
+
+A purpose-built **issue / PR triage bot** that scans every open item against the current `main` and proposes closures with explicit references. It's small but worth its own entry because it's the cleanest public example of a *conservative* maintenance automation pattern — one that maintainers can actually trust on a 7,000-issue repo.
+
+### The six narrow close cases
+
+ClawSweeper will only propose closing an issue or PR if it falls into one of:
+
+1. **Implemented** — an exact commit reference on `main` resolves it
+2. **Not reproducible** — fresh attempts can't surface the reported behavior
+3. **Duplicate** — a cluster references the same root cause
+4. **Out-of-scope** — sits outside the documented project vision
+5. **Incoherent** — incomplete, malformed, or ambiguous beyond rescue
+6. **Stale** — older than 60 days with no engagement
+
+Maintainer-authored items, items with open referencing PRs, and items with protected labels are **never** auto-closed. The bar is "Codex returned a structured decision *and* the decision survives a live GitHub re-fetch."
+
+### The apply lane
+
+Normal mode is **proposal-only** — Codex makes a structured decision, the bot writes it to `items/<number>.md`, and a human can read the ledger before anything happens.
+
+The **apply lane** runs every 15 minutes. Before commenting or closing, it re-fetches live GitHub state, checks labels, maintainer authorship, paired issue/PR state, snapshot drift, and repository profile rules. *"Most cycles produce zero closes"* — the design center is restraint, not throughput. Refuses to apply any change if the underlying review left junk in the working tree.
+
+### Key Properties
+
+- **Conservatism as a feature** — most automation closes too aggressively and erodes maintainer trust; ClawSweeper closes ~nothing per cycle and that's correct behavior
+- **Codex-backed but git-grounded** — Codex makes the call, but the final gate is a live GitHub re-fetch and a working-tree-clean check
+- **Persistent decision ledger** at `items/*.md` — every decision is auditable, reversible, and re-runnable
+- **Specifically built for the [Steinberger School](#the-steinberger-school) pattern** — when 100 Codex agents are landing fixes on `main`, you need something proactively closing the old issues those fixes resolve, with exact references
+
+### When to Pick ClawSweeper
+
+- You have a long-running OSS repo with 1,000+ open issues, most of which are probably stale or implemented
+- You want triage that maintainers actually trust (the design assumes they don't)
+- You want issue closures that *reference the commit that closed them* — searchable institutional memory
+- You're running OpenClaw or any project that adopts the same automation patterns
+
+### When to Pick Something Else
+
+- You need PR triage specifically (review, merge automation) — Clawpatch is closer to that
+- You want a hosted SaaS — ClawSweeper is built to run from your own repo as a GitHub workflow
+
+---
+
+## Hermes Agent
+
+- **Type:** Open Source (MIT)
+- **Stars:** 95K+ (released February 25, 2026; crossed 95K in seven weeks — the fastest-growing OSS agent framework of 2026)
+- **GitHub:** https://github.com/NousResearch/hermes-agent
+- **Origin:** Nous Research
+- **Tagline:** *"The agent that grows with you."*
+
+Hermes started as a row in the OpenClaw ecosystem table but is now its own pillar. It's a self-improving personal agent: it runs persistently with memory across sessions, distills reusable skills from completed work, and curates its own skill library on a recurring cycle. Garry Tan's [GBrain](approaches.md#gbrain) project explicitly names Hermes Agent as one of its two reference host platforms (alongside [OpenClaw](approaches.md#openclaw)).
+
+### The self-improving loop
+
+Most agents are static — same harness, same skills, same behavior on day 1 and day 100. Hermes auto-distills skills after complex tasks, stores them in a persistent SQLite + FTS5 index, and then **autonomously grades, consolidates, and prunes them on a 7-day cycle** (the "Curator"). The agent's behavior drifts toward what it's been doing well and away from what it's been doing badly, without explicit human curation. Sub-10ms retrieval even at 10,000+ skill documents.
+
+### Three-layer memory architecture
+
+1. **Session context** — current conversation
+2. **Persistent store** — SQLite + FTS5 (cross-session recall via LLM summarization)
+3. **User model** — drift-adjusting representation of the operator's preferences and patterns
+
+The user model is the differentiator vs simpler memory layers — it adapts as you do.
+
+### Tool and platform surface
+
+- **40+ built-in tools** (v0.10+) bundling MLOps, GitHub, research, scraping, and code-execution skills as portable markdown
+- **Six terminal backends**: local, Docker, SSH, [Daytona](sandboxes.md#purpose-built-agent-sandboxes), Singularity, [Modal](sandboxes.md#purpose-built-agent-sandboxes) — so the same agent can execute code locally for cheap or in a managed sandbox for safety
+- **Multi-platform interfaces**: Telegram, Discord, Slack, WhatsApp, Signal, CLI — single gateway process
+- **An "awesome list" ecosystem** ([awesome-hermes-agent](https://github.com/0xNyk/awesome-hermes-agent)) tracking community skills, tools, and integrations
+
+### Key Properties
+
+- **Closed-loop skill learning** is the headline — most agent frameworks claim "self-improving" loosely; Hermes ships an actual Curator with an explicit cadence
+- **Personal-agent framing** — like OpenClaw, this is built for a single operator with high-trust memory access, not a multi-tenant service
+- **Pairs naturally with GBrain** — Hermes is one of GBrain's two host platforms; the [Hermes + GBrain combination](https://github.com/garrytan/gbrain#install) is what Garry Tan actually runs
+- **Modal / Daytona terminal backends** show how the personal-agent space is composing with the sandbox vendor landscape we cover in [Sandboxes](sandboxes.md)
+
+### When to Pick Hermes Agent
+
+- You want a long-running personal agent with cross-session memory, not a per-task coding tool
+- You want the agent to *improve* over time without explicit skill engineering
+- You operate in Telegram / Discord / Slack and want the agent reachable there
+- You're already invested in the Nous Research model ecosystem
+
+### When to Pick Something Else
+
+- You need a coding-specific harness → [Claude Code](approaches.md#terminal-coding-clis) + [GStack](approaches.md#gstack), [OpenHands](approaches.md#openhands), or [Vercel Open Agents](approaches.md#vercel-open-agents)
+- Multi-tenant production where the operator isn't a single trusted user → [Claude Managed Agents](approaches.md#claude-managed-agents) or a custom harness
+- Strong audit / compliance requirements — single-operator framing isn't the design center
 
 ---
 
@@ -574,6 +796,48 @@ Universal HTTP API to run any coding agent (Claude Code, Codex, OpenCode, Amp) i
 
 ---
 
+## DeerFlow
+
+- **Type:** Open Source
+- **Stars:** 32K+
+- **GitHub:** https://github.com/bytedance/deer-flow
+- **Origin:** ByteDance; DeerFlow 1.0 in 2025, DeerFlow 2.0 launched March 2026
+- **Description:** *"An open-source long-horizon SuperAgent harness that researches, codes, and creates."*
+
+ByteDance's bet on the SuperAgent pattern: a lead agent decomposes a request, spawns parallel subagents into their own sandboxes with their own context, and aggregates results. Comparable in spirit to [OpenAI Symphony](approaches.md#openai-symphony) and [AgentField](approaches.md#agentfield), but built on LangGraph and provider-agnostic via LangChain (OpenAI, Anthropic, Gemini, DeepSeek, ByteDance Doubao, OpenRouter).
+
+### Architecture
+
+- **SuperAgent + subagents** — lead receives the goal, decomposes into subtasks, spawns parallel subagents in isolated sandboxes
+- **LangGraph-based workflow** — stateful graph orchestration; integrates web search, crawling, Python execution, RAG retrieval, and MCP tool invocation
+- **Docker / Jupyter sandboxes** — agent-generated code runs isolated from the host (see [Sandboxes](sandboxes.md))
+- **Skill system** (added in 2.0) — reusable agent capabilities composable across runs: web research, data analysis, content generation, image creation, custom
+- **Persistent state memory** — structured memory store beyond the LLM context window
+- **Message gateway** — subagent communication and coordination
+
+### Key Properties
+
+- **Big Tech OSS** — backed by ByteDance, comparable scale to Alibaba's [OpenSandbox](sandboxes.md#purpose-built-agent-sandboxes); demonstrates that the SuperAgent + sandbox + memory + skills pattern is converging cross-vendor
+- **Long-horizon focus** — designed for tasks that take minutes to hours, not single-turn responses
+- **Multi-model out of the box** via LangChain, so the same harness can mix cheap routers and expensive reasoners (see [Inference Strategy for Agents](inference.md#inference-strategy-for-agents))
+- **Not coding-specific** — handles research, creative work, and coding from the same harness; closer to [OpenAI Symphony](approaches.md#openai-symphony) than to [Claude Managed Agents](approaches.md#claude-managed-agents) in scope
+
+### When to Pick DeerFlow
+
+- You want a single open-source SuperAgent that handles mixed research / coding / content work
+- You're invested in the LangGraph / LangChain ecosystem
+- You want a Big-Tech-backed OSS framework rather than a startup project
+- You need long-horizon execution (hours) with subagent coordination and persistent memory in one package
+
+### When to Pick Something Else
+
+- Pure coding workflow on Claude → [GStack](approaches.md#gstack) + [Conductor](infrastructure.md#autonomous-coding-agents)
+- Vertically integrated managed offering → [Claude Managed Agents](approaches.md#claude-managed-agents)
+- You want an Elixir/BEAM-backed reference architecture → [OpenAI Symphony](approaches.md#openai-symphony)
+- Strong typed-state agent supervision with three nested failure loops → [AgentField](approaches.md#agentfield)
+
+---
+
 ## GStack
 
 - **Type:** Open Source (MIT)
@@ -621,6 +885,76 @@ Workflow-defining: `/office-hours` (YC-style forcing-question reframe + builder-
 - Highly novel algorithms, hardware-adjacent code, or heavily regulated domains — Garry himself notes the gains are much smaller here
 - You need a runtime control plane with hooks, gates, and a GUI → [AgentHub](approaches.md#agenthub) instead, or wire the harness yourself per [Harness Engineering](harness-engineering.md)
 - Non-Claude-Code agent → Mostly portable via SKILL.md, but some commands assume Claude Code's tool set
+
+---
+
+## Superpowers
+
+- **Type:** Open Source (skills framework)
+- **Stars:** 93K+ (one of the fastest-growing OSS AI projects of 2026)
+- **GitHub:** https://github.com/obra/superpowers
+- **Origin:** [Jesse Vincent](https://obra.com/) (creator of Request Tracker, ex-Perl-5 release manager, co-founder Keyboardio) and Prime Radiant. Built the first version in October 2025, the same week Anthropic shipped the Claude Code plugin system.
+
+A *software-development-methodology* shipped as a skills framework. Where [GStack](approaches.md#gstack) is "Garry's exact setup" optimized for product/web work, Superpowers is the opposite framing: *"Instead of making the agent smarter, enforce the discipline that human developers spent decades building."*
+
+### What it actually enforces
+
+- **Brainstorming-first** — A brainstorming skill activates before code is written: refines rough ideas through dialogue, explores alternatives, presents the design in sections for human validation, and saves a design document. The agent isn't allowed to skip this.
+- **Bite-sized tasks** — After design approval, work is broken into 2–5-minute units with exact file paths, complete code context, and verification steps. This is the WIP=1 / feature-list-as-primitive discipline from [Harness Engineering](harness-engineering.md#wip-1-and-the-feature-list-as-primitive), packaged as a workflow.
+- **TDD enforcement** — Tests come before implementation, enforced as a skill, not just documented.
+- **Autonomous subagents** — Long execution is delegated to subagents that report back; the main session stays focused on direction.
+
+### Key Properties
+
+- **Composable skills + an initial instruction set** that ensures the agent actually uses them
+- **Works across Claude Code, Codex, and Cursor** via per-host plugin manifests in the repo (`.cursor-plugin/`, `.codex-plugin/`)
+- **Methodology, not just templates** — the design-then-implement gates are the differentiator
+- **Authored by someone who's been shipping production OSS for 25+ years**, which is unusual signal in this space
+
+### When to Pick Superpowers vs GStack
+
+- **Superpowers** when the team is shipping novel/research-y software and benefits from forcing-function design gates and TDD
+- **GStack** when the team is shipping product/web apps and benefits from YC-CEO-grade prompts tuned for that domain
+- They can run side-by-side — both install as skills in `~/.claude/skills/`, and a skill router can pick per-task
+
+---
+
+## Everything Claude Code
+
+- **Type:** Open Source
+- **Stars:** ~171K (rank ~#36 globally)
+- **GitHub:** https://github.com/affaan-m/everything-claude-code
+- **Origin:** Affaan M., shipped at the Cerebral Valley × Anthropic Claude Code Hackathon (Feb 2026)
+
+A harness pack focused on a category none of the others target directly: **security auditing of the Claude Code harness itself**. Where GStack / Superpowers / GBrain / AgentHub assume your harness is the answer, `everything-claude-code` treats your harness as an attack surface and audits it.
+
+### Differentiator: security as a first-class subsystem
+
+It scans your `CLAUDE.md`, `settings.json`, MCP configs, hooks, agent definitions, and skills across five categories:
+
+1. **Secrets detection** (14 patterns) — find API keys, tokens, credentials accidentally committed to harness config
+2. **Permission auditing** — overly-broad allowlists, missing denylists, dangerous default scopes
+3. **Hook injection analysis** — Pre/PostToolUse hooks that could be exploited
+4. **MCP server risk profiling** — untrusted MCP servers, missing auth, scope creep
+5. **Agent config review** — agent definitions that over-grant capabilities
+
+Run `--opus` for a red-team / blue-team / auditor pipeline using three Opus 4.6 agents: attacker finds exploit chains, defender evaluates protections, auditor synthesizes a prioritized risk assessment. The project ships with 1,282 tests, 98% coverage, and 102 static-analysis rules — unusually disciplined for an agent project.
+
+### Beyond security
+
+It also bundles skills, instincts (lightweight always-on rules), memory, and a "research-first development" workflow for Claude Code, Codex, OpenCode, and Cursor. The breadth is real, but the security-audit angle is the reason to install it specifically.
+
+### Key Properties
+
+- **Cross-agent compatibility** — ships installation paths under `.claude/`, `.cursor/`, and `.agents/` skill directories
+- **Pairs with [Agent Identity, Auth & Secrets](infrastructure.md#agent-identity-auth--secrets)** — runtime governance enforces; this project audits the *configuration* that governance depends on
+- **Hackathon-grade origin** — has the rough-edges-but-shipping flavor of a project that ran fast; the volume of stars suggests it solved a real pain point
+
+### When to Pick It
+
+- You're operating Claude Code at any scale and have never run a security audit of the harness itself
+- You manage multiple `.claude/` skill installs across a team and want a way to verify no one shipped a secret or an overly-broad MCP scope
+- You want red-team / blue-team / auditor patterns for harness security without building them yourself
 
 ---
 
