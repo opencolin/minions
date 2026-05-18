@@ -1,6 +1,6 @@
 # Agentic Engineering
 
-A comprehensive reference to autonomous coding agents, agentic organizations, and the emerging patterns of AI-native software engineering. Covers 15+ agent systems (Stripe Minions, Claude Managed Agents, Vercel Open Agents, OpenAI Symphony, OpenHands, AgentField, Devin, and more), 180+ infrastructure vendors, and the architectural patterns driving the category.
+A comprehensive reference to autonomous coding agents, agentic organizations, and the emerging patterns of AI-native software engineering. Covers 25+ agent systems (Stripe Minions, Claude Managed Agents, Vercel Open Agents, OpenAI Symphony, OpenHands, AgentField, Devin, the Steinberger / OpenClaw ecosystem, GStack, GBrain, Hermes Agent, AgentHub, and more), 180+ infrastructure vendors, and the architectural patterns driving the category.
 
 The repository hosts **two independent sites** that render the same underlying content:
 
@@ -27,15 +27,20 @@ Plain HTML/CSS/JS, no build framework. Markdown content lives in `content/*.md` 
 ├── build.sh            # Inlines content/*.md into index.html
 ├── content/            # Edit markdown here
 │   ├── index.md
+│   ├── table-of-contents.md
 │   ├── approaches.md
 │   ├── patterns.md
 │   ├── harness-engineering.md
+│   ├── schools.md
 │   ├── benchmarks.md
-│   ├── comparison.md
 │   ├── organizations.md
+│   ├── who-is-who.md
 │   ├── inference.md
 │   ├── sandboxes.md
-│   └── infrastructure.md
+│   ├── infrastructure.md
+│   └── generative-ui.md
+├── events/             # Standalone Events page (own HTML/CSS/JS + events.json)
+├── img/                # Sponsor logos and other static images
 ├── css/style.css
 └── js/main.js
 ```
@@ -81,15 +86,19 @@ docs/
     └── content/
         └── docs/
             ├── index.mdx
+            ├── table-of-contents.mdx
             ├── approaches.mdx
             ├── patterns.mdx
             ├── harness-engineering.mdx
+            ├── schools.mdx
             ├── benchmarks.mdx
-            ├── comparison.mdx
+            ├── comparison.mdx       # legacy — merged into approaches on the front-end site
             ├── organizations.mdx
+            ├── who-is-who.mdx
             ├── inference.mdx
             ├── sandboxes.mdx
-            └── infrastructure.mdx
+            ├── infrastructure.mdx
+            └── generative-ui.mdx
 ```
 
 ### Develop

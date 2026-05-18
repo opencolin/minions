@@ -32,14 +32,18 @@ function init() {
   const pages = {};
   const pageTitles = {
     index: 'Overview',
+    'table-of-contents': 'Table of Contents',
     approaches: 'Approaches',
     patterns: 'Patterns',
+    'harness-engineering': 'Harness Engineering',
+    schools: 'Schools',
     benchmarks: 'Benchmarks',
-    comparison: 'Comparison',
     organizations: 'Organizations',
+    'who-is-who': "Who's Who",
     inference: 'Inference',
     sandboxes: 'Sandboxes',
     infrastructure: 'Hosting & Execution',
+    'generative-ui': 'Generative UI',
   };
 
   // Collect inline markdown from script tags
