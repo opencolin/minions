@@ -70,7 +70,7 @@ Late 2026 marked a wave of open protocols landing in this space. Most are comple
 
 Google's open declarative protocol, launched as public preview in October 2026, [v0.9 in December 2026](https://www.copilotkit.ai/blog/a2ui-whats-new-in-google-generative-ui-spec). JSONL-based, streaming, platform-agnostic.
 
-The agent emits a stream of declarative component descriptions. The client renders them using its native component library — Lit, Angular, Flutter, React (via [CopilotKit](#copilotkit)). Because A2UI ships data not code, it crosses trust boundaries safely. Remote subagents in an [A2A](#a2a-agent-to-agent-orchestration) topology can each contribute UI without the client trusting any of them with arbitrary code execution.
+The agent emits a stream of declarative component descriptions. The client renders them using its native component library — Lit, Angular, Flutter, React (via [CopilotKit](#copilotkit)). Because A2UI ships data not code, it crosses trust boundaries safely. Remote subagents in an A2A topology can each contribute UI without the client trusting any of them with arbitrary code execution.
 
 Status: public preview, v0.9 as of late 2026. Reference renderers exist for Lit, Angular, Flutter. React/CopilotKit integration is the most mature client. Source: [github.com/google/a2ui](https://github.com/google/a2ui).
 
@@ -86,7 +86,7 @@ Any agent already speaking AG-UI can drive A2UI v0.9 with no agent-side code cha
 
 ### MCP-UI
 
-Microsoft + Shopify's iframe-based extension to [MCP](approaches.md#skills-plugins--marketplaces). Where MCP defines how an agent calls a tool, MCP-UI defines how the tool can return a sandboxed UI fragment alongside its data.
+Microsoft + Shopify's iframe-based extension to [MCP](approaches.md#skills-plugins-marketplaces). Where MCP defines how an agent calls a tool, MCP-UI defines how the tool can return a sandboxed UI fragment alongside its data.
 
 Iframe-based means open-ended (HTML/CSS/JS) — but inside the sandbox. The trust model is different from A2UI: MCP-UI lets you ship arbitrary code, A2UI doesn't.
 
@@ -298,8 +298,8 @@ A second axis: *who owns the components?*
 Generative UI sits at the intersection of three strands of agentic engineering this reference covers:
 
 - **[Patterns § Context Management](patterns.md#3-context-management)** — A2UI/AG-UI state events are how an agent's working memory becomes visible to the user. The frontend isn't just a display; it's the most legible window into what the agent thinks it's doing.
-- **[Harness Engineering § Feedback](harness-engineering.md#feedback-the-fifth-subsystem)** — generative UI is the highest-bandwidth feedback channel available. A chart of test pass-rates beats a paragraph of prose. The harness gets better when its outputs are renderable.
-- **[Approaches § Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces)** — the same ecosystem dynamics that produced MCP for tools are producing A2UI/MCP-UI for interfaces. Skills + MCP + A2UI = composable agent-with-UI as a distributable artifact.
+- **[Harness Engineering § Feedback](harness-engineering.md#the-five-subsystem-model)** — generative UI is the highest-bandwidth feedback channel available. A chart of test pass-rates beats a paragraph of prose. The harness gets better when its outputs are renderable.
+- **[Approaches § Skills, Plugins & Marketplaces](approaches.md#skills-plugins-marketplaces)** — the same ecosystem dynamics that produced MCP for tools are producing A2UI/MCP-UI for interfaces. Skills + MCP + A2UI = composable agent-with-UI as a distributable artifact.
 
 A reasonable prediction: by end of 2027, *"my agent has a UI"* will be table stakes the way *"my agent has tools"* was table stakes in 2025. The frameworks that win will be the ones that make the chat-vs-app boundary disappear.
 

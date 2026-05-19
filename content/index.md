@@ -126,9 +126,9 @@ Dedicated deep-dive on sandbox infrastructure — the single most important laye
 - [Why Sandboxes Matter](sandboxes.md#why-sandboxes-matter-for-agents) — Safe execution, reproducibility, state, observability
 - [Sandbox Market Structure](sandboxes.md#the-sandbox-market-structure) — Four-layer model: primitives, agent-sandbox platforms, embedded-in-agent-products, and model-provider managed agents (Claude Managed Agents)
 - [Core Use Cases](sandboxes.md#core-use-cases) — 10 use cases including tree-of-thought, SWE-bench eval, best-of-N sampling, training data generation, reproducibility
-- [Isolation Tiers](sandboxes.md#isolation-tiers--the-security-ladder) — Process → container → gVisor → microVM → VM → bare metal
+- [Isolation Tiers](sandboxes.md#isolation-tiers-the-security-ladder) — Process → container → gVisor → microVM → VM → bare metal
 - [Purpose-Built Agent Sandboxes](sandboxes.md#purpose-built-agent-sandboxes) — 14 vendors with isolation, persistence, cold start, GPU data
-- [Contree Deep Dive](sandboxes.md#contree--the-git-native-sandbox) — Git-native sandboxing, 7,000+ SWE-bench environments, where it wins vs E2B
+- [Contree Deep Dive](sandboxes.md#contree-the-git-native-sandbox) — Git-native sandboxing, 7,000+ SWE-bench environments, where it wins vs E2B
 - [Cloud Dev Environments](sandboxes.md#cloud-development-environments-cdes) — Persistent dev envs (Codespaces, Gitpod, Coder, Vercel Sandbox)
 - [Agent Patterns](sandboxes.md#agent-patterns-enabled-by-modern-sandboxes) — Checkpoint-explore-commit, golden pool, destructive safety, sandbox-as-context
 - [Integration Examples](sandboxes.md#integration-examples) — MCP, Python SDK, custom harness patterns
@@ -137,20 +137,20 @@ Dedicated deep-dive on sandbox infrastructure — the single most important laye
 LLM inference solutions for agent workloads:
 - [Direct API Providers](inference.md#direct-api-providers) — Anthropic, OpenAI, Google, xAI, DeepSeek
 - [Inference Platforms](inference.md#inference-platforms) — Together, Fireworks, Groq, Cerebras, Nebius
-- [Nebius AI Cloud](inference.md#nebius-ai-cloud--standout-platform) — Standout platform for agentic engineering at scale
-- [Routing & Gateway](inference.md#routing--gateway-solutions) — LiteLLM, OpenRouter, Portkey, Kalibr
+- [Nebius AI Cloud](inference.md#nebius-ai-cloud-standout-platform) — Standout platform for agentic engineering at scale
+- [Routing & Gateway](inference.md#routing-gateway-solutions) — LiteLLM, OpenRouter, Portkey, Kalibr
 - [Self-Hosted Inference](inference.md#self-hosted-inference) — vLLM, SGLang, Ollama, TGI, llama.cpp
 - [Inference Strategy](inference.md#inference-strategy-for-agents) — Tiered model routing and cost optimization
 
 ### [Hosting & Execution](infrastructure.md)
 Where agents actually run — 150+ vendors across 9 major categories:
 - [Hosting Decision Framework](infrastructure.md#the-hosting-decision-framework) — Turnkey, Agent-Optimized, Sandbox, Serverless, Cloud Mac, Self-Hosted
-- [Code Execution Sandboxes](infrastructure.md#code-execution-sandboxes) — 14 purpose-built sandboxes including [Contree](infrastructure.md#contree--git-native-sandbox-for-agents) (Git-like branching from Nebius), E2B, Sprites.dev, Modal + 10 CDEs (GitHub Codespaces, Gitpod, Coder, Vercel Sandbox) + 7 OSS isolation primitives
+- [Code Execution Sandboxes](infrastructure.md#code-execution-sandboxes) — 14 purpose-built sandboxes including [Contree](sandboxes.md#contree-the-git-native-sandbox) (Git-like branching from Nebius), E2B, Sprites.dev, Modal + 10 CDEs (GitHub Codespaces, Gitpod, Coder, Vercel Sandbox) + 7 OSS isolation primitives
 - [Turnkey Managed Platforms](infrastructure.md#turnkey-managed-platforms) — OpenClaw-native + enterprise hubs (Copilot Studio, Agentspace, Bedrock) + no-code builders + autonomous coding agents (Devin, Factory, Cursor) + visual IDEs
 - [Agent-Optimized Hosting](infrastructure.md#agent-optimized-hosting) — ClawHost, Claw Cloud, Zo Computer
 - [Agent Orchestration](infrastructure.md#agent-orchestration) — Durable execution (Temporal, Inngest, Trigger.dev, Restate, DBOS, + 9 more) + cloud workflows + agent frameworks (LangGraph, CrewAI, AutoGen, Mastra) + data/ML orchestrators
 - [Cloud Mac Hosting](infrastructure.md#cloud-mac-hosting) — 13 dedicated Mac hosts + 7 Mac CI runners (Xcode Cloud, GitHub Actions, CircleCI, Bitrise)
 - [Self-Hosted Infrastructure](infrastructure.md#self-hosted-infrastructure) — Specialized GPU clouds (CoreWeave, Lambda, RunPod, Vast.ai, + 10 more) + general clouds (AWS, GCP, Azure, OCI, + 15 more) + [VPS for Agents](infrastructure.md#vps-for-agents) (IONOS, Hostinger, DigitalOcean, OVHcloud, Lightsail, Contabo, Hetzner) + bare metal
-- [Agent Memory & Context](infrastructure.md#agent-memory--context-infrastructure) — Purpose-built memory (Mem0, Letta, Zep) + 18 vector DBs + graph DBs for GraphRAG
-- [Agent Observability & Evaluation](infrastructure.md#agent-observability--evaluation) — Tracing (LangSmith, Langfuse, Arize, AgentOps, + 11 more) + eval (Braintrust, Patronus, Ragas, DeepEval) + guardrails
+- [Agent Memory & Context](infrastructure.md#agent-memory-context-infrastructure) — Purpose-built memory (Mem0, Letta, Zep) + 18 vector DBs + graph DBs for GraphRAG
+- [Agent Observability & Evaluation](infrastructure.md#agent-observability-evaluation) — Tracing (LangSmith, Langfuse, Arize, AgentOps, + 11 more) + eval (Braintrust, Patronus, Ragas, DeepEval) + guardrails
 - [Choosing Your Stack](infrastructure.md#choosing-your-stack) — Starter, growth, scale, and enterprise recommendations

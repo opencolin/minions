@@ -161,7 +161,7 @@ Vincent's relevance: he brings the long view. The discipline he's encoding into 
 
 > 🔨 Operator · Co-founder & CEO, [LangChain](https://www.langchain.com/) · [@hwchase17](https://twitter.com/hwchase17) · [GitHub](https://github.com/hwchase17)
 
-Made the first commit to LangChain on October 24, 2022. By 2025–2026, LangChain + LangGraph + LangSmith was the most-deployed agent stack in enterprise production — referenced across our [Infrastructure / Orchestration tables](infrastructure.md#agent-specific-orchestration-frameworks) and the [Vercel Open Agents](approaches.md#vercel-open-agents) stack. Chase has articulated more of the *practitioner vocabulary* of the field than almost anyone else: he popularized **context engineering**, the **scaffold vs. harness** distinction, **ambient agents**, and the **read-vs-write multi-agent scalability axis**. His worldview — *trust through observability, HITL as a permanent feedback loop, memory as the next moat* — gets a dedicated treatment in our [Schools](schools.md#trust-as-observability--chase) page.
+Made the first commit to LangChain on October 24, 2022. By 2025–2026, LangChain + LangGraph + LangSmith was the most-deployed agent stack in enterprise production — referenced across our [Infrastructure / Orchestration tables](infrastructure.md#agent-specific-orchestration-frameworks) and the [Vercel Open Agents](approaches.md#vercel-open-agents) stack. Chase has articulated more of the *practitioner vocabulary* of the field than almost anyone else: he popularized **context engineering**, the **scaffold vs. harness** distinction, **ambient agents**, and the **read-vs-write multi-agent scalability axis**. His worldview — *trust through observability, HITL as a permanent feedback loop, memory as the next moat* — gets a dedicated treatment in our [Schools](schools.md#trust-as-observability-chase) page.
 
 **Key works to know:**
 
@@ -258,7 +258,7 @@ His core thesis — that test-time search / planning matters as much as model sc
 
 The RAG paper's first author. Kiela led the team behind *[Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks](https://arxiv.org/abs/2005.11401)* (NeurIPS 2020) — the paper that named and operationalized retrieval-augmented generation. Since then he's been the bridge between retrieval research and enterprise production: Contextual AI ships the RAG + context-engineering platform that grounds agents over private high-stakes knowledge.
 
-Why he matters here: every agent in [Approaches](approaches.md) that touches enterprise documents — Sierra, LlamaIndex, GBrain, Clawpatch — sits on top of variants of the RAG architecture Kiela helped define. He's also Dynabench's co-creator, which set the template for the "evals-as-product" startup pattern that's now everywhere in our [Eval](infrastructure.md#evaluation--testing) section.
+Why he matters here: every agent in [Approaches](approaches.md) that touches enterprise documents — Sierra, LlamaIndex, GBrain, Clawpatch — sits on top of variants of the RAG architecture Kiela helped define. He's also Dynabench's co-creator, which set the template for the "evals-as-product" startup pattern that's now everywhere in our [Eval](infrastructure.md#evaluation-testing) section.
 
 **Key works to know:**
 
@@ -275,7 +275,7 @@ Why he matters here: every agent in [Approaches](approaches.md) that touches ent
 
 > 🧠 Researcher / 🔨 Operator · Co-founder, [NEAR Protocol](https://near.org/) + [NEAR AI](https://near.ai/) · *Attention Is All You Need* co-author · [@ilblackdragon](https://twitter.com/ilblackdragon)
 
-One of the eight co-authors of *Attention Is All You Need* (2017) — the Transformer paper — Polosukhin is the most prominent voice making a **decentralized-trust** case for agentic infrastructure. His thesis, covered in our [Schools](schools.md#trust-as-cryptography--polosukhin) page: centralized AI providers represent a structural manipulation risk; agents need their own keys, TEE-isolated execution, and on-chain identity to be genuinely autonomous economic participants.
+One of the eight co-authors of *Attention Is All You Need* (2017) — the Transformer paper — Polosukhin is the most prominent voice making a **decentralized-trust** case for agentic infrastructure. His thesis, covered in our [Schools](schools.md#trust-as-cryptography-polosukhin) page: centralized AI providers represent a structural manipulation risk; agents need their own keys, TEE-isolated execution, and on-chain identity to be genuinely autonomous economic participants.
 
 His current work — **NEAR AI**, **[IronClaw](approaches.md#openclaw)** (a Rust agent runtime that runs inside Trusted Execution Environments and serves as the OS layer of the OpenClaw ecosystem), the **Confidential GPU Marketplace**, and the **Shade Agent** framework — bets that cryptographic sovereignty is the foundation autonomous agents will eventually require. Worth understanding even if you don't buy the blockchain framing, because the TEE-secured-execution argument is increasingly being adopted on traditional clouds (Azure Confidential Computing, Google Cloud Confidential VMs).
 

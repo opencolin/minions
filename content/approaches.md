@@ -48,8 +48,8 @@ A deep dive into the major systems and frameworks driving autonomous software en
 ### Cross-cutting
 
 - [Terminal coding CLIs](#terminal-coding-clis) — the 28-CLI comparison table
-- [Skills, Plugins & Marketplaces](#skills-plugins--marketplaces) — Cursor Rules · SKILL.md · Continue · plugins
-- [Browser-Use & Computer-Use Frameworks](#browser-use--computer-use-frameworks) — Browser Use, Stagehand, Magnitude, Skyvern, Operator
+- [Skills, Plugins & Marketplaces](#skills-plugins-marketplaces) — Cursor Rules · SKILL.md · Continue · plugins
+- [Browser-Use & Computer-Use Frameworks](#browser-use-computer-use-frameworks) — Browser Use, Stagehand, Magnitude, Skyvern, Operator
 
 ### Side-by-side comparisons
 
@@ -384,7 +384,7 @@ OpenClaw has spawned a family of derivative projects and an entire hosting marke
 | **ZeroClaw** | Rust | 20K+ | Edge-first, 3.4-5MB binary, <50ms startup, container isolation |
 | **NanoClaw** | TypeScript | Growing | ~500 lines, auditable in 8 min, Agent Swarms, container-per-group |
 
-**Hosting ecosystem:** 30+ vendors now offer OpenClaw-compatible hosting across six tiers — from turnkey platforms (ZenClaw AI, KlausAI, Coral) to self-hosted infrastructure. See the [Infrastructure](infrastructure.md#agent-hosting--execution-platforms) page for the full vendor landscape.
+**Hosting ecosystem:** 30+ vendors now offer OpenClaw-compatible hosting across six tiers — from turnkey platforms (ZenClaw AI, KlausAI, Coral) to self-hosted infrastructure. See the [Infrastructure](infrastructure.md#agent-hosting-execution-platforms) page for the full vendor landscape.
 
 ### The Steinberger School
 
@@ -457,7 +457,7 @@ An agent workspace control plane for maintainers and AI agents. Crabbox sits bet
 ### When to Pick Something Else
 
 - Pure short-lived code execution → [E2B](sandboxes.md#purpose-built-agent-sandboxes), [Sprites.dev](sandboxes.md#purpose-built-agent-sandboxes), [Blaxel](sandboxes.md#purpose-built-agent-sandboxes)
-- You need git-style branching of sandboxes → [Contree](sandboxes.md#contree--the-git-native-sandbox)
+- You need git-style branching of sandboxes → [Contree](sandboxes.md#contree-the-git-native-sandbox)
 - Multi-tenant SaaS isolation guarantees → enterprise [Northflank](sandboxes.md#purpose-built-agent-sandboxes) / [Runloop](sandboxes.md#purpose-built-agent-sandboxes)
 
 ---
@@ -486,13 +486,13 @@ Map repo → feature slices
   → Fix loop: pick one finding → propose patch → validate → land or reject
 ```
 
-The fix loop is **one finding at a time, with validation** — that's a [WIP=1](harness-engineering.md#wip-1-and-the-feature-list-as-primitive) discipline applied to bug remediation.
+The fix loop is **one finding at a time, with validation** — that's a [WIP=1](harness-engineering.md#wip1-and-the-feature-list-as-primitive) discipline applied to bug remediation.
 
 ### Key Properties
 
 - **Slicing > diffing** — review surface area maps to functionality, not file boundaries
 - **Persistent finding ledger** — review state survives across runs; the same bug isn't re-reported every time
-- **Validation-gated fixes** — patches only land if validation passes, mirroring [feature-list-as-primitive](harness-engineering.md#wip-1-and-the-feature-list-as-primitive) `passing`-state gating
+- **Validation-gated fixes** — patches only land if validation passes, mirroring [feature-list-as-primitive](harness-engineering.md#wip1-and-the-feature-list-as-primitive) `passing`-state gating
 - **Provider-agnostic** — the slicer is the value; the model is swappable
 - **Pairs with [Crabbox](#crabbox)** — Clawpatch can validate fixes inside ephemeral Crabbox runners
 
@@ -743,7 +743,7 @@ This is disruptive to the Layer B agent-sandbox market: teams that would have us
 
 ### When to Pick Something Else
 
-- You need specialized branching semantics → [Contree](sandboxes.md#contree--the-git-native-sandbox)
+- You need specialized branching semantics → [Contree](sandboxes.md#contree-the-git-native-sandbox)
 - You need GPU in the sandbox → Modal, Daytona, Northflank
 - You need enterprise VPC → Northflank, Runloop, or self-hosted
 - You're building an agent infrastructure product → Layer B sandbox + custom harness
@@ -846,7 +846,7 @@ Open Agents is significant because it codifies a production-ready cloud agent ar
 ### When to Pick Something Else
 
 - Fastest time-to-market with zero infra → [Claude Managed Agents](approaches.md#claude-managed-agents)
-- Tree-search / branching-heavy workflows → [Contree](sandboxes.md#contree--the-git-native-sandbox) + custom harness
+- Tree-search / branching-heavy workflows → [Contree](sandboxes.md#contree-the-git-native-sandbox) + custom harness
 - Non-Vercel deployment target → AgentField or a custom stack
 - Heavy GPU requirements → Modal-based harness instead
 
@@ -854,7 +854,7 @@ Open Agents is significant because it codifies a production-ready cloud agent ar
 
 Open Agents is the community template. Vercel also ships a broader **Vercel Agents** platform that includes:
 
-- **AI Gateway** — Unified endpoint for model routing, provider failover, embeddings (see [Inference](inference.md#routing--gateway-solutions))
+- **AI Gateway** — Unified endpoint for model routing, provider failover, embeddings (see [Inference](inference.md#routing-gateway-solutions))
 - **Vercel Sandbox** — Firecracker microVM execution (see [Sandboxes](sandboxes.md#purpose-built-agent-sandboxes))
 - **Vercel Workflow SDK** — Durable execution primitives
 - **Vercel AI SDK** — TypeScript toolkit for streaming, tool use, structured outputs
@@ -1007,7 +1007,7 @@ Workflow-defining: `/office-hours` (YC-style forcing-question reframe + builder-
 - **Persona-first** — every command is bound to a specialist role with permission boundaries and a definition-of-done.
 - **Pairs with Conductor** — Garry's reported workflow is gstack inside [Conductor](infrastructure.md#autonomous-coding-agents), running 10–15 parallel sprints across Claude Code worktrees on a single Mac. He reports 600K production LOC in 60 days using this combination.
 - **Browser policy** — `/browse` replaces direct Chrome MCP usage; the skill encodes how to use it correctly so the agent doesn't reinvent the wheel.
-- **Skills standard** — uses the cross-agent SKILL.md format documented in [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces), so it also works in Codex, Cursor, OpenCode, etc. via `npx skills add`.
+- **Skills standard** — uses the cross-agent SKILL.md format documented in [Skills, Plugins & Marketplaces](approaches.md#skills-plugins-marketplaces), so it also works in Codex, Cursor, OpenCode, etc. via `npx skills add`.
 
 ### When to Pick GStack
 
@@ -1036,7 +1036,7 @@ A *software-development-methodology* shipped as a skills framework. Where [GStac
 ### What it actually enforces
 
 - **Brainstorming-first** — A brainstorming skill activates before code is written: refines rough ideas through dialogue, explores alternatives, presents the design in sections for human validation, and saves a design document. The agent isn't allowed to skip this.
-- **Bite-sized tasks** — After design approval, work is broken into 2–5-minute units with exact file paths, complete code context, and verification steps. This is the WIP=1 / feature-list-as-primitive discipline from [Harness Engineering](harness-engineering.md#wip-1-and-the-feature-list-as-primitive), packaged as a workflow.
+- **Bite-sized tasks** — After design approval, work is broken into 2–5-minute units with exact file paths, complete code context, and verification steps. This is the WIP=1 / feature-list-as-primitive discipline from [Harness Engineering](harness-engineering.md#wip1-and-the-feature-list-as-primitive), packaged as a workflow.
 - **TDD enforcement** — Tests come before implementation, enforced as a skill, not just documented.
 - **Autonomous subagents** — Long execution is delegated to subagents that report back; the main session stays focused on direction.
 
@@ -1083,7 +1083,7 @@ It also bundles skills, instincts (lightweight always-on rules), memory, and a "
 ### Key Properties
 
 - **Cross-agent compatibility** — ships installation paths under `.claude/`, `.cursor/`, and `.agents/` skill directories
-- **Pairs with [Agent Identity, Auth & Secrets](infrastructure.md#agent-identity-auth--secrets)** — runtime governance enforces; this project audits the *configuration* that governance depends on
+- **Pairs with [Agent Identity, Auth & Secrets](infrastructure.md#agent-identity-auth-secrets)** — runtime governance enforces; this project audits the *configuration* that governance depends on
 - **Hackathon-grade origin** — has the rough-edges-but-shipping flavor of a project that ran fast; the volume of stars suggests it solved a real pain point
 
 ### When to Pick It

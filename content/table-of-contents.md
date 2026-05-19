@@ -41,8 +41,8 @@ Per-system deep dives across 25+ agentic engineering products.
 
 ### Cross-cutting sections inside Approaches
 
-- [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces)
-- [Browser-Use & Computer-Use Frameworks](approaches.md#browser-use--computer-use-frameworks)
+- [Skills, Plugins & Marketplaces](approaches.md#skills-plugins-marketplaces)
+- [Browser-Use & Computer-Use Frameworks](approaches.md#browser-use-computer-use-frameworks)
 - [Terminal coding CLIs](approaches.md#terminal-coding-clis) — the 28-CLI comparison table
 - [Feature Matrix](approaches.md#feature-matrix) — side-by-side comparison across all systems above
 - [Capability Breakdown](approaches.md#capability-breakdown) — best-for-X rankings
@@ -97,16 +97,16 @@ Where does trust live? Three philosophical schools + four operational schools.
 
 - [The Central Question](schools.md#the-central-question-where-does-trust-live)
 - Philosophical schools:
-  - [Trust as Cryptography — Polosukhin](schools.md#trust-as-cryptography--polosukhin)
-  - [Trust as Observability — Chase](schools.md#trust-as-observability--chase)
-  - [Trust as Process — Ng](schools.md#trust-as-process--ng)
+  - [Trust as Cryptography — Polosukhin](schools.md#trust-as-cryptography-polosukhin)
+  - [Trust as Observability — Chase](schools.md#trust-as-observability-chase)
+  - [Trust as Process — Ng](schools.md#trust-as-process-ng)
 - [Side-by-Side Comparison](schools.md#side-by-side-comparison)
 - Operational schools:
   - [The Stripe School](schools.md#the-stripe-school)
   - [The Tan School](schools.md#the-tan-school)
-  - [The Walking Labs / Mastery School](schools.md#the-walking-labs--mastery-school)
+  - [The Walking Labs / Mastery School](schools.md#the-walking-labs-mastery-school)
   - [The Steinberger School](schools.md#the-steinberger-school)
-- [Cross-Map: Operational × Philosophical](schools.md#cross-map-operational--philosophical)
+- [Cross-Map: Operational × Philosophical](schools.md#cross-map-operational-philosophical)
 - [What the Next 24 Months Look Like](schools.md#what-the-next-24-months-look-like)
 
 ---
@@ -117,7 +117,7 @@ Where does trust live? Three philosophical schools + four operational schools.
 
 - 🧠 Researchers / educators: [Karpathy](who-is-who.md#andrej-karpathy) · [Weng](who-is-who.md#lilian-weng) · [Yao](who-is-who.md#shunyu-yao) · [Brown](who-is-who.md#noam-brown) · [Yang](who-is-who.md#john-yang) · [Kiela](who-is-who.md#douwe-kiela) · [Teknium](who-is-who.md#teknium-karan-malhotra) · [Polosukhin](who-is-who.md#illia-polosukhin)
 - 🔨 Operators / founders: [Steinberger](who-is-who.md#peter-steinberger-steipete) · [Tan](who-is-who.md#garry-tan) · [Cherny](who-is-who.md#boris-cherny) · [Chase](who-is-who.md#harrison-chase) · [Vincent](who-is-who.md#jesse-vincent-obra) · [Robinson](who-is-who.md#lee-robinson) · [Liu (Beyang)](who-is-who.md#beyang-liu) · [Liu (Jerry)](who-is-who.md#jerry-liu)
-- ✍️ Chroniclers / synthesizers: [Willison](who-is-who.md#simon-willison) · [Osmani](who-is-who.md#addy-osmani) · [Mollick](who-is-who.md#ethan-mollick) · [swyx + Fanelli](who-is-who.md#swyx-shawn-wang--alessio-fanelli)
+- ✍️ Chroniclers / synthesizers: [Willison](who-is-who.md#simon-willison) · [Osmani](who-is-who.md#addy-osmani) · [Mollick](who-is-who.md#ethan-mollick) · [swyx + Fanelli](who-is-who.md#swyx-shawn-wang-alessio-fanelli)
 - [Appendix](who-is-who.md#appendix-people-projects-and-writers-we-considered-but-didnt-profile) — 12 more candidates
 - [Reading order if you're new](who-is-who.md#reading-order-if-youre-new) — one-week onboarding path
 
@@ -128,7 +128,7 @@ Where does trust live? Three philosophical schools + four operational schools.
 How companies organize around agents.
 
 - [The Stripe Model](organizations.md#the-stripe-model)
-- [The Open-Source / Startup Model](organizations.md#the-open-source--startup-model)
+- [The Open-Source / Startup Model](organizations.md#the-open-source-startup-model)
 - [Organizational Patterns](organizations.md#organizational-patterns)
 - [The Infrastructure You Need](organizations.md#the-infrastructure-you-need)
 - [The Future](organizations.md#the-future)
@@ -141,8 +141,8 @@ LLM inference solutions.
 
 - [Direct API Providers](inference.md#direct-api-providers)
 - [Inference Platforms](inference.md#inference-platforms)
-- [Nebius AI Cloud](inference.md#nebius-ai-cloud--standout-platform) — deep dive
-- [Routing & Gateway Solutions](inference.md#routing--gateway-solutions)
+- [Nebius AI Cloud](inference.md#nebius-ai-cloud-standout-platform) — deep dive
+- [Routing & Gateway Solutions](inference.md#routing-gateway-solutions)
 - [Self-Hosted Inference](inference.md#self-hosted-inference)
 - [Inference Strategy for Agents](inference.md#inference-strategy-for-agents)
 - [Decision Framework](inference.md#decision-framework)
@@ -156,9 +156,9 @@ The execution-environment layer.
 - [Why Sandboxes Matter for Agents](sandboxes.md#why-sandboxes-matter-for-agents)
 - [The Sandbox Market Structure](sandboxes.md#the-sandbox-market-structure) — four-layer model
 - [Core Use Cases](sandboxes.md#core-use-cases)
-- [Isolation Tiers](sandboxes.md#isolation-tiers--the-security-ladder)
+- [Isolation Tiers](sandboxes.md#isolation-tiers-the-security-ladder)
 - [Purpose-Built Agent Sandboxes](sandboxes.md#purpose-built-agent-sandboxes) — full vendor table
-- [Contree — The Git-Native Sandbox](sandboxes.md#contree--the-git-native-sandbox) — deep dive
+- [Contree — The Git-Native Sandbox](sandboxes.md#contree-the-git-native-sandbox) — deep dive
 - [Cloud Development Environments (CDEs)](sandboxes.md#cloud-development-environments-cdes)
 - [Open-Source Isolation Primitives](sandboxes.md#open-source-isolation-primitives)
 - [Agent Patterns Enabled by Modern Sandboxes](sandboxes.md#agent-patterns-enabled-by-modern-sandboxes)
@@ -171,17 +171,17 @@ The execution-environment layer.
 
 150+ vendors across 9 major categories.
 
-- [Agent Hosting & Execution Platforms](infrastructure.md#agent-hosting--execution-platforms) — the six-tier decision framework
+- [Agent Hosting & Execution Platforms](infrastructure.md#agent-hosting-execution-platforms) — the six-tier decision framework
 - [Code Execution Sandboxes](infrastructure.md#code-execution-sandboxes) — quick-ref table
 - [Turnkey Managed Platforms](infrastructure.md#turnkey-managed-platforms) — OpenClaw-native, enterprise hubs, no-code builders, [Autonomous Coding Agents](infrastructure.md#autonomous-coding-agents), visual IDEs
 - [Agent-Optimized Hosting](infrastructure.md#agent-optimized-hosting)
 - [Agent Orchestration](infrastructure.md#agent-orchestration) — durable execution, cloud workflows, [agent-specific frameworks](infrastructure.md#agent-specific-orchestration-frameworks), data/ML orchestrators
 - [Cloud Mac Hosting](infrastructure.md#cloud-mac-hosting)
 - [Self-Hosted Infrastructure](infrastructure.md#self-hosted-infrastructure) — GPU clouds, general clouds, [VPS for agents](infrastructure.md#vps-for-agents)
-- [Agent Memory & Context Infrastructure](infrastructure.md#agent-memory--context-infrastructure) — [purpose-built memory](infrastructure.md#purpose-built-agent-memory), vector DBs, graph DBs
-- [Agent Observability & Evaluation](infrastructure.md#agent-observability--evaluation) — [tracing](infrastructure.md#llm--agent-tracing--observability), [evaluation](infrastructure.md#evaluation--testing), [guardrails](infrastructure.md#guardrails--safety)
-- [MCP Servers, Registries & Gateways](infrastructure.md#mcp-servers-registries--gateways)
-- [Agent Identity, Auth & Secrets](infrastructure.md#agent-identity-auth--secrets)
+- [Agent Memory & Context Infrastructure](infrastructure.md#agent-memory-context-infrastructure) — [purpose-built memory](infrastructure.md#purpose-built-agent-memory), vector DBs, graph DBs
+- [Agent Observability & Evaluation](infrastructure.md#agent-observability-evaluation) — [tracing](infrastructure.md#llm-agent-tracing-observability), [evaluation](infrastructure.md#evaluation-testing), [guardrails](infrastructure.md#guardrails-safety)
+- [MCP Servers, Registries & Gateways](infrastructure.md#mcp-servers-registries-gateways)
+- [Agent Identity, Auth & Secrets](infrastructure.md#agent-identity-auth-secrets)
 - [Choosing Your Stack](infrastructure.md#choosing-your-stack) — starter / growth / scale / enterprise
 - [Decision Framework](infrastructure.md#decision-framework)
 

@@ -4,7 +4,7 @@ Most teams think a "harness" is a prompt file. It isn't. A harness is **everythi
 
 This page is the deep dive on that discipline. It synthesizes the primary sources — [OpenAI's *Harness Engineering*](https://openai.com/index/harness-engineering/), [Anthropic's *Effective Harnesses for Long-Running Agents*](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) and [*Harness Design for Long-Running Application Development*](https://www.anthropic.com/engineering/harness-design-long-running-apps), and the [Walking Labs *Learn Harness Engineering* course](https://walkinglabs.github.io/learn-harness-engineering/en/) — and maps them onto the broader landscape covered elsewhere in this reference.
 
-For a shorter, pattern-oriented treatment, see [Patterns § Harness Engineering](patterns.md#harness-engineering). For tools that implement these principles, see [Sandboxes](sandboxes.md), [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces), and [Agent Observability & Evaluation](infrastructure.md#agent-observability--evaluation).
+For a shorter, pattern-oriented treatment, see [Patterns § Harness Engineering](patterns.md#harness-engineering). For tools that implement these principles, see [Sandboxes](sandboxes.md), [Skills, Plugins & Marketplaces](approaches.md#skills-plugins-marketplaces), and [Agent Observability & Evaluation](infrastructure.md#agent-observability-evaluation).
 
 ---
 
@@ -206,7 +206,7 @@ Two structural artifacts make process observability cheap and reproducible:
 
 **Evaluator rubric.** Turns "is it good?" into dimension-by-dimension scoring with evidence citations. Different evaluators produce similar scores for the same output. The companion artifact to the sprint contract.
 
-Standardize the runtime layer on OpenTelemetry — trace per session, span per task, sub-spans per verification step. This makes harness data interoperable with standard tracing tools (Jaeger, Honeycomb) and frees you from rolling your own log format. See [Agent Observability & Evaluation](infrastructure.md#agent-observability--evaluation) for the vendor landscape.
+Standardize the runtime layer on OpenTelemetry — trace per session, span per task, sub-spans per verification step. This makes harness data interoperable with standard tracing tools (Jaeger, Honeycomb) and frees you from rolling your own log format. See [Agent Observability & Evaluation](infrastructure.md#agent-observability-evaluation) for the vendor landscape.
 
 Why agents can't solve observability themselves: they don't know what they don't know, log formats drift between sessions, and structured artifacts like sprint contracts need harness-level support. This is a property of the system, not a feature you ask the agent to remember.
 
@@ -271,16 +271,16 @@ For longer-running systems, layer in:
 
 | Layer | Implementations | Repo cross-reference |
 |-------|-----------------|----------------------|
-| Skill / plugin format | SKILL.md, Claude Code Plugins (Anthropic, MIT), Vercel Skills (`npx skills` to 51+ agents), Cursor Rules, Continue rules | [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces) |
-| Harness-builder skill | Walking Labs `harness-creator` (production-grade skill, built with Anthropic's `skill-creator`), Anthropic [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) | [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces) |
+| Skill / plugin format | SKILL.md, Claude Code Plugins (Anthropic, MIT), Vercel Skills (`npx skills` to 51+ agents), Cursor Rules, Continue rules | [Skills, Plugins & Marketplaces](approaches.md#skills-plugins-marketplaces) |
+| Harness-builder skill | Walking Labs `harness-creator` (production-grade skill, built with Anthropic's `skill-creator`), Anthropic [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) | [Skills, Plugins & Marketplaces](approaches.md#skills-plugins-marketplaces) |
 | End-to-end reference harness (skill pack) | [GStack](approaches.md#gstack) — Garry Tan's 23-skill Claude Code setup, MIT, 82.7K stars; one-command install, paired with Conductor for parallel worktrees | [Approaches: GStack](approaches.md#gstack) |
 | End-to-end reference harness (memory + ops side) | [GBrain](approaches.md#gbrain) — Garry Tan's persistent-memory companion: typed knowledge graph + 29 skills + Postgres-native "Minions" job queue; MIT, 11.1K stars; *"GStack is the engine, GBrain is the mod"* | [Approaches: GBrain](approaches.md#gbrain) |
 | End-to-end reference harness (GUI control plane) | [AgentHub](approaches.md#agenthub) — Electron desktop control plane with Skills + Hooks + FileWatcher + 7-gate pipeline + 46-agent org chart on top of Claude Code CLI | [Approaches: AgentHub](approaches.md#agenthub) |
 | Feature-list / progress templates | Walking Labs templates ([`feature_list.json`, `claude-progress.md`, `init.sh`, `session-handoff.md`, `evaluator-rubric.md`, clean-state checklist](https://github.com/walkinglabs/learn-harness-engineering/tree/main/docs/en/resources/templates)); OpenAI's advanced repo skeleton | (referenced inline) |
-| Verification + eval | DeepEval, Future AGI, Anthropic Bloom, LangSmith, Braintrust, Patronus, Confident AI | [Eval](infrastructure.md#evaluation--testing) |
-| Observability | LangSmith, Langfuse (ClickHouse, Jan 2026), Arize, Honeycomb, AgentOps, OpenLLMetry, OpenObserve | [LLM & Agent Tracing](infrastructure.md#llm--agent-tracing--observability) |
+| Verification + eval | DeepEval, Future AGI, Anthropic Bloom, LangSmith, Braintrust, Patronus, Confident AI | [Eval](infrastructure.md#evaluation-testing) |
+| Observability | LangSmith, Langfuse (ClickHouse, Jan 2026), Arize, Honeycomb, AgentOps, OpenLLMetry, OpenObserve | [LLM & Agent Tracing](infrastructure.md#llm-agent-tracing-observability) |
 | Sandbox / isolation primitive | Contree (git-native branching), E2B, Sprites.dev, Blaxel, Modal, Kubernetes agent-sandbox, SmolVM | [Sandboxes](sandboxes.md#purpose-built-agent-sandboxes) |
-| Identity, secrets, governance | Microsoft Agent Governance Toolkit, ZeroID, Agent Vault, Bedrock AgentCore Identity | [Agent Identity, Auth & Secrets](infrastructure.md#agent-identity-auth--secrets) |
+| Identity, secrets, governance | Microsoft Agent Governance Toolkit, ZeroID, Agent Vault, Bedrock AgentCore Identity | [Agent Identity, Auth & Secrets](infrastructure.md#agent-identity-auth-secrets) |
 
 The point of cataloguing these together: a harness isn't any one of them. It's the *composition* — instructions wire into skills, feature lists wire into evaluators, sandboxes provide the environment, observability proves the rest. The five subsystems all need an implementation.
 
@@ -349,5 +349,5 @@ Adjacent reading:
 - [Patterns § Harness Engineering](patterns.md#harness-engineering) — the cross-cutting pattern view
 - [Approaches](approaches.md) — concrete agent systems and how each handles these problems
 - [Sandboxes](sandboxes.md) — the execution-environment subsystem in depth
-- [Agent Identity, Auth & Secrets](infrastructure.md#agent-identity-auth--secrets) — runtime governance that pairs with verification
-- [Skills, Plugins & Marketplaces](approaches.md#skills-plugins--marketplaces) — how harness-builder skills get distributed
+- [Agent Identity, Auth & Secrets](infrastructure.md#agent-identity-auth-secrets) — runtime governance that pairs with verification
+- [Skills, Plugins & Marketplaces](approaches.md#skills-plugins-marketplaces) — how harness-builder skills get distributed
