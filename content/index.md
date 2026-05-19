@@ -22,7 +22,7 @@ A comprehensive reference to autonomous coding agents, agentic organizations, an
 | 10 | [Hosting & Execution](infrastructure.md) | 150+ infrastructure vendors across 9 categories — turnkey platforms, agent-optimized hosting, orchestration, Cloud Mac, GPU clouds, VPS for agents, memory, observability, MCP, identity/auth |
 | 11 | [Generative UI](generative-ui.md) | The agent's front-end story — Static, Declarative (A2UI), Open-ended patterns; CopilotKit, AG-UI, A2UI, MCP-UI; Vercel AI SDK; trade-offs between consistency and flexibility |
 
-The [Approaches](approaches.md) chapter ends with a [Feature Matrix](approaches.md#feature-matrix), [Capability Breakdown](approaches.md#capability-breakdown), and [Composability](approaches.md#composability) — side-by-side comparisons across the major systems.
+The [Approaches](approaches.md) chapter surveys 30+ agentic systems, organized by category in its Index — commercial vs. open-source vs. harness packs.
 
 If you're new to the field, the suggested reading order is Chapter 1 → Chapter 3 → Chapter 5 → then any others by interest. Chapter 6 (Who's Who) doubles as a "what to read next" map keyed to specific authors.
 
@@ -84,7 +84,6 @@ Deep dives into each major system and framework:
 - [Crabbox](approaches.md#crabbox) — Ephemeral test-box control plane with diff sync, multi-provider runners, Windows + Linux, native OpenClaw plugin
 - [Clawpatch](approaches.md#clawpatch) — Automated code review via semantic feature slicing + explicit fix loop
 - [ClawSweeper](approaches.md#clawsweeper) — Conservative issue/PR triage bot — six narrow close cases, never touches maintainer items
-- [Feature Matrix](approaches.md#feature-matrix), [Capability Breakdown](approaches.md#capability-breakdown), [Composability](approaches.md#composability) — side-by-side comparisons across all the systems above
 
 ### [Patterns](patterns.md)
 Cross-cutting architectural patterns:

@@ -44,9 +44,6 @@ Per-system deep dives across 25+ agentic engineering products.
 - [Skills, Plugins & Marketplaces](approaches.md#skills-plugins-marketplaces)
 - [Browser-Use & Computer-Use Frameworks](approaches.md#browser-use-computer-use-frameworks)
 - [Terminal coding CLIs](approaches.md#terminal-coding-clis) — the 28-CLI comparison table
-- [Feature Matrix](approaches.md#feature-matrix) — side-by-side comparison across all systems above
-- [Capability Breakdown](approaches.md#capability-breakdown) — best-for-X rankings
-- [Composability](approaches.md#composability) — how to assemble an equivalent stack
 
 ---
 
@@ -80,18 +77,7 @@ The deep dive on what makes agents reliable.
 
 ---
 
-## 4. [Benchmarks](benchmarks.md)
-
-How agentic coding is evaluated.
-
-- [SWE-bench](benchmarks.md#swe-bench) and [variants](benchmarks.md#variants) — Verified, Lite, Multimodal, Multilingual, Pro
-- [Terminal Bench](benchmarks.md#terminal-bench)
-- [Choosing a benchmark](benchmarks.md#choosing-a-benchmark)
-- [Benchmark-adjacent reading](benchmarks.md#benchmark-adjacent-reading)
-
----
-
-## 5. [Schools](schools.md)
+## 4. [Schools](schools.md)
 
 Where does trust live? Three philosophical schools + four operational schools.
 
@@ -111,19 +97,18 @@ Where does trust live? Three philosophical schools + four operational schools.
 
 ---
 
-## 6. [Who's Who](who-is-who.md)
+## 5. [Benchmarks](benchmarks.md)
 
-20 named profiles of the people shaping the field.
+How agentic coding is evaluated.
 
-- 🧠 Researchers / educators: [Karpathy](who-is-who.md#andrej-karpathy) · [Weng](who-is-who.md#lilian-weng) · [Yao](who-is-who.md#shunyu-yao) · [Brown](who-is-who.md#noam-brown) · [Yang](who-is-who.md#john-yang) · [Kiela](who-is-who.md#douwe-kiela) · [Teknium](who-is-who.md#teknium-karan-malhotra) · [Polosukhin](who-is-who.md#illia-polosukhin)
-- 🔨 Operators / founders: [Steinberger](who-is-who.md#peter-steinberger-steipete) · [Tan](who-is-who.md#garry-tan) · [Cherny](who-is-who.md#boris-cherny) · [Chase](who-is-who.md#harrison-chase) · [Vincent](who-is-who.md#jesse-vincent-obra) · [Robinson](who-is-who.md#lee-robinson) · [Liu (Beyang)](who-is-who.md#beyang-liu) · [Liu (Jerry)](who-is-who.md#jerry-liu)
-- ✍️ Chroniclers / synthesizers: [Willison](who-is-who.md#simon-willison) · [Osmani](who-is-who.md#addy-osmani) · [Mollick](who-is-who.md#ethan-mollick) · [swyx + Fanelli](who-is-who.md#swyx-shawn-wang-alessio-fanelli)
-- [Appendix](who-is-who.md#appendix-people-projects-and-writers-we-considered-but-didnt-profile) — 12 more candidates
-- [Reading order if you're new](who-is-who.md#reading-order-if-youre-new) — one-week onboarding path
+- [SWE-bench](benchmarks.md#swe-bench) and [variants](benchmarks.md#variants) — Verified, Lite, Multimodal, Multilingual, Pro
+- [Terminal Bench](benchmarks.md#terminal-bench)
+- [Choosing a benchmark](benchmarks.md#choosing-a-benchmark)
+- [Benchmark-adjacent reading](benchmarks.md#benchmark-adjacent-reading)
 
 ---
 
-## 7. [Organizations](organizations.md)
+## 6. [Organizations](organizations.md)
 
 How companies organize around agents.
 
@@ -132,6 +117,18 @@ How companies organize around agents.
 - [Organizational Patterns](organizations.md#organizational-patterns)
 - [The Infrastructure You Need](organizations.md#the-infrastructure-you-need)
 - [The Future](organizations.md#the-future)
+
+---
+
+## 7. [Who's Who](who-is-who.md)
+
+20 named profiles of the people shaping the field.
+
+- 🧠 Researchers / educators: [Karpathy](who-is-who.md#andrej-karpathy) · [Weng](who-is-who.md#lilian-weng) · [Yao](who-is-who.md#shunyu-yao) · [Brown](who-is-who.md#noam-brown) · [Yang](who-is-who.md#john-yang) · [Kiela](who-is-who.md#douwe-kiela) · [Teknium](who-is-who.md#teknium-karan-malhotra) · [Polosukhin](who-is-who.md#illia-polosukhin)
+- 🔨 Operators / founders: [Steinberger](who-is-who.md#peter-steinberger-steipete) · [Tan](who-is-who.md#garry-tan) · [Cherny](who-is-who.md#boris-cherny) · [Chase](who-is-who.md#harrison-chase) · [Vincent](who-is-who.md#jesse-vincent-obra) · [Robinson](who-is-who.md#lee-robinson) · [Liu (Beyang)](who-is-who.md#beyang-liu) · [Liu (Jerry)](who-is-who.md#jerry-liu)
+- ✍️ Chroniclers / synthesizers: [Willison](who-is-who.md#simon-willison) · [Osmani](who-is-who.md#addy-osmani) · [Mollick](who-is-who.md#ethan-mollick) · [swyx + Fanelli](who-is-who.md#swyx-shawn-wang-alessio-fanelli)
+- [Appendix](who-is-who.md#appendix-people-projects-and-writers-we-considered-but-didnt-profile) — 12 more candidates
+- [Reading order if you're new](who-is-who.md#reading-order-if-youre-new) — one-week onboarding path
 
 ---
 
@@ -167,7 +164,7 @@ The execution-environment layer.
 
 ---
 
-## 10. [Hosting & Execution](infrastructure.md)
+## 10. [Hosting & Execution Infrastructure](infrastructure.md)
 
 150+ vendors across 9 major categories.
 
