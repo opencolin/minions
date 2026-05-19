@@ -10,13 +10,14 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <a href="#main" class="skip-to-content">Skip to content</a>
   <header class="topbar">
-    <button class="sidebar-toggle" aria-label="Toggle navigation">&#9776;</button>
+    <button class="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">&#9776;</button>
     <a href="#" class="topbar-brand" data-page="index"><span>&gt;_</span> Agentic Engineering</a>
     <div class="topbar-search">
       <label class="search-field">
         <span class="search-icon" aria-hidden="true">&#128269;</span>
-        <input type="search" id="search-input" placeholder="Search..." autocomplete="off" spellcheck="false" />
+        <input type="search" id="search-input" placeholder="Search..." autocomplete="off" spellcheck="false" role="combobox" aria-controls="search-results" aria-expanded="false" aria-autocomplete="list" aria-label="Search the reference" />
         <kbd class="search-kbd">/</kbd>
       </label>
       <ul id="search-results" class="search-results" role="listbox" hidden></ul>
@@ -24,7 +25,7 @@
   </header>
 
   <div class="layout">
-    <aside class="sidebar" aria-label="Navigation">
+    <aside id="sidebar" class="sidebar" aria-label="Navigation">
       <div class="sidebar-inner">
         <nav class="sidebar-nav" aria-label="Primary">
           <div class="sidebar-group">
@@ -33,21 +34,23 @@
             <a href="#" class="sidebar-link" data-page="table-of-contents">Table of Contents</a>
           </div>
           <div class="sidebar-group">
-            <div class="sidebar-group-title">Landscape</div>
+            <div class="sidebar-group-title">Foundations</div>
             <a href="#" class="sidebar-link" data-page="approaches">Approaches</a>
             <a href="#" class="sidebar-link" data-page="patterns">Patterns</a>
             <a href="#" class="sidebar-link" data-page="harness-engineering">Harness Engineering</a>
-            <a href="#" class="sidebar-link" data-page="schools">Schools</a>
             <a href="#" class="sidebar-link" data-page="benchmarks">Benchmarks</a>
-            <a href="#" class="sidebar-link" data-page="comparison">Comparison</a>
-            <a href="#" class="sidebar-link" data-page="organizations">Organizations</a>
+          </div>
+          <div class="sidebar-group">
+            <div class="sidebar-group-title">People &amp; Orgs</div>
+            <a href="#" class="sidebar-link" data-page="schools">Schools</a>
             <a href="#" class="sidebar-link" data-page="who-is-who">Who's Who</a>
+            <a href="#" class="sidebar-link" data-page="organizations">Organizations</a>
           </div>
           <div class="sidebar-group">
             <div class="sidebar-group-title">Infrastructure</div>
             <a href="#" class="sidebar-link" data-page="inference">Inference</a>
             <a href="#" class="sidebar-link" data-page="sandboxes">Sandboxes</a>
-            <a href="#" class="sidebar-link" data-page="infrastructure">Hosting &amp; Execution</a>
+            <a href="#" class="sidebar-link" data-page="infrastructure">Hosting</a>
           </div>
           <div class="sidebar-group">
             <div class="sidebar-group-title">Interfaces</div>
@@ -56,16 +59,13 @@
           <div class="sidebar-group">
             <div class="sidebar-group-title">Community</div>
             <a href="events/" class="sidebar-link sidebar-link-external">Events &#8599;</a>
-          </div>
-          <div class="sidebar-group">
-            <div class="sidebar-group-title">Project</div>
             <a href="https://github.com/opencolin/agentic-engineering" class="sidebar-link sidebar-link-external" target="_blank" rel="noopener">GitHub &#8599;</a>
           </div>
         </nav>
       </div>
     </aside>
 
-    <main class="content">
+    <main id="main" class="content" tabindex="-1">
       <article id="content" class="markdown-body">
         <p class="loading">Loading...</p>
       </article>
@@ -73,6 +73,11 @@
         <p>Agentic Engineering Reference &mdash; Content stored as plain markdown for easy reading by humans and agents alike.</p>
       </footer>
     </main>
+
+    <aside class="toc-rail" id="toc-rail" aria-label="On this page" hidden>
+      <div class="toc-rail-title">On this page</div>
+      <ul id="toc-rail-list"></ul>
+    </aside>
   </div>
 
   <script type="text/markdown" data-page="index">
@@ -100,7 +105,7 @@ A comprehensive reference to autonomous coding agents, agentic organizations, an
 | 10 | [Hosting & Execution](infrastructure.md) | 150+ infrastructure vendors across 9 categories — turnkey platforms, agent-optimized hosting, orchestration, Cloud Mac, GPU clouds, VPS for agents, memory, observability, MCP, identity/auth |
 | 11 | [Generative UI](generative-ui.md) | The agent's front-end story — Static, Declarative (A2UI), Open-ended patterns; CopilotKit, AG-UI, A2UI, MCP-UI; Vercel AI SDK; trade-offs between consistency and flexibility |
 
-The [Approaches](approaches.md) chapter ends with a [Feature Matrix](approaches.md#feature-matrix), [Capability Breakdown](approaches.md#capability-breakdown), and [Composability](approaches.md#composability) — side-by-side comparisons across the major systems.
+The [Approaches](approaches.md) chapter surveys 30+ agentic systems, organized by category in its Index — commercial vs. open-source vs. harness packs.
 
 If you're new to the field, the suggested reading order is Chapter 1 → Chapter 3 → Chapter 5 → then any others by interest. Chapter 6 (Who's Who) doubles as a "what to read next" map keyed to specific authors.
 
@@ -162,7 +167,6 @@ Deep dives into each major system and framework:
 - [Crabbox](approaches.md#crabbox) — Ephemeral test-box control plane with diff sync, multi-provider runners, Windows + Linux, native OpenClaw plugin
 - [Clawpatch](approaches.md#clawpatch) — Automated code review via semantic feature slicing + explicit fix loop
 - [ClawSweeper](approaches.md#clawsweeper) — Conservative issue/PR triage bot — six narrow close cases, never touches maintainer items
-- [Feature Matrix](approaches.md#feature-matrix), [Capability Breakdown](approaches.md#capability-breakdown), [Composability](approaches.md#composability) — side-by-side comparisons across all the systems above
 
 ### [Patterns](patterns.md)
 Cross-cutting architectural patterns:
@@ -223,7 +227,7 @@ LLM inference solutions for agent workloads:
 ### [Hosting & Execution](infrastructure.md)
 Where agents actually run — 150+ vendors across 9 major categories:
 - [Hosting Decision Framework](infrastructure.md#the-hosting-decision-framework) — Turnkey, Agent-Optimized, Sandbox, Serverless, Cloud Mac, Self-Hosted
-- [Code Execution Sandboxes](infrastructure.md#code-execution-sandboxes) — 14 purpose-built sandboxes including [Contree](infrastructure.md#contree-git-native-sandbox-for-agents) (Git-like branching from Nebius), E2B, Sprites.dev, Modal + 10 CDEs (GitHub Codespaces, Gitpod, Coder, Vercel Sandbox) + 7 OSS isolation primitives
+- [Code Execution Sandboxes](infrastructure.md#code-execution-sandboxes) — 14 purpose-built sandboxes including [Contree](sandboxes.md#contree-the-git-native-sandbox) (Git-like branching from Nebius), E2B, Sprites.dev, Modal + 10 CDEs (GitHub Codespaces, Gitpod, Coder, Vercel Sandbox) + 7 OSS isolation primitives
 - [Turnkey Managed Platforms](infrastructure.md#turnkey-managed-platforms) — OpenClaw-native + enterprise hubs (Copilot Studio, Agentspace, Bedrock) + no-code builders + autonomous coding agents (Devin, Factory, Cursor) + visual IDEs
 - [Agent-Optimized Hosting](infrastructure.md#agent-optimized-hosting) — ClawHost, Claw Cloud, Zo Computer
 - [Agent Orchestration](infrastructure.md#agent-orchestration) — Durable execution (Temporal, Inngest, Trigger.dev, Restate, DBOS, + 9 more) + cloud workflows + agent frameworks (LangGraph, CrewAI, AutoGen, Mastra) + data/ML orchestrators
@@ -445,6 +449,55 @@ The agent's front-end story.
 # Approaches to Agentic Coding
 
 A deep dive into the major systems and frameworks driving autonomous software engineering — from enterprise-internal platforms to open-source tools.
+
+## Index
+
+### Commercial / proprietary
+
+- [Stripe Minions](#stripe-minions) — 1,300+ PRs/week, blueprints, devboxes, Toolshed MCP
+- [Claude Managed Agents](#claude-managed-agents) — Anthropic's vertically integrated harness, $0.08/agent-hour
+- [OpenAI Symphony](#openai-symphony) — 15K+ stars, 6-layer orchestration, work management over agent supervision
+- [Vercel Open Agents](#vercel-open-agents) — MIT reference template, durable workflows + Vercel Sandbox + GitHub App
+
+### Open-source agents
+
+- [OpenHands](#openhands) — 71K stars, most mature open-source autonomous engineer
+- [OpenCode](#opencode) — 142K stars, provider-agnostic with GitHub agent mode
+- [OhMyOpenAgent](#ohmyopenagent) — 50.6K stars, named specialist agents, hash-anchored edits
+- [Goose](#goose) — MCP-native, the ancestor Stripe forked for Minions
+- [Open SWE (LangChain)](#open-swe-langchain) — multi-agent async coding agent
+- [SWE-agent](#swe-agent) — Princeton/Stanford, pioneered issue-to-PR paradigm
+- [AgentField](#agentfield) — open-source control plane with three nested failure loops
+- [Composio Agent Orchestrator](#composio-agent-orchestrator) — best multi-agent parallelization
+- [Patchwork](#patchwork) — patchflows, closest open-source analog to Stripe's blueprints
+- [OpenClaw](#openclaw) — 355K stars, self-hosted assistant with messaging integration
+- [DeerFlow](#deerflow) — ByteDance's long-horizon SuperAgent harness, LangGraph-based
+- [Hermes Agent](#hermes-agent) — Nous Research's self-improving personal agent
+
+### Frameworks & SDKs
+
+- [Mastra](#mastra) — TypeScript framework for building custom agent systems
+- [Rivet Sandbox Agent](#rivet-sandbox-agent) — universal API for running agents in sandboxes
+
+### Harness & skill packs
+
+- [GStack](#gstack) — Garry Tan's 23-skill Claude Code setup, CEO / Designer / Eng Manager / QA personas
+- [GBrain](#gbrain) — Garry Tan's persistent-memory companion to GStack
+- [Superpowers](#superpowers) — Jesse Vincent's skills framework + design-then-implement methodology
+- [Everything Claude Code](#everything-claude-code) — Affaan M.'s security-auditing harness pack
+- [AgentHub](#agenthub) — Electron harness-engineering control plane on top of Claude Code CLI
+
+### The Steinberger ecosystem
+
+- [Crabbox](#crabbox) — ephemeral test-box control plane with diff sync
+- [Clawpatch](#clawpatch) — automated code review via semantic feature slicing
+- [ClawSweeper](#clawsweeper) — conservative issue/PR triage bot
+
+### Cross-cutting
+
+- [Terminal coding CLIs](#terminal-coding-clis) — the 28-CLI comparison table
+- [Skills, Plugins & Marketplaces](#skills-plugins-marketplaces) — Cursor Rules · SKILL.md · Continue · plugins
+- [Browser-Use & Computer-Use Frameworks](#browser-use-computer-use-frameworks) — Browser Use, Stagehand, Magnitude, Skyvern, Operator
 
 ---
 
@@ -875,13 +928,13 @@ Map repo → feature slices
   → Fix loop: pick one finding → propose patch → validate → land or reject
 ```
 
-The fix loop is **one finding at a time, with validation** — that's a [WIP=1](harness-engineering.md#wip-1-and-the-feature-list-as-primitive) discipline applied to bug remediation.
+The fix loop is **one finding at a time, with validation** — that's a [WIP=1](harness-engineering.md#wip1-and-the-feature-list-as-primitive) discipline applied to bug remediation.
 
 ### Key Properties
 
 - **Slicing > diffing** — review surface area maps to functionality, not file boundaries
 - **Persistent finding ledger** — review state survives across runs; the same bug isn't re-reported every time
-- **Validation-gated fixes** — patches only land if validation passes, mirroring [feature-list-as-primitive](harness-engineering.md#wip-1-and-the-feature-list-as-primitive) `passing`-state gating
+- **Validation-gated fixes** — patches only land if validation passes, mirroring [feature-list-as-primitive](harness-engineering.md#wip1-and-the-feature-list-as-primitive) `passing`-state gating
 - **Provider-agnostic** — the slicer is the value; the model is swappable
 - **Pairs with [Crabbox](#crabbox)** — Clawpatch can validate fixes inside ephemeral Crabbox runners
 
@@ -1425,7 +1478,7 @@ A *software-development-methodology* shipped as a skills framework. Where [GStac
 ### What it actually enforces
 
 - **Brainstorming-first** — A brainstorming skill activates before code is written: refines rough ideas through dialogue, explores alternatives, presents the design in sections for human validation, and saves a design document. The agent isn't allowed to skip this.
-- **Bite-sized tasks** — After design approval, work is broken into 2–5-minute units with exact file paths, complete code context, and verification steps. This is the WIP=1 / feature-list-as-primitive discipline from [Harness Engineering](harness-engineering.md#wip-1-and-the-feature-list-as-primitive), packaged as a workflow.
+- **Bite-sized tasks** — After design approval, work is broken into 2–5-minute units with exact file paths, complete code context, and verification steps. This is the WIP=1 / feature-list-as-primitive discipline from [Harness Engineering](harness-engineering.md#wip1-and-the-feature-list-as-primitive), packaged as a workflow.
 - **TDD enforcement** — Tests come before implementation, enforced as a skill, not just documented.
 - **Autonomous subagents** — Long execution is delegated to subagents that report back; the main session stays focused on direction.
 
@@ -1999,7 +2052,7 @@ Outer Loop: Replanner restructures remaining work
 
 AgentField saves state at every level boundary. A build failing at invocation 140 resumes from that point rather than restarting from scratch.
 
-[Contree](https://contree.dev) takes this further with Git-like branching at the sandbox level — agents can checkpoint the entire environment, fork to try multiple approaches, and roll back to any prior state without re-execution. This enables *tree-of-thought sandboxing*: fork at each decision point, run parallel branches to evaluate, then continue with the winner. See [Infrastructure](infrastructure.md#contree-git-native-sandbox-for-agents) for details.
+[Contree](https://contree.dev) takes this further with Git-like branching at the sandbox level — agents can checkpoint the entire environment, fork to try multiple approaches, and roll back to any prior state without re-execution. This enables *tree-of-thought sandboxing*: fork at each decision point, run parallel branches to evaluate, then continue with the winner. See [Sandboxes](sandboxes.md#contree-the-git-native-sandbox) for details.
 
 ### Key Insight
 
@@ -2729,83 +2782,6 @@ Neither benchmark is sufficient on its own. A team shipping autonomous PRs inter
 - [Patterns § Harness engineering](patterns.md) — Why harness-is-the-model for benchmark performance
 - [Organizations](organizations.md) — How teams measure agent value beyond benchmarks
   </script>
-  <script type="text/markdown" data-page="comparison">
-# Comparison Table
-
-Side-by-side feature comparison of all major agentic coding approaches.
-
----
-
-## Feature Matrix
-
-| Project | Stars | Unattended PR | Orchestration | Sandbox | MCP | CI Feedback | Multi-Agent | License |
-|---------|-------|--------------|---------------|---------|-----|-------------|-------------|---------|
-| **Claude Managed Agents** | N/A | Yes | Built-in harness | Managed container | Yes (MCP) | Yes | Research preview | Commercial |
-| **Stripe Minions** | N/A | Yes | Blueprints | EC2 Devboxes | Yes (~500 tools) | Yes (2 rounds) | Parallel runs | Proprietary |
-| **AgentField** | 1.4K | Yes | SWE-AF levels | Git Worktrees | Agent mesh | Yes (gated) | Yes (orchestrated) | Apache 2.0 |
-| **OpenHands** | 71K | Yes | Planning Mode | Docker | No | Yes | No | MIT |
-| **Open SWE** | 9.5K | Yes | LangGraph | Cloud sandbox | No | Yes | Yes (4 agents) | Open Source |
-| **OhMyOpenAgent** | 50.6K | Partial | Named agents | No | Yes (built-in) | Partial | Yes (team) | Open Source |
-| **OpenCode** | 142K | Partial (GH mode) | No | No | No | No | No | Open Source |
-| **SWE-agent** | 19K | Yes | No | Docker | No | Partial | No | MIT |
-| **Composio** | 6.2K | Yes | Task decomp | Configurable | No | Yes | Yes (parallel) | Open Source |
-| **Patchwork** | 1.5K | Yes | Patchflows | No | No | Yes (CI/CD) | No | Open Source |
-| **Goose** | 41K | No (interactive) | No | No | Yes (70+ tools) | No | No | Apache 2.0 |
-| **Symphony** | 15K+ | Yes | 6-layer architecture | Worktrees | Via integrations | Yes (CI-gated) | Yes (orchestrated) | Apache 2.0 |
-| **Vercel Open Agents** | 3.7K | Yes | Vercel Workflow SDK (durable) | Vercel Sandbox (microVM) | Yes (MCP) | Via tools | Subagents built-in | MIT |
-| **Mastra** | 22.9K | Framework | Workflows | Configurable | Yes (MCP) | Via workflows | Via workflows | Apache 2.0 |
-| **OpenClaw** | 355K | Via skills | No | Via NemoClaw | No | No | Yes (sessions) | Open Source |
-| **Rivet Sandbox** | 1.3K | Infrastructure | No | Yes (multi-runtime) | No | No | API-level | Open Source |
-
----
-
-## Capability Breakdown
-
-### Best for Unattended PR Production
-1. **Stripe Minions** — Gold standard, 1,300+ PRs/week in production
-2. **OpenHands** — Most mature open-source option, 50%+ SWE-bench
-3. **Open SWE** — Best multi-agent architecture for PR production
-
-### Best for Orchestration / Workflow
-1. **Stripe Minions** — Blueprints (hybrid deterministic + agentic)
-2. **Patchwork** — Patchflows (closest open-source blueprint analog)
-3. **Open SWE** — LangGraph (graph-based multi-agent)
-
-### Best for Sandbox Isolation
-1. **Stripe Minions** — EC2 devboxes, pre-warmed in 10s
-2. **Rivet Sandbox Agent** — Universal API for any agent in any sandbox
-3. **OpenHands** — Docker-based, Kubernetes-ready
-
-### Best for Multi-Agent Parallelization
-1. **Composio Orchestrator** — Purpose-built for parallel agent coordination
-2. **AgentField** — Full orchestration with failure recovery
-3. **OhMyOpenAgent** — Named specialist team with model routing
-
-### Best for Context Management
-1. **Stripe Minions** — Toolshed MCP (~500 tools), conditional rules, pre-hydration
-2. **OhMyOpenAgent** — Hierarchical AGENTS.md, built-in MCPs, multi-model routing
-3. **Goose** — MCP-native with 70+ extensions
-
-### Best for Failure Recovery
-1. **AgentField** — Three nested loops, typed recovery, checkpoint-based
-2. **Stripe Minions** — Pragmatic 2-round CI cap with auto-fixes
-3. **OhMyOpenAgent** — Ralph Loop for persistent iteration
-
----
-
-## Composability
-
-No single open-source project replicates the full Stripe Minions architecture. To build an equivalent, you would likely combine:
-
-| Layer | Option A | Option B |
-|-------|----------|----------|
-| **Core Agent** | OpenHands | Open SWE |
-| **Sandbox** | Rivet Sandbox Agent | E2B / Docker |
-| **Orchestration** | Patchwork patchflows | LangGraph |
-| **Parallelization** | Composio Orchestrator | AgentField |
-| **Context** | MCP servers | OhMyOpenAgent MCPs |
-| **Control Plane** | AgentField | Custom |
-  </script>
   <script type="text/markdown" data-page="organizations">
 # Agentic Organizations
 
@@ -3503,6 +3479,13 @@ Sandboxes are the single most important piece of infrastructure for autonomous c
 
 Everything else — inference, orchestration, memory, observability — depends on the sandbox layer being correct, fast, and safe.
 
+## Index
+
+- **Foundations** — [Why Sandboxes Matter](#why-sandboxes-matter-for-agents) · [Market Structure](#the-sandbox-market-structure) · [Core Use Cases](#core-use-cases) · [Isolation Tiers](#isolation-tiers-the-security-ladder)
+- **Vendors** — [Purpose-Built Agent Sandboxes](#purpose-built-agent-sandboxes) · [Contree deep dive](#contree-the-git-native-sandbox) · [Cloud Development Environments](#cloud-development-environments-cdes) · [Open-Source Primitives](#open-source-isolation-primitives)
+- **Patterns** — [Agent Patterns Enabled by Modern Sandboxes](#agent-patterns-enabled-by-modern-sandboxes) · [Decision Framework](#decision-framework) · [Integration Examples](#integration-examples)
+- **Reading** — [Further Reading](#further-reading)
+
 ---
 
 ## Why Sandboxes Matter for Agents
@@ -4039,6 +4022,13 @@ This pattern is impractical without fast branching (Contree) or snapshots (Modal
 Where agents actually run — the compute infrastructure for sandboxed, scalable agent execution. This page covers 50+ vendors across 6 tiers, sourced from ClawCamp Research market guides (April 2026).
 
 For LLM inference solutions, see [Inference](inference.md).
+
+## Index
+
+- **Where to run** — [Hosting & Execution Platforms](#agent-hosting-execution-platforms) · [Code Execution Sandboxes](#code-execution-sandboxes) · [Turnkey Managed Platforms](#turnkey-managed-platforms) · [Agent-Optimized Hosting](#agent-optimized-hosting)
+- **Scale & topology** — [Agent Orchestration](#agent-orchestration) · [Cloud Mac Hosting](#cloud-mac-hosting) · [Self-Hosted Infrastructure](#self-hosted-infrastructure)
+- **State & control** — [Memory & Context](#agent-memory-context-infrastructure) · [Observability & Evaluation](#agent-observability-evaluation) · [MCP Servers, Registries & Gateways](#mcp-servers-registries-gateways) · [Identity, Auth & Secrets](#agent-identity-auth-secrets)
+- **Decision** — [What Stripe Uses](#what-stripe-uses) · [Sandbox vs. Serverless](#sandbox-vs-serverless-fit-for-purpose) · [Key Trends](#key-trends) · [Choosing Your Stack](#choosing-your-stack) · [Decision Framework](#decision-framework)
 
 ---
 
@@ -4625,11 +4615,11 @@ Once agents start hitting real APIs and SaaS systems, "what credentials does the
 
 - **Credential brokering pattern** — The agent never sees raw API keys. It requests a scoped, short-lived token from a vault (Agent Vault, Bedrock AgentCore Identity, AWS STS-style flow) tied to its workload identity. The vault enforces what the agent is allowed to ask for.
 - **Multi-agent trust** — DIDs (decentralized identifiers, Ed25519) per agent, signed inter-agent messages, and trust scoring (e.g. AgentField's 0–1000 trust score with five behavioral tiers).
-- **Runtime governance** — A policy engine (Microsoft Agent Governance Toolkit, Kagenti) wraps the harness and audits / blocks specific actions. Pairs with [Guardrails](#guardrails--safety) for content policy.
+- **Runtime governance** — A policy engine (Microsoft Agent Governance Toolkit, Kagenti) wraps the harness and audits / blocks specific actions. Pairs with [Guardrails](#guardrails-safety) for content policy.
 
 ### Why this is its own category
 
-The repo's [Memory](#agent-memory--context-infrastructure) and [Guardrails](#guardrails--safety) sections cover *what an agent knows* and *what it's allowed to say*; identity / auth / secrets covers *what it's allowed to do, as whom, with what credentials*. The August 2026 EU AI Act high-risk-systems deadline is pulling enterprise interest into this category fast — expect this section to grow.
+The repo's [Memory](#agent-memory-context-infrastructure) and [Guardrails](#guardrails-safety) sections cover *what an agent knows* and *what it's allowed to say*; identity / auth / secrets covers *what it's allowed to do, as whom, with what credentials*. The August 2026 EU AI Act high-risk-systems deadline is pulling enterprise interest into this category fast — expect this section to grow.
 
 ---
 
@@ -4785,7 +4775,7 @@ Late 2026 marked a wave of open protocols landing in this space. Most are comple
 
 Google's open declarative protocol, launched as public preview in October 2026, [v0.9 in December 2026](https://www.copilotkit.ai/blog/a2ui-whats-new-in-google-generative-ui-spec). JSONL-based, streaming, platform-agnostic.
 
-The agent emits a stream of declarative component descriptions. The client renders them using its native component library — Lit, Angular, Flutter, React (via [CopilotKit](#copilotkit)). Because A2UI ships data not code, it crosses trust boundaries safely. Remote subagents in an [A2A](#a2a-agent-to-agent-orchestration) topology can each contribute UI without the client trusting any of them with arbitrary code execution.
+The agent emits a stream of declarative component descriptions. The client renders them using its native component library — Lit, Angular, Flutter, React (via [CopilotKit](#copilotkit)). Because A2UI ships data not code, it crosses trust boundaries safely. Remote subagents in an A2A topology can each contribute UI without the client trusting any of them with arbitrary code execution.
 
 Status: public preview, v0.9 as of late 2026. Reference renderers exist for Lit, Angular, Flutter. React/CopilotKit integration is the most mature client. Source: [github.com/google/a2ui](https://github.com/google/a2ui).
 
@@ -5013,7 +5003,7 @@ A second axis: *who owns the components?*
 Generative UI sits at the intersection of three strands of agentic engineering this reference covers:
 
 - **[Patterns § Context Management](patterns.md#3-context-management)** — A2UI/AG-UI state events are how an agent's working memory becomes visible to the user. The frontend isn't just a display; it's the most legible window into what the agent thinks it's doing.
-- **[Harness Engineering § Feedback](harness-engineering.md#feedback-the-fifth-subsystem)** — generative UI is the highest-bandwidth feedback channel available. A chart of test pass-rates beats a paragraph of prose. The harness gets better when its outputs are renderable.
+- **[Harness Engineering § Feedback](harness-engineering.md#the-five-subsystem-model)** — generative UI is the highest-bandwidth feedback channel available. A chart of test pass-rates beats a paragraph of prose. The harness gets better when its outputs are renderable.
 - **[Approaches § Skills, Plugins & Marketplaces](approaches.md#skills-plugins-marketplaces)** — the same ecosystem dynamics that produced MCP for tools are producing A2UI/MCP-UI for interfaces. Skills + MCP + A2UI = composable agent-with-UI as a distributable artifact.
 
 A reasonable prediction: by end of 2027, *"my agent has a UI"* will be table stakes the way *"my agent has tools"* was table stakes in 2025. The frameworks that win will be the ones that make the chat-vs-app boundary disappear.
@@ -5058,7 +5048,7 @@ Widgets common in early adoption: forms, charts (pie, bar, line), data tables, a
 - [Who's Who § Lee Robinson](who-is-who.md#lee-robinson) — popularized Vercel's `streamUI` pattern
   </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

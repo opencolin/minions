@@ -13,7 +13,14 @@ function init() {
     let plainText;
     if (arg.tokens && this.parser && typeof this.parser.parseInline === 'function') {
       innerHTML = this.parser.parseInline(arg.tokens);
-      plainText = innerHTML.replace(/<[^>]+>/g, '');
+      // Strip tags and HTML entities. parseInline escapes `&` → `&amp;` and
+      // `'` → `&#39;`, so without this both "Memory & Context" and "you're"
+      // would carry entity noise into the slug. Removing entities (rather
+      // than replacing with a space) keeps "you're" → "youre" while letting
+      // the surrounding whitespace in "X &amp; Y" still collapse to one dash.
+      plainText = innerHTML
+        .replace(/<[^>]+>/g, '')
+        .replace(/&[a-z]+;|&#x?[0-9a-f]+;/gi, '');
     } else {
       const raw = typeof arg.text === 'string' ? arg.text : (arg.text && (arg.text.text || arg.text.raw)) || String(arg.text);
       innerHTML = raw;
@@ -103,10 +110,32 @@ function init() {
       if (sidebar) sidebar.classList.remove('open');
       if (toggle) toggle.setAttribute('aria-expanded', 'false');
 
-      // Make markdown links to .md files work as SPA navigation
+      // Rewrite in-page anchor links from `#slug` to the SPA `#page:slug`
+      // form so they participate in the hash router instead of being treated
+      // as a different page. Runs BEFORE the .md handler so that .md
+      // links — which only have href `xxx.md` at this point, not `#xxx`
+      // — aren't accidentally caught here.
+      contentEl.querySelectorAll('a').forEach(a => {
+        const href = a.getAttribute('href');
+        if (!href || !href.startsWith('#') || href.length < 2) return;
+        const slug = href.slice(1);
+        if (slug.includes(':')) return;
+        a.setAttribute('href', '#' + page + ':' + slug);
+        if (!a.classList.contains('heading-anchor')) {
+          a.addEventListener('click', (e) => {
+            e.preventDefault();
+            renderPage(page, slug);
+          });
+        }
+      });
+
+      // Make markdown links to .md files work as SPA navigation. Skip
+      // absolute URLs — `https://github.com/.../strategy.md` is an external
+      // link, not an internal page reference.
       contentEl.querySelectorAll('a').forEach(a => {
         const href = a.getAttribute('href');
         if (!href || !href.includes('.md')) return;
+        if (/^[a-z]+:\/\//i.test(href) || href.startsWith('mailto:')) return;
         const [file, fragment] = href.split('#');
         const pageName = file.replace(/\.md$/, '').replace(/^.*\//, '');
         a.href = fragment ? '#' + pageName + ':' + fragment : '#' + pageName;
@@ -114,14 +143,6 @@ function init() {
           e.preventDefault();
           renderPage(pageName, fragment);
         });
-      });
-
-      // Rewrite heading-anchor links from `#slug` to the SPA `#page:slug`
-      // form so they participate in the hash router instead of being treated
-      // as a different page.
-      contentEl.querySelectorAll('a.heading-anchor').forEach(a => {
-        const slug = a.getAttribute('href').slice(1);
-        a.setAttribute('href', '#' + page + ':' + slug);
       });
 
       // Build the right-rail "On this page" TOC from h2s.

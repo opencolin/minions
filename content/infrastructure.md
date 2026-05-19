@@ -4,6 +4,13 @@ Where agents actually run — the compute infrastructure for sandboxed, scalable
 
 For LLM inference solutions, see [Inference](inference.md).
 
+## Index
+
+- **Where to run** — [Hosting & Execution Platforms](#agent-hosting-execution-platforms) · [Code Execution Sandboxes](#code-execution-sandboxes) · [Turnkey Managed Platforms](#turnkey-managed-platforms) · [Agent-Optimized Hosting](#agent-optimized-hosting)
+- **Scale & topology** — [Agent Orchestration](#agent-orchestration) · [Cloud Mac Hosting](#cloud-mac-hosting) · [Self-Hosted Infrastructure](#self-hosted-infrastructure)
+- **State & control** — [Memory & Context](#agent-memory-context-infrastructure) · [Observability & Evaluation](#agent-observability-evaluation) · [MCP Servers, Registries & Gateways](#mcp-servers-registries-gateways) · [Identity, Auth & Secrets](#agent-identity-auth-secrets)
+- **Decision** — [What Stripe Uses](#what-stripe-uses) · [Sandbox vs. Serverless](#sandbox-vs-serverless-fit-for-purpose) · [Key Trends](#key-trends) · [Choosing Your Stack](#choosing-your-stack) · [Decision Framework](#decision-framework)
+
 ---
 
 ## Agent Hosting & Execution Platforms
@@ -589,11 +596,11 @@ Once agents start hitting real APIs and SaaS systems, "what credentials does the
 
 - **Credential brokering pattern** — The agent never sees raw API keys. It requests a scoped, short-lived token from a vault (Agent Vault, Bedrock AgentCore Identity, AWS STS-style flow) tied to its workload identity. The vault enforces what the agent is allowed to ask for.
 - **Multi-agent trust** — DIDs (decentralized identifiers, Ed25519) per agent, signed inter-agent messages, and trust scoring (e.g. AgentField's 0–1000 trust score with five behavioral tiers).
-- **Runtime governance** — A policy engine (Microsoft Agent Governance Toolkit, Kagenti) wraps the harness and audits / blocks specific actions. Pairs with [Guardrails](#guardrails--safety) for content policy.
+- **Runtime governance** — A policy engine (Microsoft Agent Governance Toolkit, Kagenti) wraps the harness and audits / blocks specific actions. Pairs with [Guardrails](#guardrails-safety) for content policy.
 
 ### Why this is its own category
 
-The repo's [Memory](#agent-memory--context-infrastructure) and [Guardrails](#guardrails--safety) sections cover *what an agent knows* and *what it's allowed to say*; identity / auth / secrets covers *what it's allowed to do, as whom, with what credentials*. The August 2026 EU AI Act high-risk-systems deadline is pulling enterprise interest into this category fast — expect this section to grow.
+The repo's [Memory](#agent-memory-context-infrastructure) and [Guardrails](#guardrails-safety) sections cover *what an agent knows* and *what it's allowed to say*; identity / auth / secrets covers *what it's allowed to do, as whom, with what credentials*. The August 2026 EU AI Act high-risk-systems deadline is pulling enterprise interest into this category fast — expect this section to grow.
 
 ---
 

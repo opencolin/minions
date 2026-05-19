@@ -2,6 +2,55 @@
 
 A deep dive into the major systems and frameworks driving autonomous software engineering — from enterprise-internal platforms to open-source tools.
 
+## Index
+
+### Commercial / proprietary
+
+- [Stripe Minions](#stripe-minions) — 1,300+ PRs/week, blueprints, devboxes, Toolshed MCP
+- [Claude Managed Agents](#claude-managed-agents) — Anthropic's vertically integrated harness, $0.08/agent-hour
+- [OpenAI Symphony](#openai-symphony) — 15K+ stars, 6-layer orchestration, work management over agent supervision
+- [Vercel Open Agents](#vercel-open-agents) — MIT reference template, durable workflows + Vercel Sandbox + GitHub App
+
+### Open-source agents
+
+- [OpenHands](#openhands) — 71K stars, most mature open-source autonomous engineer
+- [OpenCode](#opencode) — 142K stars, provider-agnostic with GitHub agent mode
+- [OhMyOpenAgent](#ohmyopenagent) — 50.6K stars, named specialist agents, hash-anchored edits
+- [Goose](#goose) — MCP-native, the ancestor Stripe forked for Minions
+- [Open SWE (LangChain)](#open-swe-langchain) — multi-agent async coding agent
+- [SWE-agent](#swe-agent) — Princeton/Stanford, pioneered issue-to-PR paradigm
+- [AgentField](#agentfield) — open-source control plane with three nested failure loops
+- [Composio Agent Orchestrator](#composio-agent-orchestrator) — best multi-agent parallelization
+- [Patchwork](#patchwork) — patchflows, closest open-source analog to Stripe's blueprints
+- [OpenClaw](#openclaw) — 355K stars, self-hosted assistant with messaging integration
+- [DeerFlow](#deerflow) — ByteDance's long-horizon SuperAgent harness, LangGraph-based
+- [Hermes Agent](#hermes-agent) — Nous Research's self-improving personal agent
+
+### Frameworks & SDKs
+
+- [Mastra](#mastra) — TypeScript framework for building custom agent systems
+- [Rivet Sandbox Agent](#rivet-sandbox-agent) — universal API for running agents in sandboxes
+
+### Harness & skill packs
+
+- [GStack](#gstack) — Garry Tan's 23-skill Claude Code setup, CEO / Designer / Eng Manager / QA personas
+- [GBrain](#gbrain) — Garry Tan's persistent-memory companion to GStack
+- [Superpowers](#superpowers) — Jesse Vincent's skills framework + design-then-implement methodology
+- [Everything Claude Code](#everything-claude-code) — Affaan M.'s security-auditing harness pack
+- [AgentHub](#agenthub) — Electron harness-engineering control plane on top of Claude Code CLI
+
+### The Steinberger ecosystem
+
+- [Crabbox](#crabbox) — ephemeral test-box control plane with diff sync
+- [Clawpatch](#clawpatch) — automated code review via semantic feature slicing
+- [ClawSweeper](#clawsweeper) — conservative issue/PR triage bot
+
+### Cross-cutting
+
+- [Terminal coding CLIs](#terminal-coding-clis) — the 28-CLI comparison table
+- [Skills, Plugins & Marketplaces](#skills-plugins-marketplaces) — Cursor Rules · SKILL.md · Continue · plugins
+- [Browser-Use & Computer-Use Frameworks](#browser-use-computer-use-frameworks) — Browser Use, Stagehand, Magnitude, Skyvern, Operator
+
 ---
 
 ## Stripe Minions
@@ -431,13 +480,13 @@ Map repo → feature slices
   → Fix loop: pick one finding → propose patch → validate → land or reject
 ```
 
-The fix loop is **one finding at a time, with validation** — that's a [WIP=1](harness-engineering.md#wip-1-and-the-feature-list-as-primitive) discipline applied to bug remediation.
+The fix loop is **one finding at a time, with validation** — that's a [WIP=1](harness-engineering.md#wip1-and-the-feature-list-as-primitive) discipline applied to bug remediation.
 
 ### Key Properties
 
 - **Slicing > diffing** — review surface area maps to functionality, not file boundaries
 - **Persistent finding ledger** — review state survives across runs; the same bug isn't re-reported every time
-- **Validation-gated fixes** — patches only land if validation passes, mirroring [feature-list-as-primitive](harness-engineering.md#wip-1-and-the-feature-list-as-primitive) `passing`-state gating
+- **Validation-gated fixes** — patches only land if validation passes, mirroring [feature-list-as-primitive](harness-engineering.md#wip1-and-the-feature-list-as-primitive) `passing`-state gating
 - **Provider-agnostic** — the slicer is the value; the model is swappable
 - **Pairs with [Crabbox](#crabbox)** — Clawpatch can validate fixes inside ephemeral Crabbox runners
 
@@ -981,7 +1030,7 @@ A *software-development-methodology* shipped as a skills framework. Where [GStac
 ### What it actually enforces
 
 - **Brainstorming-first** — A brainstorming skill activates before code is written: refines rough ideas through dialogue, explores alternatives, presents the design in sections for human validation, and saves a design document. The agent isn't allowed to skip this.
-- **Bite-sized tasks** — After design approval, work is broken into 2–5-minute units with exact file paths, complete code context, and verification steps. This is the WIP=1 / feature-list-as-primitive discipline from [Harness Engineering](harness-engineering.md#wip-1-and-the-feature-list-as-primitive), packaged as a workflow.
+- **Bite-sized tasks** — After design approval, work is broken into 2–5-minute units with exact file paths, complete code context, and verification steps. This is the WIP=1 / feature-list-as-primitive discipline from [Harness Engineering](harness-engineering.md#wip1-and-the-feature-list-as-primitive), packaged as a workflow.
 - **TDD enforcement** — Tests come before implementation, enforced as a skill, not just documented.
 - **Autonomous subagents** — Long execution is delegated to subagents that report back; the main session stays focused on direction.
 
