@@ -4,13 +4,6 @@ Where agents actually run — the compute infrastructure for sandboxed, scalable
 
 For LLM inference solutions, see [Inference](inference.md).
 
-## Index
-
-- **Where to run** — [Hosting & Execution Platforms](#agent-hosting--execution-platforms) · [Code Execution Sandboxes](#code-execution-sandboxes) · [Turnkey Managed Platforms](#turnkey-managed-platforms) · [Agent-Optimized Hosting](#agent-optimized-hosting)
-- **Scale & topology** — [Agent Orchestration](#agent-orchestration) · [Cloud Mac Hosting](#cloud-mac-hosting) · [Self-Hosted Infrastructure](#self-hosted-infrastructure)
-- **State & control** — [Memory & Context](#agent-memory--context-infrastructure) · [Observability & Evaluation](#agent-observability--evaluation) · [MCP Servers, Registries & Gateways](#mcp-servers-registries--gateways) · [Identity, Auth & Secrets](#agent-identity-auth--secrets)
-- **Decision** — [What Stripe Uses](#what-stripe-uses) · [Sandbox vs. Serverless](#sandbox-vs-serverless-fit-for-purpose) · [Key Trends](#key-trends) · [Choosing Your Stack](#choosing-your-stack) · [Decision Framework](#decision-framework)
-
 ---
 
 ## Agent Hosting & Execution Platforms
@@ -38,9 +31,9 @@ Isolated environments where agents execute generated code safely. This is the si
 
 - [Why sandboxes matter for agents](sandboxes.md#why-sandboxes-matter-for-agents)
 - [Core use cases](sandboxes.md#core-use-cases) — code execution, tree-of-thought, rollback, persistent environments, multi-tenant fleets, Apple-native, CDEs
-- [Isolation tier ladder](sandboxes.md#isolation-tiers--the-security-ladder) — process → container → gVisor → microVM → VM → bare metal
+- [Isolation tier ladder](sandboxes.md#isolation-tiers-the-security-ladder) — process → container → gVisor → microVM → VM → bare metal
 - [All 14 purpose-built agent sandbox vendors](sandboxes.md#purpose-built-agent-sandboxes)
-- [Contree deep dive](sandboxes.md#contree--the-git-native-sandbox) — Git-native sandboxing for tree-of-thought agent workflows
+- [Contree deep dive](sandboxes.md#contree-the-git-native-sandbox) — Git-native sandboxing for tree-of-thought agent workflows
 - [Cloud Dev Environments (CDEs)](sandboxes.md#cloud-development-environments-cdes) — Codespaces, Gitpod, Coder, Vercel Sandbox, etc.
 - [Open-source isolation primitives](sandboxes.md#open-source-isolation-primitives) — Firecracker, Kata, gVisor, etc.
 - [Agent patterns](sandboxes.md#agent-patterns-enabled-by-modern-sandboxes) — checkpoint-explore-commit, golden pool, destructive safety, sandbox-as-context
